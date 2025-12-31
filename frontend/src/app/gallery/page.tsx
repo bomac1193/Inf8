@@ -2,161 +2,164 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { BADGE_COLORS } from "@/lib/wagmi";
 
-// Demo data (will be replaced with DB/contract data)
-const DEMO_TRACKS = [
+// Demo data - will be replaced with IPFS declarations
+const DEMO_DECLARATIONS = [
   {
     id: "demo-1",
-    tokenId: 1,
     title: "Midnight Synthesis",
-    artistName: "Neural Echo",
-    aiMelody: 5,
-    aiLyrics: 0,
-    aiStems: 10,
-    aiMastering: 15,
-    transparencyScore: 93,
-    badge: "HUMAN_CRAFTED",
-    trainingRights: false,
-    derivativeRights: true,
-    remixRights: true,
-    ipfsCID: "Qm...",
+    artist: "Neural Echo",
+    ai_contribution: {
+      composition: 0.05,
+      arrangement: 0.1,
+      production: 0.15,
+      mixing: 0.0,
+      mastering: 0.1,
+    },
+    transparency_score: 93,
+    methodology: "AI-assisted melody exploration with human production",
+    created_at: "2024-12-15",
   },
   {
     id: "demo-2",
-    tokenId: 2,
     title: "Circuit Dreams",
-    artistName: "Analog Heart",
-    aiMelody: 30,
-    aiLyrics: 25,
-    aiStems: 20,
-    aiMastering: 10,
-    transparencyScore: 84,
-    badge: "AI_DISCLOSED",
-    trainingRights: true,
-    derivativeRights: true,
-    remixRights: true,
-    ipfsCID: "Qm...",
+    artist: "Analog Heart",
+    ai_contribution: {
+      composition: 0.3,
+      arrangement: 0.25,
+      production: 0.2,
+      mixing: 0.05,
+      mastering: 0.1,
+    },
+    transparency_score: 84,
+    methodology: "Collaborative AI composition with manual mixing",
+    created_at: "2024-12-10",
   },
   {
     id: "demo-3",
-    tokenId: 3,
     title: "Human Touch",
-    artistName: "Organic Waves",
-    aiMelody: 0,
-    aiLyrics: 0,
-    aiStems: 0,
-    aiMastering: 5,
-    transparencyScore: 100,
-    badge: "HUMAN_CRAFTED",
-    trainingRights: false,
-    derivativeRights: false,
-    remixRights: true,
-    ipfsCID: "Qm...",
+    artist: "Organic Waves",
+    ai_contribution: {
+      composition: 0.0,
+      arrangement: 0.0,
+      production: 0.0,
+      mixing: 0.0,
+      mastering: 0.05,
+    },
+    transparency_score: 100,
+    methodology: "Fully human-crafted with AI mastering assistance",
+    created_at: "2024-12-08",
   },
   {
     id: "demo-4",
-    tokenId: 4,
     title: "Sovereign Sound",
-    artistName: "No AI Please",
-    aiMelody: 0,
-    aiLyrics: 0,
-    aiStems: 0,
-    aiMastering: 0,
-    transparencyScore: 100,
-    badge: "SOVEREIGN",
-    trainingRights: false,
-    derivativeRights: false,
-    remixRights: false,
-    ipfsCID: "Qm...",
+    artist: "No AI Please",
+    ai_contribution: {
+      composition: 0.0,
+      arrangement: 0.0,
+      production: 0.0,
+      mixing: 0.0,
+      mastering: 0.0,
+    },
+    transparency_score: 100,
+    methodology: "100% human creation, no AI tools used",
+    created_at: "2024-12-05",
   },
   {
     id: "demo-5",
-    tokenId: 5,
     title: "Full Consent EP",
-    artistName: "Open Source Music",
-    aiMelody: 45,
-    aiLyrics: 40,
-    aiStems: 35,
-    aiMastering: 20,
-    transparencyScore: 70,
-    badge: "FULL_CONSENT",
-    trainingRights: true,
-    derivativeRights: true,
-    remixRights: true,
-    ipfsCID: "Qm...",
+    artist: "Open Source Music",
+    ai_contribution: {
+      composition: 0.45,
+      arrangement: 0.4,
+      production: 0.35,
+      mixing: 0.1,
+      mastering: 0.2,
+    },
+    transparency_score: 70,
+    methodology: "Heavy AI collaboration across all phases",
+    created_at: "2024-12-01",
   },
 ];
 
-type FilterType = "all" | "humanOnly" | "aiDisclosed" | "highScore";
+type FilterType = "all" | "humanOnly" | "aiAssisted" | "highScore";
+
+function calculateAverageAI(contrib: typeof DEMO_DECLARATIONS[0]["ai_contribution"]) {
+  return (
+    (contrib.composition +
+      contrib.arrangement +
+      contrib.production +
+      contrib.mixing +
+      contrib.mastering) /
+    5
+  );
+}
 
 export default function Gallery() {
   const [filter, setFilter] = useState<FilterType>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredTracks = DEMO_TRACKS.filter((track) => {
-    // Search filter
+  const filteredDeclarations = DEMO_DECLARATIONS.filter((dec) => {
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       if (
-        !track.title.toLowerCase().includes(query) &&
-        !track.artistName.toLowerCase().includes(query)
+        !dec.title.toLowerCase().includes(query) &&
+        !dec.artist.toLowerCase().includes(query)
       ) {
         return false;
       }
     }
 
-    // Badge filter
+    const avgAI = calculateAverageAI(dec.ai_contribution);
+
     switch (filter) {
       case "humanOnly":
-        return track.badge === "HUMAN_CRAFTED";
-      case "aiDisclosed":
-        return track.badge === "AI_DISCLOSED";
+        return avgAI < 0.2;
+      case "aiAssisted":
+        return avgAI >= 0.2;
       case "highScore":
-        return track.transparencyScore >= 90;
+        return dec.transparency_score >= 90;
       default:
         return true;
     }
   });
 
   return (
-    <div className="min-h-screen bg-black py-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <h1 className="text-4xl font-bold mb-2">Gallery</h1>
-          <p className="text-zinc-400">
-            Browse verified tracks with full transparency and consent data.
+    <div className="min-h-screen bg-[#0A0A0A] py-16 px-6 md:px-16">
+      <div className="max-w-[960px] mx-auto">
+        {/* Header */}
+        <div className="mb-12">
+          <h1 className="text-2xl font-medium text-[#F5F3F0] mb-2">
+            Declarations
+          </h1>
+          <p className="text-[#8A8A8A]">
+            Browse verified creative provenance declarations.
           </p>
-        </motion.div>
+        </div>
 
         {/* Filters */}
         <div className="flex flex-col sm:flex-row gap-4 mb-8">
           <input
             type="text"
-            placeholder="Search tracks or artists..."
+            placeholder="Search declarations..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 px-4 py-3 rounded-xl bg-zinc-900 border border-zinc-800 focus:border-violet-500 focus:outline-none transition-colors"
+            className="flex-1 px-4 py-3 bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
           />
           <div className="flex gap-2 flex-wrap">
             {[
               { key: "all", label: "All" },
               { key: "humanOnly", label: "Human-Crafted" },
-              { key: "aiDisclosed", label: "AI-Disclosed" },
+              { key: "aiAssisted", label: "AI-Assisted" },
               { key: "highScore", label: "Score 90+" },
             ].map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => setFilter(key as FilterType)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                className={`px-4 py-2 text-sm font-medium transition-colors duration-100 ${
                   filter === key
-                    ? "bg-violet-600 text-white"
-                    : "bg-zinc-800 text-zinc-400 hover:text-white"
+                    ? "bg-[#F5F3F0] text-[#0A0A0A]"
+                    : "bg-transparent border border-[#2A2A2A] text-[#8A8A8A] hover:border-[#8A8A8A]"
                 }`}
               >
                 {label}
@@ -165,93 +168,69 @@ export default function Gallery() {
           </div>
         </div>
 
-        {/* Track Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredTracks.map((track, i) => (
-            <motion.div
-              key={track.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-            >
-              <Link href={`/verify/${track.id}`}>
-                <div className="group p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-violet-500/50 transition-all cursor-pointer">
-                  {/* Header */}
+        {/* Declarations Grid */}
+        <div className="space-y-4">
+          {filteredDeclarations.map((dec) => {
+            const avgAI = calculateAverageAI(dec.ai_contribution);
+            return (
+              <Link key={dec.id} href={`/verify/${dec.id}`}>
+                <div className="group p-6 bg-[#1A1A1A] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 cursor-pointer">
+                  {/* Header Row */}
                   <div className="flex items-start justify-between mb-4">
                     <div>
-                      <h3 className="font-semibold text-lg group-hover:text-violet-400 transition-colors">
-                        {track.title}
+                      <h3 className="font-medium text-[#F5F3F0] mb-1">
+                        {dec.title}
                       </h3>
-                      <p className="text-sm text-zinc-400">{track.artistName}</p>
+                      <p className="text-sm text-[#8A8A8A]">{dec.artist}</p>
                     </div>
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-semibold ${
-                        BADGE_COLORS[track.badge] || "bg-zinc-600"
-                      } text-white`}
-                    >
-                      {track.badge.replace("_", "-")}
-                    </span>
+                    <div className="text-right">
+                      <p className="text-sm text-[#8A8A8A]">Score</p>
+                      <p className="text-lg font-medium text-[#F5F3F0]">
+                        {dec.transparency_score}
+                      </p>
+                    </div>
                   </div>
 
                   {/* AI Contribution Bars */}
-                  <div className="space-y-2 mb-4">
+                  <div className="grid grid-cols-5 gap-4 mb-4">
                     {[
-                      { label: "Melody", value: track.aiMelody },
-                      { label: "Lyrics", value: track.aiLyrics },
-                      { label: "Stems", value: track.aiStems },
-                      { label: "Master", value: track.aiMastering },
+                      { label: "Comp", value: dec.ai_contribution.composition },
+                      { label: "Arr", value: dec.ai_contribution.arrangement },
+                      { label: "Prod", value: dec.ai_contribution.production },
+                      { label: "Mix", value: dec.ai_contribution.mixing },
+                      { label: "Master", value: dec.ai_contribution.mastering },
                     ].map(({ label, value }) => (
-                      <div key={label} className="flex items-center gap-2 text-xs">
-                        <span className="w-12 text-zinc-500">{label}</span>
-                        <div className="flex-1 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                      <div key={label} className="text-center">
+                        <div className="h-1 bg-[#2A2A2A] mb-2">
                           <div
-                            className={`h-full rounded-full ${
-                              value < 20
-                                ? "bg-emerald-500"
-                                : value < 50
-                                ? "bg-amber-500"
-                                : "bg-red-500"
-                            }`}
-                            style={{ width: `${value}%` }}
+                            className="h-full bg-[#8A8A8A] transition-all duration-300"
+                            style={{ width: `${value * 100}%` }}
                           />
                         </div>
-                        <span className="w-8 text-right text-zinc-400">
-                          {value}%
-                        </span>
+                        <p className="text-xs text-[#8A8A8A]">{label}</p>
+                        <p className="text-xs text-[#F5F3F0]">
+                          {Math.round(value * 100)}%
+                        </p>
                       </div>
                     ))}
                   </div>
 
                   {/* Footer */}
-                  <div className="flex items-center justify-between pt-4 border-t border-zinc-800">
-                    <div className="text-sm">
-                      <span className="text-zinc-500">Score: </span>
-                      <span className="text-violet-400 font-semibold">
-                        {track.transparencyScore}
-                      </span>
-                    </div>
-                    <div className="flex gap-2">
-                      {track.trainingRights && (
-                        <span className="text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-400">
-                          Training
-                        </span>
-                      )}
-                      {track.remixRights && (
-                        <span className="text-xs px-2 py-0.5 rounded bg-zinc-800 text-zinc-400">
-                          Remix
-                        </span>
-                      )}
-                    </div>
+                  <div className="flex items-center justify-between pt-4 border-t border-[#2A2A2A]">
+                    <p className="text-xs text-[#8A8A8A]">
+                      Avg AI: {Math.round(avgAI * 100)}%
+                    </p>
+                    <p className="text-xs text-[#8A8A8A]">{dec.created_at}</p>
                   </div>
                 </div>
               </Link>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
 
-        {filteredTracks.length === 0 && (
-          <div className="text-center py-16 text-zinc-500">
-            No tracks found matching your criteria.
+        {filteredDeclarations.length === 0 && (
+          <div className="text-center py-16 text-[#8A8A8A]">
+            No declarations found matching your criteria.
           </div>
         )}
       </div>

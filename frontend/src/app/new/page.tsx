@@ -1,17 +1,18 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { motion } from "framer-motion";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { keccak256, toBytes, parseEther } from "viem";
+import { keccak256, toBytes } from "viem";
 import { O8RegistryABI } from "@/contracts/abis";
 import { O8_CONTRACTS } from "@/lib/wagmi";
 
-interface ContributorSplit {
-  address: string;
-  basisPoints: number;
-  role: string;
+interface AIContribution {
+  composition: number;
+  arrangement: number;
+  production: number;
+  mixing: number;
+  mastering: number;
 }
 
 export default function NewDeclaration() {
@@ -20,44 +21,45 @@ export default function NewDeclaration() {
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
 
   // Form state
-  const [title, setTitle] = useState("");
   const [artistName, setArtistName] = useState("");
-  const [aiMelody, setAiMelody] = useState(0);
-  const [aiLyrics, setAiLyrics] = useState(0);
-  const [aiStems, setAiStems] = useState(0);
-  const [aiMastering, setAiMastering] = useState(0);
-  const [trainingRights, setTrainingRights] = useState(false);
-  const [derivativeRights, setDerivativeRights] = useState(false);
-  const [remixRights, setRemixRights] = useState(false);
+  const [daws, setDaws] = useState("");
+  const [plugins, setPlugins] = useState("");
+  const [aiModels, setAiModels] = useState("");
   const [ipfsCID, setIpfsCID] = useState("");
-  const [contributors, setContributors] = useState<ContributorSplit[]>([]);
+  const [methodology, setMethodology] = useState("");
+  const [aiContribution, setAiContribution] = useState<AIContribution>({
+    composition: 0,
+    arrangement: 0,
+    production: 0,
+    mixing: 0,
+    mastering: 0,
+  });
 
-  // Calculate transparency score
-  const transparencyScore = useCallback(() => {
-    const avgAI = (aiMelody + aiLyrics + aiStems + aiMastering) / 4;
-    let score = 100 - avgAI;
-    if (aiMelody > 0 || aiLyrics > 0 || aiStems > 0 || aiMastering > 0) {
-      score += 5;
-    }
-    return Math.min(100, Math.round(score));
-  }, [aiMelody, aiLyrics, aiStems, aiMastering]);
-
-  // Check if human-crafted
-  const isHumanCrafted = aiMelody < 20 && aiLyrics < 20 && aiStems < 20 && aiMastering < 20;
-
-  // Determine badge
-  const getBadge = () => {
-    if (isHumanCrafted && transparencyScore() >= 80) return "HUMAN_CRAFTED";
-    if (!trainingRights) return "SOVEREIGN";
-    if (trainingRights && derivativeRights && remixRights) return "FULL_CONSENT";
-    if (transparencyScore() >= 60) return "AI_DISCLOSED";
-    return "TRANSPARENT";
+  const updateAI = (key: keyof AIContribution, value: number) => {
+    setAiContribution({ ...aiContribution, [key]: value });
   };
 
-  const handleMint = async () => {
-    if (!address || !ipfsCID || !title) return;
+  // Calculate average AI and transparency score
+  const avgAI =
+    (aiContribution.composition +
+      aiContribution.arrangement +
+      aiContribution.production +
+      aiContribution.mixing +
+      aiContribution.mastering) /
+    5;
 
-    const sha256Hash = keccak256(toBytes(ipfsCID + title + Date.now()));
+  const transparencyScore = useCallback(() => {
+    let score = 50;
+    score += Math.min(methodology.length / 10, 20);
+    const stackItems = daws.split(",").filter(Boolean).length + plugins.split(",").filter(Boolean).length;
+    score += Math.min(stackItems * 2, 15);
+    return Math.round(Math.min(score, 100));
+  }, [methodology, daws, plugins]);
+
+  const handleMint = async () => {
+    if (!address || !ipfsCID || !artistName) return;
+
+    const sha256Hash = keccak256(toBytes(ipfsCID + artistName + Date.now()));
     const tokenURI = `ipfs://${ipfsCID}`;
 
     writeContract({
@@ -65,66 +67,57 @@ export default function NewDeclaration() {
       abi: O8RegistryABI,
       functionName: "mintTrack",
       args: [
-        title,
+        artistName, // title (using artist name for now)
         artistName,
-        aiMelody,
-        aiLyrics,
-        aiStems,
-        aiMastering,
+        Math.round(aiContribution.composition * 100),
+        Math.round(aiContribution.arrangement * 100),
+        Math.round(aiContribution.production * 100),
+        Math.round(aiContribution.mastering * 100),
         ipfsCID,
         sha256Hash,
-        trainingRights,
-        derivativeRights,
-        remixRights,
+        false, // trainingRights
+        true,  // derivativeRights
+        true,  // remixRights
         tokenURI,
       ],
     });
   };
 
-  const addContributor = () => {
-    if (contributors.length < 10) {
-      setContributors([...contributors, { address: "", basisPoints: 0, role: "" }]);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-black py-12 px-4">
-      <div className="max-w-3xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <h1 className="text-4xl font-bold mb-2">Declare Your Track</h1>
-          <p className="text-zinc-400 mb-8">
-            Register your music on-chain with full transparency and consent control.
+    <div className="min-h-screen bg-[#0A0A0A] py-16 px-6 md:px-16">
+      <div className="max-w-[640px] mx-auto">
+        {/* Header */}
+        <div className="mb-12">
+          <h1 className="text-2xl font-medium text-[#F5F3F0] mb-2">
+            Create Declaration
+          </h1>
+          <p className="text-[#8A8A8A]">
+            Document the creative provenance of your music.
           </p>
-        </motion.div>
+        </div>
 
         {!isConnected ? (
-          <div className="text-center py-16 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-            <p className="text-zinc-400 mb-4">Connect your wallet to continue</p>
+          <div className="text-center py-16 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-[#8A8A8A] mb-6">Connect wallet to continue</p>
             <ConnectButton />
           </div>
         ) : isSuccess ? (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-center py-16 rounded-2xl bg-emerald-900/20 border border-emerald-500/50"
-          >
-            <div className="text-6xl mb-4">✅</div>
-            <h2 className="text-2xl font-bold mb-2">Track Verified!</h2>
-            <p className="text-zinc-400 mb-4">
-              Your track has been minted on Polygon Amoy.
+          <div className="text-center py-16 bg-[#1A1A1A] border border-[#4A7C59]">
+            <p className="text-xs uppercase tracking-widest text-[#4A7C59] mb-4">
+              Declaration Published
+            </p>
+            <p className="text-[#F5F3F0] mb-6">
+              Your declaration has been minted on-chain.
             </p>
             <a
               href={`https://amoy.polygonscan.com/tx/${hash}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-violet-400 hover:underline"
+              className="text-[#8A8A8A] hover:text-[#F5F3F0] text-sm"
             >
-              View on PolygonScan →
+              View transaction
             </a>
-          </motion.div>
+          </div>
         ) : (
           <form
             onSubmit={(e) => {
@@ -133,239 +126,187 @@ export default function NewDeclaration() {
             }}
             className="space-y-8"
           >
-            {/* Track Info */}
-            <section className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-              <h2 className="text-xl font-semibold mb-4">Track Information</h2>
-              <div className="grid md:grid-cols-2 gap-4">
+            {/* Identity */}
+            <section className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+                Identity
+              </p>
+              <div className="space-y-4">
                 <div>
-                  <label className="block text-sm text-zinc-400 mb-2">
-                    Track Title *
-                  </label>
-                  <input
-                    type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                    required
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-violet-500 focus:outline-none transition-colors"
-                    placeholder="My Amazing Track"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm text-zinc-400 mb-2">
-                    Artist Name *
+                  <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                    Artist Name
                   </label>
                   <input
                     type="text"
                     value={artistName}
                     onChange={(e) => setArtistName(e.target.value)}
                     required
-                    className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-violet-500 focus:outline-none transition-colors"
-                    placeholder="Your Artist Name"
+                    className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
+                    placeholder="Your name or alias"
                   />
                 </div>
-              </div>
-              <div className="mt-4">
-                <label className="block text-sm text-zinc-400 mb-2">
-                  IPFS CID *
-                </label>
-                <input
-                  type="text"
-                  value={ipfsCID}
-                  onChange={(e) => setIpfsCID(e.target.value)}
-                  required
-                  className="w-full px-4 py-3 rounded-xl bg-zinc-800 border border-zinc-700 focus:border-violet-500 focus:outline-none transition-colors font-mono text-sm"
-                  placeholder="Qm... or bafk..."
-                />
-                <p className="text-xs text-zinc-500 mt-1">
-                  Upload your audio to IPFS first (via Pinata, NFT.Storage, etc.)
-                </p>
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                    Wallet
+                  </label>
+                  <div
+                    className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#8A8A8A] font-mono text-sm"
+                  >
+                    {address}
+                  </div>
+                </div>
               </div>
             </section>
 
-            {/* AI Contribution */}
-            <section className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-              <h2 className="text-xl font-semibold mb-4">AI Contribution</h2>
-              <p className="text-sm text-zinc-400 mb-6">
-                Honestly declare the percentage of AI contribution in each category.
-                Lower AI = higher transparency score.
+            {/* Creative Stack */}
+            <section className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+                Creative Stack
               </p>
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                    DAWs
+                  </label>
+                  <input
+                    type="text"
+                    value={daws}
+                    onChange={(e) => setDaws(e.target.value)}
+                    className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
+                    placeholder="Ableton, Logic, FL Studio..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                    Plugins
+                  </label>
+                  <input
+                    type="text"
+                    value={plugins}
+                    onChange={(e) => setPlugins(e.target.value)}
+                    className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
+                    placeholder="Serum, Omnisphere, FabFilter..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                    AI Models
+                  </label>
+                  <input
+                    type="text"
+                    value={aiModels}
+                    onChange={(e) => setAiModels(e.target.value)}
+                    className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
+                    placeholder="Suno, Udio, none..."
+                  />
+                </div>
+              </div>
+            </section>
+
+            {/* Production Intelligence */}
+            <section className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+                Production Intelligence
+              </p>
+              <p className="text-sm text-[#8A8A8A] mb-6">
+                Estimate AI contribution for each phase (0-100%)
+              </p>
+              <div className="space-y-6">
                 {[
-                  { label: "Melody", value: aiMelody, setter: setAiMelody },
-                  { label: "Lyrics", value: aiLyrics, setter: setAiLyrics },
-                  { label: "Stems/Arrangement", value: aiStems, setter: setAiStems },
-                  { label: "Mastering", value: aiMastering, setter: setAiMastering },
-                ].map(({ label, value, setter }) => (
-                  <div key={label}>
+                  { key: "composition", label: "Composition" },
+                  { key: "arrangement", label: "Arrangement" },
+                  { key: "production", label: "Production" },
+                  { key: "mixing", label: "Mixing" },
+                  { key: "mastering", label: "Mastering" },
+                ].map(({ key, label }) => (
+                  <div key={key}>
                     <div className="flex justify-between mb-2">
-                      <label className="text-sm text-zinc-400">{label}</label>
-                      <span
-                        className={`text-sm font-mono ${
-                          value < 20 ? "text-emerald-400" : value < 50 ? "text-amber-400" : "text-red-400"
-                        }`}
-                      >
-                        {value}%
+                      <label className="text-sm text-[#8A8A8A]">{label}</label>
+                      <span className="text-sm text-[#F5F3F0] font-mono">
+                        {Math.round(aiContribution[key as keyof AIContribution] * 100)}%
                       </span>
                     </div>
                     <input
                       type="range"
                       min="0"
                       max="100"
-                      value={value}
-                      onChange={(e) => setter(Number(e.target.value))}
-                      className="w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-violet-500"
+                      value={aiContribution[key as keyof AIContribution] * 100}
+                      onChange={(e) =>
+                        updateAI(key as keyof AIContribution, Number(e.target.value) / 100)
+                      }
+                      className="w-full h-1 bg-[#2A2A2A] appearance-none cursor-pointer"
+                      style={{
+                        background: `linear-gradient(to right, #8A8A8A 0%, #8A8A8A ${aiContribution[key as keyof AIContribution] * 100}%, #2A2A2A ${aiContribution[key as keyof AIContribution] * 100}%, #2A2A2A 100%)`,
+                      }}
                     />
                   </div>
                 ))}
               </div>
 
-              {/* Transparency Score Preview */}
-              <div className="mt-8 p-4 rounded-xl bg-zinc-800/50 border border-zinc-700">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-zinc-400">Transparency Score</div>
-                    <div className="text-3xl font-bold text-violet-400">
-                      {transparencyScore()}
-                    </div>
-                  </div>
-                  <div
-                    className={`px-4 py-2 rounded-full text-sm font-semibold ${
-                      isHumanCrafted
-                        ? "bg-emerald-500/20 text-emerald-400"
-                        : "bg-blue-500/20 text-blue-400"
-                    }`}
-                  >
-                    {getBadge().replace("_", "-")}
-                  </div>
-                </div>
+              <div className="mt-8">
+                <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                  Methodology
+                </label>
+                <textarea
+                  value={methodology}
+                  onChange={(e) => setMethodology(e.target.value)}
+                  rows={4}
+                  className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none"
+                  placeholder="Describe your creative process..."
+                />
               </div>
-            </section>
 
-            {/* SOVN Consent */}
-            <section className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-              <h2 className="text-xl font-semibold mb-2">SOVN Consent Control</h2>
-              <p className="text-sm text-zinc-400 mb-6">
-                Control how AI systems can use your music. These settings can be locked permanently.
-              </p>
-              <div className="space-y-4">
-                {[
-                  {
-                    id: "training",
-                    label: "Allow AI Training",
-                    desc: "Permit AI models to train on this work",
-                    checked: trainingRights,
-                    setter: setTrainingRights,
-                  },
-                  {
-                    id: "derivative",
-                    label: "Allow AI Derivatives",
-                    desc: "Permit AI-generated derivative works",
-                    checked: derivativeRights,
-                    setter: setDerivativeRights,
-                  },
-                  {
-                    id: "remix",
-                    label: "Allow Remixes",
-                    desc: "Permit covers, remixes, and samples",
-                    checked: remixRights,
-                    setter: setRemixRights,
-                  },
-                ].map(({ id, label, desc, checked, setter }) => (
-                  <label
-                    key={id}
-                    className="flex items-start gap-4 p-4 rounded-xl bg-zinc-800/50 border border-zinc-700 hover:border-zinc-600 cursor-pointer transition-colors"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={(e) => setter(e.target.checked)}
-                      className="mt-1 w-5 h-5 rounded bg-zinc-700 border-zinc-600 text-violet-500 focus:ring-violet-500"
-                    />
-                    <div>
-                      <div className="font-medium">{label}</div>
-                      <div className="text-sm text-zinc-400">{desc}</div>
-                    </div>
-                  </label>
-                ))}
-              </div>
-            </section>
-
-            {/* Contributor Splits (Optional) */}
-            <section className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-              <div className="flex items-center justify-between mb-4">
+              {/* Score Preview */}
+              <div className="mt-6 flex items-center justify-between">
                 <div>
-                  <h2 className="text-xl font-semibold">Contributor Splits</h2>
-                  <p className="text-sm text-zinc-400">Optional: Add collaborators</p>
+                  <p className="text-xs text-[#8A8A8A]">Average AI</p>
+                  <p className="text-lg text-[#F5F3F0] font-mono">
+                    {Math.round(avgAI * 100)}%
+                  </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={addContributor}
-                  className="px-4 py-2 text-sm bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors"
-                >
-                  + Add Contributor
-                </button>
+                <div className="text-right">
+                  <p className="text-xs text-[#8A8A8A]">Transparency Score</p>
+                  <p className="text-lg text-[#F5F3F0] font-mono">
+                    {transparencyScore()}
+                  </p>
+                </div>
               </div>
-              {contributors.length > 0 && (
-                <div className="space-y-3">
-                  {contributors.map((c, i) => (
-                    <div key={i} className="grid grid-cols-12 gap-2">
-                      <input
-                        placeholder="0x..."
-                        value={c.address}
-                        onChange={(e) => {
-                          const updated = [...contributors];
-                          updated[i].address = e.target.value;
-                          setContributors(updated);
-                        }}
-                        className="col-span-5 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-sm font-mono"
-                      />
-                      <input
-                        type="number"
-                        placeholder="BPS"
-                        value={c.basisPoints || ""}
-                        onChange={(e) => {
-                          const updated = [...contributors];
-                          updated[i].basisPoints = Number(e.target.value);
-                          setContributors(updated);
-                        }}
-                        className="col-span-3 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-sm"
-                      />
-                      <input
-                        placeholder="Role"
-                        value={c.role}
-                        onChange={(e) => {
-                          const updated = [...contributors];
-                          updated[i].role = e.target.value;
-                          setContributors(updated);
-                        }}
-                        className="col-span-3 px-3 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-sm"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setContributors(contributors.filter((_, j) => j !== i));
-                        }}
-                        className="col-span-1 text-red-400 hover:text-red-300"
-                      >
-                        ×
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
+            </section>
+
+            {/* Provenance */}
+            <section className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+                Provenance
+              </p>
+              <div>
+                <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                  IPFS CID
+                </label>
+                <input
+                  type="text"
+                  value={ipfsCID}
+                  onChange={(e) => setIpfsCID(e.target.value)}
+                  required
+                  className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none font-mono text-sm"
+                  placeholder="Qm... or bafk..."
+                />
+                <p className="text-xs text-[#8A8A8A] mt-2">
+                  Upload your audio to IPFS first (Pinata, NFT.Storage, etc.)
+                </p>
+              </div>
             </section>
 
             {/* Submit */}
             <button
               type="submit"
-              disabled={isPending || isConfirming || !title || !ipfsCID}
-              className="w-full py-4 px-8 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 disabled:from-zinc-600 disabled:to-zinc-600 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all transform hover:scale-[1.02] disabled:hover:scale-100"
+              disabled={isPending || isConfirming || !artistName || !ipfsCID}
+              className="w-full py-3 px-6 bg-[#F5F3F0] text-[#0A0A0A] font-medium text-sm tracking-wide hover:opacity-85 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity duration-100"
             >
               {isPending
-                ? "Confirm in Wallet..."
+                ? "Confirm in wallet..."
                 : isConfirming
-                ? "Minting..."
-                : "Mint Ø8 Badge"}
+                ? "Publishing..."
+                : "Publish Declaration"}
             </button>
           </form>
         )}

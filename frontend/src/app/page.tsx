@@ -1,251 +1,219 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useReadContract } from "wagmi";
-import { O8RegistryABI } from "@/contracts/abis";
-import { O8_CONTRACTS } from "@/lib/wagmi";
 
 export default function Home() {
-  const { data: totalTracks } = useReadContract({
-    address: O8_CONTRACTS.registry as `0x${string}`,
-    abi: O8RegistryABI,
-    functionName: "totalTracks",
-  });
-
   return (
-    <div className="min-h-screen bg-black overflow-hidden">
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center px-4">
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-violet-900/20 via-black to-black" />
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-violet-600/20 rounded-full blur-[120px]" />
-
-        <div className="relative z-10 max-w-5xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+    <div className="min-h-screen bg-[#0A0A0A]">
+      {/* Hero Section - Full viewport, vertically centered */}
+      <section className="min-h-[100vh] flex flex-col items-center justify-center px-6 md:px-16">
+        <div className="max-w-[640px] text-center">
+          {/* Wordmark */}
+          <h1
+            className="text-[56px] md:text-[72px] font-normal text-[#F5F3F0] tracking-tight mb-8"
+            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
           >
-            <h1 className="text-6xl md:text-8xl font-bold tracking-tight mb-6">
-              <span className="bg-gradient-to-r from-white via-violet-200 to-purple-400 bg-clip-text text-transparent">
-                Ø8
-              </span>
-            </h1>
-            <p className="text-xl md:text-3xl text-zinc-300 font-light mb-4">
-              Prove you&apos;re human.
-            </p>
-            <p className="text-xl md:text-3xl text-zinc-300 font-light mb-4">
-              Earn more.
-            </p>
-            <p className="text-xl md:text-3xl text-violet-400 font-medium mb-12">
-              Control AI usage of your music.
-            </p>
-          </motion.div>
+            Ø8
+          </h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
-          >
+          {/* Tagline */}
+          <p className="text-xl md:text-2xl text-[#8A8A8A] mb-12">
+            The origin layer.
+          </p>
+
+          {/* Description */}
+          <p className="text-base text-[#8A8A8A] leading-relaxed mb-16">
+            Creative provenance protocol for AI-native music. Machine-readable
+            declarations for multiplayer creation. Process is provenance.
+            Mastery is transparent.
+          </p>
+
+          {/* Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <Link
               href="/new"
-              className="px-8 py-4 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white font-semibold rounded-full transition-all transform hover:scale-105 shadow-lg shadow-violet-500/25"
+              className="px-6 py-3 bg-[#F5F3F0] text-[#0A0A0A] font-medium text-sm tracking-wide hover:opacity-85 transition-opacity duration-100"
             >
-              Declare Your Track
+              Create Declaration
             </Link>
             <Link
               href="/gallery"
-              className="px-8 py-4 border border-zinc-700 hover:border-zinc-500 text-zinc-300 hover:text-white font-medium rounded-full transition-all"
+              className="px-6 py-3 border border-[#2A2A2A] text-[#F5F3F0] font-medium text-sm tracking-wide hover:border-[#8A8A8A] transition-colors duration-100"
             >
-              Explore Gallery
+              View Gallery
             </Link>
-          </motion.div>
-
-          {/* Live mint counter */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="mt-16 flex items-center justify-center gap-8 text-sm text-zinc-500"
-          >
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              <span>Live on Polygon Amoy</span>
-            </div>
-            <div className="hidden sm:block h-4 w-px bg-zinc-700" />
-            <div>
-              <span className="text-violet-400 font-mono">
-                {totalTracks?.toString() || "0"}
-              </span>{" "}
-              tracks verified
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="py-24 px-4 border-t border-zinc-900">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            className="text-3xl md:text-4xl font-bold text-center mb-16"
-          >
-            The Human-First Music Protocol
-          </motion.h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Feature 1 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-violet-500/50 transition-colors"
-            >
-              <div className="w-12 h-12 rounded-xl bg-emerald-500/20 flex items-center justify-center mb-4">
-                <span className="text-2xl">🎵</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Human Verification</h3>
-              <p className="text-zinc-400">
-                Declare your AI contribution honestly. Earn the Human-Crafted
-                badge for tracks with &lt;20% AI across all categories.
-              </p>
-            </motion.div>
-
-            {/* Feature 2 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-purple-500/50 transition-colors"
-            >
-              <div className="w-12 h-12 rounded-xl bg-purple-500/20 flex items-center justify-center mb-4">
-                <span className="text-2xl">🔒</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Consent Control</h3>
-              <p className="text-zinc-400">
-                SOVN module lets you control AI training, derivatives, and
-                remixes. Lock your consent on-chain permanently.
-              </p>
-            </motion.div>
-
-            {/* Feature 3 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800 hover:border-violet-500/50 transition-colors"
-            >
-              <div className="w-12 h-12 rounded-xl bg-violet-500/20 flex items-center justify-center mb-4">
-                <span className="text-2xl">💎</span>
-              </div>
-              <h3 className="text-xl font-semibold mb-2">Ø8 Token Rewards</h3>
-              <p className="text-zinc-400">
-                Earn Ø8 tokens for verified human-crafted tracks, transparent
-                disclosures, and early adoption.
-              </p>
-            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-24 px-4 bg-zinc-950">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">
-            How It Works
+      {/* What it is Section */}
+      <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
+        <div className="max-w-[960px] mx-auto">
+          <h2 className="text-2xl font-medium text-[#F5F3F0] mb-12">
+            What Ø8 Does
           </h2>
 
-          <div className="space-y-8">
-            {[
-              {
-                step: "01",
-                title: "Upload Your Track",
-                desc: "Connect your wallet and upload your stems, master, or audio file to IPFS.",
-              },
-              {
-                step: "02",
-                title: "Declare AI Usage",
-                desc: "Honestly declare the AI contribution percentage for melody, lyrics, stems, and mastering.",
-              },
-              {
-                step: "03",
-                title: "Set Consent Toggles",
-                desc: "Choose whether to allow AI training, derivatives, and remixes using the SOVN module.",
-              },
-              {
-                step: "04",
-                title: "Mint Your Badge",
-                desc: "Mint your Ø8 NFT badge on Polygon. Earn tokens and prove your track's provenance forever.",
-              },
-            ].map((item, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex gap-6 items-start"
-              >
-                <div className="text-4xl font-bold text-violet-600/50 font-mono">
-                  {item.step}
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold mb-1">{item.title}</h3>
-                  <p className="text-zinc-400">{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="p-8 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+                Identity
+              </p>
+              <p className="text-[#F5F3F0] leading-relaxed">
+                Cryptographically verifiable artist identity. Collaborators with
+                revenue splits. Contributors with roles.
+              </p>
+            </div>
+
+            <div className="p-8 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+                Creative Stack
+              </p>
+              <p className="text-[#F5F3F0] leading-relaxed">
+                Document every tool in your workflow. DAWs, plugins, AI models,
+                hardware. The full picture.
+              </p>
+            </div>
+
+            <div className="p-8 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+                Production Intelligence
+              </p>
+              <p className="text-[#F5F3F0] leading-relaxed">
+                Quantified AI contribution by phase. Composition, arrangement,
+                production, mixing, mastering. Methodology notes.
+              </p>
+            </div>
+
+            <div className="p-8 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+                Provenance Chain
+              </p>
+              <p className="text-[#F5F3F0] leading-relaxed">
+                IPFS CID links to source material, samples, stems. Immutable
+                revision history. Audio fingerprint verification.
+              </p>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* Declaration Preview */}
+      <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
+        <div className="max-w-[960px] mx-auto">
+          <h2 className="text-2xl font-medium text-[#F5F3F0] mb-12">
+            Declaration Structure
+          </h2>
+
+          <div className="bg-[#0D0D0D] border border-[#2A2A2A] p-6 md:p-8 overflow-x-auto">
+            <pre
+              className="text-sm leading-relaxed"
+              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            >
+              <code>
+                <span className="text-[#F5F3F0]">{"{"}</span>
+                {"\n"}
+                <span className="text-[#8A8A8A]">  version</span>
+                <span className="text-[#F5F3F0]">: </span>
+                <span className="text-[#B8A586]">&quot;1.0&quot;</span>
+                <span className="text-[#F5F3F0]">,</span>
+                {"\n"}
+                <span className="text-[#8A8A8A]">  declaration_id</span>
+                <span className="text-[#F5F3F0]">: </span>
+                <span className="text-[#B8A586]">
+                  &quot;o8-Qm...&quot;
+                </span>
+                <span className="text-[#F5F3F0]">,</span>
+                {"\n"}
+                <span className="text-[#8A8A8A]">  identity</span>
+                <span className="text-[#F5F3F0]">: {"{"} </span>
+                <span className="text-[#8A8A8A]">primary_artist, collaborators, contributors</span>
+                <span className="text-[#F5F3F0]"> {"}"}</span>
+                <span className="text-[#F5F3F0]">,</span>
+                {"\n"}
+                <span className="text-[#8A8A8A]">  creative_stack</span>
+                <span className="text-[#F5F3F0]">: {"{"} </span>
+                <span className="text-[#8A8A8A]">daws, plugins, ai_models, hardware</span>
+                <span className="text-[#F5F3F0]"> {"}"}</span>
+                <span className="text-[#F5F3F0]">,</span>
+                {"\n"}
+                <span className="text-[#8A8A8A]">  production_intelligence</span>
+                <span className="text-[#F5F3F0]">: {"{"} </span>
+                <span className="text-[#8A8A8A]">ai_contribution, methodology</span>
+                <span className="text-[#F5F3F0]"> {"}"}</span>
+                <span className="text-[#F5F3F0]">,</span>
+                {"\n"}
+                <span className="text-[#8A8A8A]">  provenance</span>
+                <span className="text-[#F5F3F0]">: {"{"} </span>
+                <span className="text-[#8A8A8A]">ipfs_cid, source_material, stems</span>
+                <span className="text-[#F5F3F0]"> {"}"}</span>
+                <span className="text-[#F5F3F0]">,</span>
+                {"\n"}
+                <span className="text-[#8A8A8A]">  audio_fingerprint</span>
+                <span className="text-[#F5F3F0]">: {"{"} </span>
+                <span className="text-[#8A8A8A]">sha256, duration_ms, format</span>
+                <span className="text-[#F5F3F0]"> {"}"}</span>
+                {"\n"}
+                <span className="text-[#F5F3F0]">{"}"}</span>
+              </code>
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      {/* Who this is for */}
+      <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
+        <div className="max-w-[640px] mx-auto">
+          <h2 className="text-2xl font-medium text-[#F5F3F0] mb-8">
+            Who this is for
+          </h2>
+          <p className="text-[#8A8A8A] leading-relaxed mb-8">
+            Masters-level producers using AI as serious creative tools, not
+            crutches. Remix artists building complex derivative works who need
+            verifiable source chains. Collaborative creators working across
+            platforms, tools, and contributors who need attribution
+            infrastructure.
+          </p>
+          <p className="text-[#8A8A8A] leading-relaxed">
+            Forward-thinking labels building the next generation of music IP.
+            Anyone who believes the future of music is multiplayer, generative,
+            and AI-enabled.
+          </p>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 px-4 bg-gradient-to-t from-violet-950/20 to-transparent">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">
-            Ready to prove you&apos;re human?
-          </h2>
-          <p className="text-xl text-zinc-400 mb-8">
-            Join the movement. Declare your tracks. Own your consent.
+      <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
+        <div className="max-w-[640px] mx-auto text-center">
+          <p className="text-xl text-[#8A8A8A] mb-8">
+            Using AI tools is not shameful. Using them poorly is.
           </p>
           <Link
             href="/new"
-            className="inline-block px-10 py-5 bg-white text-black font-bold text-lg rounded-full hover:bg-zinc-200 transition-all transform hover:scale-105"
+            className="inline-block px-6 py-3 bg-[#F5F3F0] text-[#0A0A0A] font-medium text-sm tracking-wide hover:opacity-85 transition-opacity duration-100"
           >
-            Try Live on Polygon Amoy
+            Create Your First Declaration
           </Link>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t border-zinc-900">
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-zinc-500">
-          <div>Ø8 Protocol — Human-First Music</div>
-          <div className="flex gap-6">
-            <Link href="/gallery" className="hover:text-white transition-colors">
+      <footer className="py-8 px-6 md:px-16 border-t border-[#2A2A2A]">
+        <div className="max-w-[960px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#8A8A8A]">
+          <div>Ø8 Protocol</div>
+          <div className="flex gap-8">
+            <Link
+              href="/gallery"
+              className="hover:text-[#F5F3F0] transition-opacity duration-100"
+            >
               Gallery
             </Link>
             <a
-              href="https://github.com"
+              href="https://github.com/bomac1193/O8"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
+              className="hover:text-[#F5F3F0] transition-opacity duration-100"
             >
               GitHub
-            </a>
-            <a
-              href="https://polygonscan.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-white transition-colors"
-            >
-              Contract
             </a>
           </div>
         </div>

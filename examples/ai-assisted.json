@@ -1,0 +1,81 @@
+{
+  "version": "1.0",
+  "declaration_id": "o8-pending-example-001",
+  "created_at": "2024-12-31T00:00:00.000Z",
+  "updated_at": "2024-12-31T00:00:00.000Z",
+  "identity": {
+    "primary_artist": {
+      "name": "Producer X",
+      "wallet": "0x742d35Cc6634C0532925a3b844Bc9e7595f8fE51"
+    },
+    "collaborators": [
+      {
+        "name": "Vocalist Y",
+        "role": "vocals",
+        "split": 0.3
+      }
+    ],
+    "contributors": [
+      {
+        "name": "Mix Engineer Z",
+        "role": "mixing",
+        "contribution": "Final mix and stem preparation"
+      }
+    ]
+  },
+  "creative_stack": {
+    "daws": ["Ableton Live 12", "Logic Pro X"],
+    "plugins": ["Serum", "Omnisphere", "FabFilter Pro-Q 3", "Valhalla Room"],
+    "ai_models": [
+      {
+        "name": "Suno v3",
+        "provider": "Suno",
+        "version": "3.0",
+        "usage": "Initial melody generation and harmonic exploration"
+      },
+      {
+        "name": "Udio",
+        "provider": "Udio",
+        "usage": "Drum pattern variations and production ideas"
+      }
+    ],
+    "hardware": ["Prophet Rev2", "Moog Subsequent 37"],
+    "samples": [
+      {
+        "name": "808 Kit",
+        "source": "Splice Sounds",
+        "license": "Royalty-free"
+      }
+    ]
+  },
+  "production_intelligence": {
+    "ai_contribution": {
+      "composition": 0.6,
+      "arrangement": 0.3,
+      "production": 0.2,
+      "mixing": 0,
+      "mastering": 0
+    },
+    "methodology": "This track began with AI-generated melodic sketches from Suno v3. I selected and heavily modified the most compelling phrases, reharmonizing them with analog synths (Prophet Rev2). The arrangement structure was developed collaboratively with AI tools, but all final production decisions, sound design, and mixing were done manually. The track represents a hybrid workflow where AI accelerates ideation while human curation and refinement define the final output.",
+    "notes": "Total production time: 3 weeks. AI tools reduced initial composition time by approximately 60%."
+  },
+  "provenance": {
+    "source_material": [],
+    "samples": [],
+    "stems": []
+  },
+  "revision_history": [
+    {
+      "version": "1.0",
+      "timestamp": "2024-12-31T00:00:00.000Z",
+      "changes": "Initial declaration"
+    }
+  ],
+  "audio_fingerprint": {
+    "sha256": "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069",
+    "duration_ms": 213450,
+    "format": "wav",
+    "sample_rate": 48000,
+    "bit_depth": 24
+  }
+}

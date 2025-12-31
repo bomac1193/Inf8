@@ -1,26 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400;500&display=swap');
 @import "tailwindcss";
 
+/* O8 Design System - Dark mode only */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary palette */
+  --color-void: #0A0A0A;
+  --color-bone: #F5F3F0;
+  --color-graphite: #1A1A1A;
+  --color-silver: #8A8A8A;
+  --color-iron: #2A2A2A;
+  --color-signal: #E8E4DF;
+
+  /* Semantic colors */
+  --color-verified: #4A7C59;
+  --color-pending: #8B7355;
+  --color-error: #8B4049;
+
+  /* Syntax highlighting */
+  --color-syntax-string: #B8A586;
+  --color-syntax-number: #7A9E7A;
+  --color-syntax-boolean: #8B7355;
+
+  /* Spacing based on 8px grid */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+
+  /* Transitions */
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors */
+  --color-void: var(--color-void);
+  --color-bone: var(--color-bone);
+  --color-graphite: var(--color-graphite);
+  --color-silver: var(--color-silver);
+  --color-iron: var(--color-iron);
+  --color-signal: var(--color-signal);
+  --color-verified: var(--color-verified);
+  --color-pending: var(--color-pending);
+  --color-error: var(--color-error);
+
+  /* Typography */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --font-display: 'Space Grotesk', sans-serif;
+
+  /* Border radius - all 0 for sharp corners */
+  --radius-none: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-full: 0px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base styles */
+html {
+  background-color: var(--color-void);
+  color: var(--color-bone);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-void);
+  color: var(--color-bone);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selection */
+::selection {
+  background-color: var(--color-signal);
+  color: var(--color-void);
+}
+
+/* Focus styles */
+*:focus {
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 1px solid var(--color-silver);
+  outline-offset: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-iron);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-silver);
+}
+
+/* Remove default input styles */
+input,
+textarea,
+select {
+  background-color: var(--color-graphite);
+  border: 1px solid var(--color-iron);
+  color: var(--color-bone);
+  font-family: inherit;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-silver);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--color-silver);
+  outline: none;
+}
+
+/* Button reset */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Link styles */
+a {
+  color: var(--color-bone);
+  text-decoration: none;
+}
+
+a:hover {
+  opacity: 0.85;
+}
+
+/* Code and monospace */
+code,
+pre,
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
 }

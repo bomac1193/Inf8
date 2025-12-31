@@ -1,34 +1,92 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { useAccount, useReadContract } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { formatEther } from "viem";
 import { O8TokenABI, O8RegistryABI } from "@/contracts/abis";
-import { O8_CONTRACTS, BADGE_COLORS } from "@/lib/wagmi";
+import { O8_CONTRACTS } from "@/lib/wagmi";
 
-// Demo data for user's tracks
-const USER_TRACKS = [
+// Demo data for user's declarations
+const USER_DECLARATIONS = [
   {
     id: "demo-1",
-    tokenId: 1,
     title: "Midnight Synthesis",
-    transparencyScore: 93,
-    badge: "HUMAN_CRAFTED",
-    mintedAt: "2024-12-30T12:00:00Z",
-    rewardsEarned: "150",
+    ai_contribution: {
+      composition: 0.05,
+      arrangement: 0.1,
+      production: 0.15,
+      mixing: 0.0,
+      mastering: 0.1,
+    },
+    transparency_score: 93,
+    created_at: "2024-12-30T12:00:00Z",
+    rewards_earned: "150",
   },
   {
     id: "demo-2",
-    tokenId: 2,
     title: "Circuit Dreams",
-    transparencyScore: 84,
-    badge: "AI_DISCLOSED",
-    mintedAt: "2024-12-29T15:30:00Z",
-    rewardsEarned: "50",
+    ai_contribution: {
+      composition: 0.3,
+      arrangement: 0.25,
+      production: 0.2,
+      mixing: 0.05,
+      mastering: 0.1,
+    },
+    transparency_score: 84,
+    created_at: "2024-12-29T15:30:00Z",
+    rewards_earned: "50",
   },
 ];
+
+// Demo reward history
+const REWARD_HISTORY = [
+  {
+    date: "Dec 30, 2024",
+    track: "Midnight Synthesis",
+    type: "Human-Crafted",
+    typeColor: "text-[#4A7C59]",
+    amount: "+100 O8",
+  },
+  {
+    date: "Dec 30, 2024",
+    track: "Midnight Synthesis",
+    type: "Early Adopter",
+    typeColor: "text-[#8B7355]",
+    amount: "+50 O8",
+  },
+  {
+    date: "Dec 29, 2024",
+    track: "Circuit Dreams",
+    type: "Transparent",
+    typeColor: "text-[#8A8A8A]",
+    amount: "+50 O8",
+  },
+];
+
+function calculateAverageAI(contrib: {
+  composition: number;
+  arrangement: number;
+  production: number;
+  mixing: number;
+  mastering: number;
+}) {
+  return (
+    (contrib.composition +
+      contrib.arrangement +
+      contrib.production +
+      contrib.mixing +
+      contrib.mastering) /
+    5
+  );
+}
+
+function getBadge(avgAI: number): { label: string; color: string } {
+  if (avgAI === 0) return { label: "SOVEREIGN", color: "bg-[#4A7C59]" };
+  if (avgAI < 0.1) return { label: "HUMAN-CRAFTED", color: "bg-[#4A7C59]" };
+  if (avgAI < 0.3) return { label: "AI-ASSISTED", color: "bg-[#8B7355]" };
+  return { label: "AI-COLLABORATIVE", color: "bg-[#8A8A8A]" };
+}
 
 export default function Dashboard() {
   const { address, isConnected } = useAccount();
@@ -56,11 +114,17 @@ export default function Dashboard() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center px-4">
+      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-6">
         <div className="text-center max-w-md">
-          <h1 className="text-3xl font-bold mb-4">Dashboard</h1>
-          <p className="text-zinc-400 mb-8">
-            Connect your wallet to view your declarations, token balance, and rewards.
+          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+            Dashboard
+          </p>
+          <h1 className="text-2xl font-medium text-[#F5F3F0] mb-4">
+            Connect to Continue
+          </h1>
+          <p className="text-[#8A8A8A] mb-8">
+            Connect your wallet to view your declarations, token balance, and
+            rewards.
           </p>
           <ConnectButton />
         </div>
@@ -69,207 +133,191 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-black py-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <h1 className="text-4xl font-bold mb-2">Dashboard</h1>
-          <p className="text-zinc-400 font-mono text-sm">
+    <div className="min-h-screen bg-[#0A0A0A] py-16 px-6 md:px-16">
+      <div className="max-w-[1120px] mx-auto">
+        {/* Header */}
+        <div className="mb-12">
+          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+            Dashboard
+          </p>
+          <h1 className="text-2xl font-medium text-[#F5F3F0] mb-2">
+            Your Declarations
+          </h1>
+          <p className="text-[#8A8A8A] font-mono text-sm">
             {address?.slice(0, 6)}...{address?.slice(-4)}
           </p>
-        </motion.div>
+        </div>
 
         {/* Stats Grid */}
         <div className="grid md:grid-cols-3 gap-6 mb-12">
           {/* Token Balance */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="p-6 rounded-2xl bg-gradient-to-br from-violet-900/30 to-purple-900/30 border border-violet-500/20"
-          >
-            <div className="text-sm text-zinc-400 mb-2">Ø8 Token Balance</div>
-            <div className="text-4xl font-bold text-violet-400">
-              {tokenBalance ? formatEther(tokenBalance).slice(0, 8) : "0"}
+          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+              O8 Token Balance
+            </p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-4xl font-medium text-[#F5F3F0]">
+                {tokenBalance ? formatEther(tokenBalance).slice(0, 8) : "0"}
+              </span>
+              <span className="text-[#8A8A8A]">O8</span>
             </div>
-            <div className="text-sm text-zinc-500 mt-1">Ø8</div>
-          </motion.div>
+          </div>
 
           {/* Total Rewards */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800"
-          >
-            <div className="text-sm text-zinc-400 mb-2">Total Rewards Earned</div>
-            <div className="text-4xl font-bold text-emerald-400">
-              {artistRewards ? formatEther(artistRewards).slice(0, 8) : "200"}
+          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+              Total Rewards Earned
+            </p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-4xl font-medium text-[#4A7C59]">
+                {artistRewards ? formatEther(artistRewards).slice(0, 8) : "200"}
+              </span>
+              <span className="text-[#8A8A8A]">O8</span>
             </div>
-            <div className="text-sm text-zinc-500 mt-1">Ø8</div>
-          </motion.div>
+          </div>
 
           {/* Tracks Verified */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800"
-          >
-            <div className="text-sm text-zinc-400 mb-2">Tracks Verified</div>
-            <div className="text-4xl font-bold">
-              {userTracks?.length || USER_TRACKS.length}
+          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+              Declarations Published
+            </p>
+            <div className="flex items-baseline gap-2">
+              <span className="text-4xl font-medium text-[#F5F3F0]">
+                {userTracks?.length || USER_DECLARATIONS.length}
+              </span>
+              <span className="text-[#8A8A8A]">on-chain</span>
             </div>
-            <div className="text-sm text-zinc-500 mt-1">NFT badges minted</div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Your Declarations */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-        >
+        <div className="mb-12">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold">Your Declarations</h2>
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A]">
+              Published Declarations
+            </p>
             <Link
               href="/new"
-              className="px-4 py-2 bg-violet-600 hover:bg-violet-500 rounded-lg text-sm font-medium transition-colors"
+              className="px-4 py-2 bg-[#F5F3F0] text-[#0A0A0A] text-sm font-medium hover:opacity-85 transition-opacity duration-100"
             >
-              + New Declaration
+              New Declaration
             </Link>
           </div>
 
-          {USER_TRACKS.length === 0 ? (
-            <div className="text-center py-16 rounded-2xl bg-zinc-900/50 border border-zinc-800">
-              <p className="text-zinc-400 mb-4">
-                You haven&apos;t declared any tracks yet.
+          {USER_DECLARATIONS.length === 0 ? (
+            <div className="text-center py-16 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-[#8A8A8A] mb-6">
+                You haven&apos;t published any declarations yet.
               </p>
               <Link
                 href="/new"
-                className="text-violet-400 hover:underline"
+                className="text-sm text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
               >
-                Create your first declaration →
+                Create your first declaration
               </Link>
             </div>
           ) : (
             <div className="space-y-4">
-              {USER_TRACKS.map((track, i) => (
-                <motion.div
-                  key={track.id}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.3 + i * 0.05 }}
-                >
-                  <Link href={`/verify/${track.id}`}>
-                    <div className="flex items-center justify-between p-4 rounded-xl bg-zinc-900/50 border border-zinc-800 hover:border-violet-500/50 transition-all cursor-pointer group">
-                      <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-lg bg-zinc-800 flex items-center justify-center text-2xl">
-                          🎵
+              {USER_DECLARATIONS.map((dec) => {
+                const avgAI = calculateAverageAI(dec.ai_contribution);
+                const badge = getBadge(avgAI);
+                return (
+                  <Link key={dec.id} href={`/verify/${dec.id}`}>
+                    <div className="group p-6 bg-[#1A1A1A] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 cursor-pointer">
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2">
+                            <h3 className="font-medium text-[#F5F3F0]">
+                              {dec.title}
+                            </h3>
+                            <span
+                              className={`px-2 py-0.5 text-xs uppercase tracking-widest text-[#F5F3F0] ${badge.color}`}
+                            >
+                              {badge.label}
+                            </span>
+                          </div>
+                          <p className="text-sm text-[#8A8A8A]">
+                            Published{" "}
+                            {new Date(dec.created_at).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )}
+                          </p>
                         </div>
-                        <div>
-                          <h3 className="font-semibold group-hover:text-violet-400 transition-colors">
-                            {track.title}
-                          </h3>
-                          <div className="text-sm text-zinc-500">
-                            Token #{track.tokenId} • Minted{" "}
-                            {new Date(track.mintedAt).toLocaleDateString()}
+
+                        <div className="flex items-center gap-8">
+                          <div className="text-right">
+                            <p className="text-xs text-[#8A8A8A]">Score</p>
+                            <p className="text-lg font-medium text-[#F5F3F0]">
+                              {dec.transparency_score}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-xs text-[#8A8A8A]">AI</p>
+                            <p className="text-lg font-medium text-[#F5F3F0]">
+                              {Math.round(avgAI * 100)}%
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-xs text-[#8A8A8A]">Rewards</p>
+                            <p className="text-lg font-medium text-[#4A7C59]">
+                              +{dec.rewards_earned}
+                            </p>
                           </div>
                         </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <div className="text-right hidden sm:block">
-                          <div className="text-sm text-zinc-400">Rewards</div>
-                          <div className="text-emerald-400 font-medium">
-                            +{track.rewardsEarned} Ø8
-                          </div>
-                        </div>
-                        <span
-                          className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                            BADGE_COLORS[track.badge] || "bg-zinc-600"
-                          } text-white`}
-                        >
-                          {track.badge.replace("_", "-")}
-                        </span>
                       </div>
                     </div>
                   </Link>
-                </motion.div>
-              ))}
+                );
+              })}
             </div>
           )}
-        </motion.div>
+        </div>
 
         {/* Reward History */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
-          className="mt-12"
-        >
-          <h2 className="text-2xl font-bold mb-6">Reward History</h2>
-          <div className="rounded-2xl bg-zinc-900/50 border border-zinc-800 overflow-hidden">
+        <div>
+          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+            Reward History
+          </p>
+          <div className="bg-[#1A1A1A] border border-[#2A2A2A] overflow-hidden">
             <table className="w-full text-sm">
-              <thead className="bg-zinc-800/50">
+              <thead className="bg-[#0A0A0A]">
                 <tr>
-                  <th className="px-4 py-3 text-left text-zinc-400 font-medium">
+                  <th className="px-6 py-4 text-left text-xs uppercase tracking-widest text-[#8A8A8A] font-normal">
                     Date
                   </th>
-                  <th className="px-4 py-3 text-left text-zinc-400 font-medium">
-                    Track
+                  <th className="px-6 py-4 text-left text-xs uppercase tracking-widest text-[#8A8A8A] font-normal">
+                    Declaration
                   </th>
-                  <th className="px-4 py-3 text-left text-zinc-400 font-medium">
+                  <th className="px-6 py-4 text-left text-xs uppercase tracking-widest text-[#8A8A8A] font-normal">
                     Type
                   </th>
-                  <th className="px-4 py-3 text-right text-zinc-400 font-medium">
+                  <th className="px-6 py-4 text-right text-xs uppercase tracking-widest text-[#8A8A8A] font-normal">
                     Amount
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-zinc-800">
-                <tr>
-                  <td className="px-4 py-3 text-zinc-400">Dec 30, 2024</td>
-                  <td className="px-4 py-3">Midnight Synthesis</td>
-                  <td className="px-4 py-3">
-                    <span className="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-xs">
-                      Human-Crafted
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right text-emerald-400">
-                    +100 Ø8
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 text-zinc-400">Dec 30, 2024</td>
-                  <td className="px-4 py-3">Midnight Synthesis</td>
-                  <td className="px-4 py-3">
-                    <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-400 text-xs">
-                      Early Adopter
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right text-emerald-400">
-                    +50 Ø8
-                  </td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 text-zinc-400">Dec 29, 2024</td>
-                  <td className="px-4 py-3">Circuit Dreams</td>
-                  <td className="px-4 py-3">
-                    <span className="px-2 py-0.5 rounded bg-blue-500/20 text-blue-400 text-xs">
-                      Transparent
-                    </span>
-                  </td>
-                  <td className="px-4 py-3 text-right text-emerald-400">
-                    +50 Ø8
-                  </td>
-                </tr>
+              <tbody className="divide-y divide-[#2A2A2A]">
+                {REWARD_HISTORY.map((reward, i) => (
+                  <tr key={i}>
+                    <td className="px-6 py-4 text-[#8A8A8A]">{reward.date}</td>
+                    <td className="px-6 py-4 text-[#F5F3F0]">{reward.track}</td>
+                    <td className="px-6 py-4">
+                      <span className={reward.typeColor}>{reward.type}</span>
+                    </td>
+                    <td className="px-6 py-4 text-right text-[#4A7C59] font-mono">
+                      {reward.amount}
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
-        </motion.div>
+        </div>
       </div>
     </div>
   );

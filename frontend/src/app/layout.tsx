@@ -1,24 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Ø8 Protocol | Human-First Music",
+  title: "Ø8 | The Origin Layer",
   description:
-    "Prove you're human. Earn more. Control AI usage of your music. The unified human-first music protocol.",
-  keywords: ["music", "NFT", "AI", "transparency", "consent", "blockchain"],
+    "Creative provenance protocol for AI-native music. Process is provenance. Mastery is transparent.",
+  keywords: ["music", "provenance", "AI", "declaration", "IPFS", "protocol"],
 };
 
 export default function RootLayout({
@@ -27,10 +16,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white min-h-screen`}
-      >
+    <html lang="en">
+      <body className="antialiased min-h-screen">
         <Providers>
           <Header />
           <main className="pt-16">{children}</main>

@@ -1,86 +1,252 @@
 "use client";
 
-import { use } from "react";
+import { use, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { BADGE_COLORS } from "@/lib/wagmi";
 
-// Demo data (same as gallery for now)
-const DEMO_TRACKS: Record<string, {
-  id: string;
-  tokenId: number;
-  title: string;
-  artistName: string;
-  artistWallet: string;
-  aiMelody: number;
-  aiLyrics: number;
-  aiStems: number;
-  aiMastering: number;
-  transparencyScore: number;
-  badge: string;
-  trainingRights: boolean;
-  derivativeRights: boolean;
-  remixRights: boolean;
-  consentLocked: boolean;
-  ipfsCID: string;
-  sha256: string;
-  createdAt: string;
-}> = {
+// Demo data matching the new declaration schema
+const DEMO_DECLARATIONS: Record<
+  string,
+  {
+    id: string;
+    title: string;
+    artist: string;
+    wallet: string;
+    ai_contribution: {
+      composition: number;
+      arrangement: number;
+      production: number;
+      mixing: number;
+      mastering: number;
+    };
+    transparency_score: number;
+    methodology: string;
+    creative_stack: {
+      daws: string[];
+      plugins: string[];
+      ai_models: string[];
+    };
+    provenance: {
+      ipfs_cid: string;
+      sha256: string;
+    };
+    consent: {
+      training_rights: boolean;
+      derivative_rights: boolean;
+      remix_rights: boolean;
+    };
+    created_at: string;
+  }
+> = {
   "demo-1": {
     id: "demo-1",
-    tokenId: 1,
     title: "Midnight Synthesis",
-    artistName: "Neural Echo",
-    artistWallet: "0x1234...5678",
-    aiMelody: 5,
-    aiLyrics: 0,
-    aiStems: 10,
-    aiMastering: 15,
-    transparencyScore: 93,
-    badge: "HUMAN_CRAFTED",
-    trainingRights: false,
-    derivativeRights: true,
-    remixRights: true,
-    consentLocked: true,
-    ipfsCID: "QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG",
-    sha256: "0xabc123...",
-    createdAt: "2024-12-30T12:00:00Z",
+    artist: "Neural Echo",
+    wallet: "0x1234567890abcdef1234567890abcdef12345678",
+    ai_contribution: {
+      composition: 0.05,
+      arrangement: 0.1,
+      production: 0.15,
+      mixing: 0.0,
+      mastering: 0.1,
+    },
+    transparency_score: 93,
+    methodology:
+      "AI-assisted melody exploration using Suno for initial sketches. All production, arrangement, and mixing done manually in Ableton. Mastering used iZotope Ozone with AI-assisted EQ suggestions.",
+    creative_stack: {
+      daws: ["Ableton Live 12"],
+      plugins: ["Serum", "Omnisphere", "FabFilter Pro-Q 3", "iZotope Ozone"],
+      ai_models: ["Suno v3.5"],
+    },
+    provenance: {
+      ipfs_cid: "QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG",
+      sha256:
+        "0xe3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    },
+    consent: {
+      training_rights: false,
+      derivative_rights: true,
+      remix_rights: true,
+    },
+    created_at: "2024-12-30T12:00:00Z",
   },
   "demo-2": {
     id: "demo-2",
-    tokenId: 2,
     title: "Circuit Dreams",
-    artistName: "Analog Heart",
-    artistWallet: "0xabcd...efgh",
-    aiMelody: 30,
-    aiLyrics: 25,
-    aiStems: 20,
-    aiMastering: 10,
-    transparencyScore: 84,
-    badge: "AI_DISCLOSED",
-    trainingRights: true,
-    derivativeRights: true,
-    remixRights: true,
-    consentLocked: false,
-    ipfsCID: "QmT5NvUtoM5nWFfrQdVrFtvGfKFmG7AHE8P34isapyhCxX",
-    sha256: "0xdef456...",
-    createdAt: "2024-12-29T15:30:00Z",
+    artist: "Analog Heart",
+    wallet: "0xabcdef1234567890abcdef1234567890abcdef12",
+    ai_contribution: {
+      composition: 0.3,
+      arrangement: 0.25,
+      production: 0.2,
+      mixing: 0.05,
+      mastering: 0.1,
+    },
+    transparency_score: 84,
+    methodology:
+      "Collaborative AI composition using Udio for initial chord progressions and melodic ideas. Human-directed arrangement with AI-suggested transitions. Manual mixing with light AI assistance on mastering chain.",
+    creative_stack: {
+      daws: ["Logic Pro X", "Ableton Live 12"],
+      plugins: ["Arturia V Collection", "Native Instruments Komplete"],
+      ai_models: ["Udio", "AIVA"],
+    },
+    provenance: {
+      ipfs_cid: "QmT5NvUtoM5nWFfrQdVrFtvGfKFmG7AHE8P34isapyhCxX",
+      sha256:
+        "0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+    },
+    consent: {
+      training_rights: true,
+      derivative_rights: true,
+      remix_rights: true,
+    },
+    created_at: "2024-12-29T15:30:00Z",
+  },
+  "demo-3": {
+    id: "demo-3",
+    title: "Human Touch",
+    artist: "Organic Waves",
+    wallet: "0x7890abcdef1234567890abcdef1234567890abcd",
+    ai_contribution: {
+      composition: 0.0,
+      arrangement: 0.0,
+      production: 0.0,
+      mixing: 0.0,
+      mastering: 0.05,
+    },
+    transparency_score: 100,
+    methodology:
+      "Fully human-crafted composition and production. Only AI involvement was automated gain staging during mastering preparation.",
+    creative_stack: {
+      daws: ["Pro Tools"],
+      plugins: ["Waves SSL Bundle", "UAD Neve"],
+      ai_models: [],
+    },
+    provenance: {
+      ipfs_cid: "QmR4nFjTu18TyANgC65ArLMJFHZBf5GQMX4QbY5mDEFvN1",
+      sha256:
+        "0xa591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e",
+    },
+    consent: {
+      training_rights: false,
+      derivative_rights: false,
+      remix_rights: true,
+    },
+    created_at: "2024-12-08T09:15:00Z",
+  },
+  "demo-4": {
+    id: "demo-4",
+    title: "Sovereign Sound",
+    artist: "No AI Please",
+    wallet: "0xdef1234567890abcdef1234567890abcdef123456",
+    ai_contribution: {
+      composition: 0.0,
+      arrangement: 0.0,
+      production: 0.0,
+      mixing: 0.0,
+      mastering: 0.0,
+    },
+    transparency_score: 100,
+    methodology: "100% human creation. No AI tools used at any stage.",
+    creative_stack: {
+      daws: ["Ableton Live 11"],
+      plugins: ["Analog hardware only"],
+      ai_models: [],
+    },
+    provenance: {
+      ipfs_cid: "QmP8jTG1m9GSDJLCbeWhVSVgEzCPNwE9h5vcvTfzEyGN3j",
+      sha256:
+        "0x6dcd4ce23d88e2ee9568ba546c007c63d9131c1b",
+    },
+    consent: {
+      training_rights: false,
+      derivative_rights: false,
+      remix_rights: false,
+    },
+    created_at: "2024-12-05T18:00:00Z",
+  },
+  "demo-5": {
+    id: "demo-5",
+    title: "Full Consent EP",
+    artist: "Open Source Music",
+    wallet: "0x567890abcdef1234567890abcdef1234567890ab",
+    ai_contribution: {
+      composition: 0.45,
+      arrangement: 0.4,
+      production: 0.35,
+      mixing: 0.1,
+      mastering: 0.2,
+    },
+    transparency_score: 70,
+    methodology:
+      "Heavy AI collaboration across all phases. Used multiple generative models for composition and arrangement. Human curation and selection of AI outputs. AI-assisted mixing with manual fine-tuning.",
+    creative_stack: {
+      daws: ["FL Studio", "Ableton Live 12"],
+      plugins: ["Serum", "Vital", "Splice samples"],
+      ai_models: ["Suno", "Udio", "Stable Audio"],
+    },
+    provenance: {
+      ipfs_cid: "QmVHi8TRMVoF7f4YJwKZSPPVXVBK8QhMvCLNmJQk7NSmKE",
+      sha256:
+        "0x2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae",
+    },
+    consent: {
+      training_rights: true,
+      derivative_rights: true,
+      remix_rights: true,
+    },
+    created_at: "2024-12-01T21:45:00Z",
   },
 };
 
-export default function VerifyPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const track = DEMO_TRACKS[id];
+function calculateAverageAI(contrib: {
+  composition: number;
+  arrangement: number;
+  production: number;
+  mixing: number;
+  mastering: number;
+}) {
+  return (
+    (contrib.composition +
+      contrib.arrangement +
+      contrib.production +
+      contrib.mixing +
+      contrib.mastering) /
+    5
+  );
+}
 
-  if (!track) {
+function getBadge(avgAI: number): { label: string; color: string } {
+  if (avgAI === 0) return { label: "SOVEREIGN", color: "bg-[#4A7C59]" };
+  if (avgAI < 0.1) return { label: "HUMAN-CRAFTED", color: "bg-[#4A7C59]" };
+  if (avgAI < 0.3) return { label: "AI-ASSISTED", color: "bg-[#8B7355]" };
+  return { label: "AI-COLLABORATIVE", color: "bg-[#8A8A8A]" };
+}
+
+export default function VerifyPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
+  const declaration = DEMO_DECLARATIONS[id];
+  const [copied, setCopied] = useState(false);
+
+  if (!declaration) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-6">
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Track Not Found</h1>
-          <p className="text-zinc-400 mb-6">This declaration doesn&apos;t exist.</p>
+          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+            Not Found
+          </p>
+          <h1 className="text-2xl font-medium text-[#F5F3F0] mb-4">
+            Declaration Not Found
+          </h1>
+          <p className="text-[#8A8A8A] mb-8">
+            This declaration does not exist or has been removed.
+          </p>
           <Link
             href="/gallery"
-            className="text-violet-400 hover:underline"
+            className="text-sm text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
           >
             ← Back to Gallery
           </Link>
@@ -89,224 +255,281 @@ export default function VerifyPage({ params }: { params: Promise<{ id: string }>
     );
   }
 
-  const metadata = {
-    name: track.title,
-    artist: track.artistName,
-    token_id: track.tokenId,
-    ai_contributions: {
-      melody: track.aiMelody,
-      lyrics: track.aiLyrics,
-      stems: track.aiStems,
-      mastering: track.aiMastering,
+  const avgAI = calculateAverageAI(declaration.ai_contribution);
+  const badge = getBadge(avgAI);
+
+  const exportData = {
+    version: "1.0",
+    declaration_id: `o8-${declaration.provenance.ipfs_cid.slice(0, 12)}`,
+    identity: {
+      primary_artist: {
+        name: declaration.artist,
+        wallet: declaration.wallet,
+      },
     },
-    transparency_score: track.transparencyScore,
-    badge: track.badge,
-    consent: {
-      training_rights: track.trainingRights,
-      derivative_rights: track.derivativeRights,
-      remix_rights: track.remixRights,
-      locked: track.consentLocked,
+    creative_stack: declaration.creative_stack,
+    production_intelligence: {
+      ai_contribution: declaration.ai_contribution,
+      methodology: declaration.methodology,
     },
-    ipfs_cid: track.ipfsCID,
-    sha256: track.sha256,
-    created_at: track.createdAt,
+    provenance: declaration.provenance,
+    transparency_score: declaration.transparency_score,
+    created_at: declaration.created_at,
+  };
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(JSON.stringify(exportData, null, 2));
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className="min-h-screen bg-black py-12 px-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-[#0A0A0A] py-16 px-6 md:px-16">
+      <div className="max-w-[960px] mx-auto">
         {/* Back link */}
         <Link
           href="/gallery"
-          className="inline-flex items-center text-sm text-zinc-400 hover:text-white mb-8 transition-colors"
+          className="inline-block text-sm text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 mb-12"
         >
           ← Back to Gallery
         </Link>
 
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <div className="flex items-start justify-between flex-wrap gap-4">
-            <div>
-              <h1 className="text-4xl font-bold mb-2">{track.title}</h1>
-              <p className="text-xl text-zinc-400">{track.artistName}</p>
-            </div>
-            <span
-              className={`px-4 py-2 rounded-full text-sm font-semibold ${
-                BADGE_COLORS[track.badge] || "bg-zinc-600"
-              } text-white`}
-            >
-              {track.badge.replace("_", "-")}
-            </span>
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-12">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+              Declaration
+            </p>
+            <h1 className="text-3xl font-medium text-[#F5F3F0] mb-2">
+              {declaration.title}
+            </h1>
+            <p className="text-[#8A8A8A]">{declaration.artist}</p>
           </div>
-        </motion.div>
+          <div className="flex flex-col items-start md:items-end gap-2">
+            <span
+              className={`px-3 py-1 text-xs uppercase tracking-widest text-[#F5F3F0] ${badge.color}`}
+            >
+              {badge.label}
+            </span>
+            <p className="text-xs text-[#8A8A8A]">
+              {new Date(declaration.created_at).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
+          </div>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        {/* Score Cards */}
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
           {/* Transparency Score */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800"
-          >
-            <h2 className="text-lg font-semibold mb-4">Transparency Score</h2>
-            <div className="flex items-end gap-4">
-              <div className="text-6xl font-bold text-violet-400">
-                {track.transparencyScore}
-              </div>
-              <div className="text-zinc-500 mb-2">/ 100</div>
+          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+              Transparency Score
+            </p>
+            <div className="flex items-baseline gap-2 mb-4">
+              <span className="text-5xl font-medium text-[#F5F3F0]">
+                {declaration.transparency_score}
+              </span>
+              <span className="text-[#8A8A8A]">/ 100</span>
             </div>
-            <div className="mt-4 h-3 bg-zinc-800 rounded-full overflow-hidden">
+            <div className="h-1 bg-[#2A2A2A]">
               <div
-                className="h-full bg-gradient-to-r from-violet-600 to-purple-500 rounded-full"
-                style={{ width: `${track.transparencyScore}%` }}
+                className="h-full bg-[#8A8A8A] transition-all duration-300"
+                style={{ width: `${declaration.transparency_score}%` }}
               />
             </div>
-          </motion.div>
+          </div>
 
-          {/* Consent Status */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 }}
-            className="p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800"
-          >
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">SOVN Consent</h2>
-              {track.consentLocked && (
-                <span className="px-2 py-1 rounded bg-amber-500/20 text-amber-400 text-xs font-medium">
-                  LOCKED
-                </span>
-              )}
+          {/* Average AI */}
+          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+              Average AI Contribution
+            </p>
+            <div className="flex items-baseline gap-2 mb-4">
+              <span className="text-5xl font-medium text-[#F5F3F0]">
+                {Math.round(avgAI * 100)}
+              </span>
+              <span className="text-[#8A8A8A]">%</span>
             </div>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-zinc-400">AI Training</span>
-                <span
-                  className={
-                    track.trainingRights ? "text-emerald-400" : "text-red-400"
-                  }
-                >
-                  {track.trainingRights ? "Allowed" : "Denied"}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-zinc-400">AI Derivatives</span>
-                <span
-                  className={
-                    track.derivativeRights ? "text-emerald-400" : "text-red-400"
-                  }
-                >
-                  {track.derivativeRights ? "Allowed" : "Denied"}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-zinc-400">Remixes</span>
-                <span
-                  className={
-                    track.remixRights ? "text-emerald-400" : "text-red-400"
-                  }
-                >
-                  {track.remixRights ? "Allowed" : "Denied"}
-                </span>
-              </div>
+            <div className="h-1 bg-[#2A2A2A]">
+              <div
+                className="h-full bg-[#8A8A8A] transition-all duration-300"
+                style={{ width: `${avgAI * 100}%` }}
+              />
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* AI Contribution Breakdown */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="mt-6 p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800"
-        >
-          <h2 className="text-lg font-semibold mb-4">AI Contribution Breakdown</h2>
-          <div className="grid sm:grid-cols-4 gap-6">
+        <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A] mb-8">
+          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+            Production Intelligence
+          </p>
+          <div className="grid grid-cols-5 gap-4 mb-8">
             {[
-              { label: "Melody", value: track.aiMelody },
-              { label: "Lyrics", value: track.aiLyrics },
-              { label: "Stems", value: track.aiStems },
-              { label: "Mastering", value: track.aiMastering },
+              { label: "Composition", value: declaration.ai_contribution.composition },
+              { label: "Arrangement", value: declaration.ai_contribution.arrangement },
+              { label: "Production", value: declaration.ai_contribution.production },
+              { label: "Mixing", value: declaration.ai_contribution.mixing },
+              { label: "Mastering", value: declaration.ai_contribution.mastering },
             ].map(({ label, value }) => (
               <div key={label} className="text-center">
-                <div
-                  className={`text-3xl font-bold mb-1 ${
-                    value < 20
-                      ? "text-emerald-400"
-                      : value < 50
-                      ? "text-amber-400"
-                      : "text-red-400"
-                  }`}
-                >
-                  {value}%
+                <p className="text-2xl font-medium text-[#F5F3F0] mb-1">
+                  {Math.round(value * 100)}%
+                </p>
+                <p className="text-xs text-[#8A8A8A]">{label}</p>
+                <div className="h-1 bg-[#2A2A2A] mt-2">
+                  <div
+                    className="h-full bg-[#8A8A8A] transition-all duration-300"
+                    style={{ width: `${value * 100}%` }}
+                  />
                 </div>
-                <div className="text-sm text-zinc-500">{label}</div>
               </div>
             ))}
           </div>
-        </motion.div>
 
-        {/* Verification Data */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25 }}
-          className="mt-6 p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800"
-        >
-          <h2 className="text-lg font-semibold mb-4">Verification Data</h2>
-          <div className="space-y-3 text-sm">
-            <div className="flex justify-between">
-              <span className="text-zinc-500">Token ID</span>
-              <span className="font-mono">{track.tokenId}</span>
+          {/* Methodology */}
+          <div>
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+              Methodology
+            </p>
+            <p className="text-[#F5F3F0] leading-relaxed">
+              {declaration.methodology}
+            </p>
+          </div>
+        </div>
+
+        {/* Creative Stack & Consent - Side by side on desktop */}
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          {/* Creative Stack */}
+          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+              Creative Stack
+            </p>
+            <div className="space-y-4">
+              <div>
+                <p className="text-xs text-[#8A8A8A] mb-1">DAWs</p>
+                <p className="text-[#F5F3F0]">
+                  {declaration.creative_stack.daws.join(", ") || "None specified"}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-[#8A8A8A] mb-1">Plugins</p>
+                <p className="text-[#F5F3F0]">
+                  {declaration.creative_stack.plugins.join(", ") || "None specified"}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-[#8A8A8A] mb-1">AI Models</p>
+                <p className="text-[#F5F3F0]">
+                  {declaration.creative_stack.ai_models.length > 0
+                    ? declaration.creative_stack.ai_models.join(", ")
+                    : "None"}
+                </p>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span className="text-zinc-500">Artist Wallet</span>
-              <span className="font-mono">{track.artistWallet}</span>
+          </div>
+
+          {/* Consent */}
+          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+              Usage Consent
+            </p>
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[#8A8A8A]">AI Training</span>
+                <span
+                  className={
+                    declaration.consent.training_rights
+                      ? "text-[#4A7C59]"
+                      : "text-[#8B4049]"
+                  }
+                >
+                  {declaration.consent.training_rights ? "Allowed" : "Denied"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[#8A8A8A]">Derivatives</span>
+                <span
+                  className={
+                    declaration.consent.derivative_rights
+                      ? "text-[#4A7C59]"
+                      : "text-[#8B4049]"
+                  }
+                >
+                  {declaration.consent.derivative_rights ? "Allowed" : "Denied"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[#8A8A8A]">Remixes</span>
+                <span
+                  className={
+                    declaration.consent.remix_rights
+                      ? "text-[#4A7C59]"
+                      : "text-[#8B4049]"
+                  }
+                >
+                  {declaration.consent.remix_rights ? "Allowed" : "Denied"}
+                </span>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span className="text-zinc-500">IPFS CID</span>
+          </div>
+        </div>
+
+        {/* Provenance */}
+        <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A] mb-8">
+          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+            Provenance
+          </p>
+          <div className="space-y-4">
+            <div>
+              <p className="text-xs text-[#8A8A8A] mb-1">Artist Wallet</p>
+              <p className="text-[#F5F3F0] font-mono text-sm break-all">
+                {declaration.wallet}
+              </p>
+            </div>
+            <div>
+              <p className="text-xs text-[#8A8A8A] mb-1">IPFS CID</p>
               <a
-                href={`https://ipfs.io/ipfs/${track.ipfsCID}`}
+                href={`https://ipfs.io/ipfs/${declaration.provenance.ipfs_cid}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-mono text-violet-400 hover:underline"
+                className="text-[#F5F3F0] font-mono text-sm hover:text-[#8A8A8A] transition-colors duration-100"
               >
-                {track.ipfsCID.slice(0, 20)}...
+                {declaration.provenance.ipfs_cid}
               </a>
             </div>
-            <div className="flex justify-between">
-              <span className="text-zinc-500">Created</span>
-              <span>{new Date(track.createdAt).toLocaleDateString()}</span>
+            <div>
+              <p className="text-xs text-[#8A8A8A] mb-1">SHA-256 Hash</p>
+              <p className="text-[#F5F3F0] font-mono text-sm break-all">
+                {declaration.provenance.sha256}
+              </p>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* JSON Export */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="mt-6 p-6 rounded-2xl bg-zinc-900/50 border border-zinc-800"
-        >
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">JSON Metadata Export</h2>
+        <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+          <div className="flex items-center justify-between mb-6">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A]">
+              Declaration Export
+            </p>
             <button
-              onClick={() => {
-                navigator.clipboard.writeText(JSON.stringify(metadata, null, 2));
-              }}
-              className="px-3 py-1 text-sm bg-zinc-800 hover:bg-zinc-700 rounded-lg transition-colors"
+              onClick={handleCopy}
+              className="px-4 py-2 text-xs uppercase tracking-widest border border-[#2A2A2A] text-[#8A8A8A] hover:border-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
             >
-              Copy
+              {copied ? "Copied" : "Copy JSON"}
             </button>
           </div>
-          <pre className="p-4 bg-zinc-950 rounded-xl overflow-x-auto text-xs font-mono text-zinc-400">
-            {JSON.stringify(metadata, null, 2)}
+          <pre
+            className="p-4 bg-[#0A0A0A] border border-[#2A2A2A] overflow-x-auto text-xs text-[#8A8A8A]"
+            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+          >
+            {JSON.stringify(exportData, null, 2)}
           </pre>
-        </motion.div>
+        </div>
       </div>
     </div>
   );
