@@ -471,7 +471,7 @@ export default function VerifyPage({
           </div>
           <pre
             className="p-4 bg-[#0A0A0A] border border-[#2A2A2A] overflow-x-auto text-xs text-[#8A8A8A]"
-            style={{ fontFamily: "'JetBrains Mono', monospace" }}
+            style={{ fontFamily: "'Söhne Mono', var(--font-plex-mono), monospace" }}
           >
             {JSON.stringify(exportData, null, 2)}
           </pre>

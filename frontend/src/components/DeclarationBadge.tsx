@@ -4,7 +4,7 @@ export function DeclarationBadge({ declared }: { declared: boolean }) {
   if (declared) {
     return (
       <span className="inline-flex items-center gap-1.5 px-3 py-1 text-xs uppercase tracking-widest font-medium bg-[#F5F3F0] text-[#0A0A0A]">
-        <span style={{ fontFamily: "'Space Grotesk', sans-serif" }}>Ø8</span>
+        <span style={{ fontFamily: "'Söhne', var(--font-space-grotesk), sans-serif" }}>Ø8</span>
         Declared
       </span>
     );

@@ -11,7 +11,7 @@ export default function Home() {
           {/* Wordmark */}
           <h1
             className="text-[56px] md:text-[72px] font-normal text-[#F5F3F0] tracking-tight mb-8"
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            style={{ fontFamily: "'Söhne', var(--font-space-grotesk), sans-serif" }}
           >
             Ø8
           </h1>
@@ -107,7 +107,7 @@ export default function Home() {
           <div className="bg-[#0D0D0D] border border-[#2A2A2A] p-6 md:p-8 overflow-x-auto">
             <pre
               className="text-sm leading-relaxed"
-              style={{ fontFamily: "'JetBrains Mono', monospace" }}
+              style={{ fontFamily: "'Söhne Mono', var(--font-plex-mono), monospace" }}
             >
               <code>
                 <span className="text-[#F5F3F0]">{"{"}</span>

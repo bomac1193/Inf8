@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&family=Space+Grotesk:wght@400;500&display=swap');
 @import "tailwindcss";
 
 /* O8 Design System - Dark mode only */
@@ -51,10 +50,10 @@
   --color-pending: var(--color-pending);
   --color-error: var(--color-error);
 
-  /* Typography */
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-  --font-display: 'Space Grotesk', sans-serif;
+  /* Typography — next/font injects via CSS variables, Söhne first if self-hosted */
+  --font-sans: 'Söhne', var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: 'Söhne Mono', var(--font-plex-mono), monospace;
+  --font-display: 'Söhne', var(--font-space-grotesk), sans-serif;
 
   /* Border radius - all 0 for sharp corners */
   --radius-none: 0px;
@@ -79,7 +78,7 @@
   body {
     background-color: var(--color-void);
     color: var(--color-bone);
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Söhne', var(--font-plex-sans), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -153,7 +152,7 @@
   code,
   pre,
   .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Söhne Mono', var(--font-plex-mono), monospace;
   }
 }
 
@@ -164,7 +163,7 @@
 [data-rk] *::before,
 [data-rk] *::after {
   border-radius: 0px !important;
-  font-family: 'Inter', system-ui, sans-serif !important;
+  font-family: 'Söhne', var(--font-plex-sans), system-ui, sans-serif !important;
 }
 
 [data-rk] [role="dialog"] {

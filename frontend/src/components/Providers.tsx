@@ -22,7 +22,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
               overlayBlur: "small",
             }),
             fonts: {
-              body: "'Inter', system-ui, sans-serif",
+              body: "var(--font-plex-sans), system-ui, sans-serif",
             },
           }}
           modalSize="compact"

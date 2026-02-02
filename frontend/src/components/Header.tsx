@@ -11,7 +11,7 @@ export function Header() {
           <Link href="/" className="flex items-center gap-3">
             <span
               className="text-2xl font-medium text-[#F5F3F0] tracking-tight"
-              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              style={{ fontFamily: "'Söhne', var(--font-space-grotesk), sans-serif" }}
             >
               Ø8
             </span>
