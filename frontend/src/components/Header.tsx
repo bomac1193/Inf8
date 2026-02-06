@@ -28,6 +28,12 @@ export function Header() {
               Gallery
             </Link>
             <Link
+              href="/my-declarations"
+              className="text-sm text-[#8A8A8A] hover:text-[#F5F3F0] transition-opacity duration-100"
+            >
+              My Declarations
+            </Link>
+            <Link
               href="/new"
               className="text-sm text-[#8A8A8A] hover:text-[#F5F3F0] transition-opacity duration-100"
             >
