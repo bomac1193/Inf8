@@ -26,12 +26,17 @@ function calculateAverageAI(dec: Declaration) {
   );
 }
 
+type SortOption = "date-desc" | "date-asc" | "score-desc" | "score-asc" | "ai-desc" | "ai-asc";
+
 export default function Gallery() {
   const [filter, setFilter] = useState<GalleryFilterKey>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [declarations, setDeclarations] = useState<Declaration[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [minScore, setMinScore] = useState<number>(0);
+  const [maxScore, setMaxScore] = useState<number>(100);
+  const [sortBy, setSortBy] = useState<SortOption>("date-desc");
 
   useEffect(() => {
     async function fetchDeclarations() {
@@ -84,14 +89,45 @@ export default function Gallery() {
     }
   };
 
-  const filteredDeclarations = declarations.filter((dec) => {
-    if (!searchQuery) return true;
-    const query = searchQuery.toLowerCase();
-    return (
-      dec.title.toLowerCase().includes(query) ||
-      dec.artistName.toLowerCase().includes(query)
-    );
-  });
+  const filteredDeclarations = declarations
+    .filter((dec) => {
+      // Search filter
+      if (searchQuery) {
+        const query = searchQuery.toLowerCase();
+        if (
+          !dec.title.toLowerCase().includes(query) &&
+          !dec.artistName.toLowerCase().includes(query)
+        ) {
+          return false;
+        }
+      }
+
+      // Transparency score filter
+      if (dec.transparencyScore < minScore || dec.transparencyScore > maxScore) {
+        return false;
+      }
+
+      return true;
+    })
+    .sort((a, b) => {
+      // Sorting
+      switch (sortBy) {
+        case "date-desc":
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        case "date-asc":
+          return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        case "score-desc":
+          return b.transparencyScore - a.transparencyScore;
+        case "score-asc":
+          return a.transparencyScore - b.transparencyScore;
+        case "ai-desc":
+          return calculateAverageAI(b) - calculateAverageAI(a);
+        case "ai-asc":
+          return calculateAverageAI(a) - calculateAverageAI(b);
+        default:
+          return 0;
+      }
+    });
 
   return (
     <div className="min-h-screen bg-[#0A0A0A] py-16 px-6 md:px-16">
@@ -106,21 +142,26 @@ export default function Gallery() {
           </p>
         </div>
 
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-8">
+        {/* Search */}
+        <div className="mb-4">
           <input
             type="text"
-            placeholder="Search declarations..."
+            placeholder="Search by title or artist..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 px-4 py-3 bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
+            className="w-full px-4 py-3 bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
           />
+        </div>
+
+        {/* Filters Row */}
+        <div className="flex flex-col lg:flex-row gap-4 mb-8">
+          {/* Badge Filters */}
           <div className="flex gap-2 flex-wrap">
             {GALLERY_FILTERS.map(({ key, label }) => (
               <button
                 key={key}
                 onClick={() => setFilter(key)}
-                className={`px-4 py-2 text-sm font-medium transition-colors duration-100 ${
+                className={`px-3 py-2 text-xs font-medium transition-colors duration-100 ${
                   filter === key
                     ? "bg-[#F5F3F0] text-[#0A0A0A]"
                     : "bg-transparent border border-[#2A2A2A] text-[#8A8A8A] hover:border-[#8A8A8A]"
@@ -130,6 +171,42 @@ export default function Gallery() {
               </button>
             ))}
           </div>
+
+          {/* Transparency Score Range */}
+          <div className="flex items-center gap-2 px-3 py-2 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <span className="text-xs text-[#8A8A8A] whitespace-nowrap">Score:</span>
+            <input
+              type="number"
+              min="0"
+              max="100"
+              value={minScore}
+              onChange={(e) => setMinScore(Math.max(0, Math.min(100, parseInt(e.target.value) || 0)))}
+              className="w-16 px-2 py-1 text-xs bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] focus:border-[#8A8A8A] outline-none"
+            />
+            <span className="text-xs text-[#8A8A8A]">-</span>
+            <input
+              type="number"
+              min="0"
+              max="100"
+              value={maxScore}
+              onChange={(e) => setMaxScore(Math.max(0, Math.min(100, parseInt(e.target.value) || 100)))}
+              className="w-16 px-2 py-1 text-xs bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] focus:border-[#8A8A8A] outline-none"
+            />
+          </div>
+
+          {/* Sort Dropdown */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortOption)}
+            className="px-3 py-2 text-xs bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F3F0] focus:border-[#8A8A8A] outline-none cursor-pointer"
+          >
+            <option value="date-desc">Latest First</option>
+            <option value="date-asc">Oldest First</option>
+            <option value="score-desc">Highest Score</option>
+            <option value="score-asc">Lowest Score</option>
+            <option value="ai-desc">Most AI</option>
+            <option value="ai-asc">Least AI</option>
+          </select>
         </div>
 
         {/* Declarations Grid */}
