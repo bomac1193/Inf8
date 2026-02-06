@@ -16,13 +16,26 @@ export async function GET() {
       declarationsCount: count,
     });
   } catch (error: unknown) {
-    const errorMessage = error instanceof Error ? error.message : String(error);
+    let errorMessage = "Unknown error";
+    let errorStack = "";
+
+    if (error instanceof Error) {
+      errorMessage = error.message;
+      errorStack = error.stack || "";
+    } else if (typeof error === "object" && error !== null) {
+      errorMessage = JSON.stringify(error);
+    } else {
+      errorMessage = String(error);
+    }
+
+    console.error("Database setup error:", { errorMessage, errorStack });
 
     return NextResponse.json(
       {
         status: "error",
         message: "Database connection failed or tables don't exist",
         error: errorMessage,
+        hasEnvVar: !!process.env.DATABASE_URL,
         fix: "Run: DATABASE_URL='your-neon-url' npx prisma db push",
       },
       { status: 500 }
