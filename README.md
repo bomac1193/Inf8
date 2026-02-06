@@ -1,6 +1,6 @@
-# Ø8
+# ∞8
 
-**The origin layer.**
+**ORIGIN**
 
 Creative provenance protocol for AI-native music.
 
@@ -37,7 +37,7 @@ The music industry's metadata infrastructure was built for a world that no longe
 
 ISRC codes tell you nothing about how music was made. They identify; they don't illuminate. The metadata infrastructure for AI-native music creation does not exist.
 
-**This is the problem Ø8 solves.**
+**This is the problem ∞8 solves.**
 
 ---
 
@@ -57,9 +57,9 @@ A producer who declares "88% AI melody, 35% AI arrangement" isn't admitting weak
 
 Two objectives. Everything else is noise.
 
-### 1. Establish Ø8 as the machine-readable standard for creative provenance
+### 1. Establish ∞8 as the machine-readable standard for creative provenance
 
-Every Ø8 declaration contains:
+Every ∞8 declaration contains:
 - **Identity**: Artist, collaborators, contributors—cryptographically verifiable
 - **Creative Stack**: Every tool in the workflow—DAWs, plugins, AI models, hardware
 - **Production Intelligence**: Comprehensive process documentation with quantified AI contribution
@@ -78,7 +78,7 @@ Markets that don't exist at scale yet:
 - **AI-assisted production**: Producers using AI tools who want to demonstrate sophisticated technique
 - **Provenance-as-asset**: Where the declaration itself has independent collector value
 
-These markets are emerging. Ø8 has first-mover advantage.
+These markets are emerging. ∞8 has first-mover advantage.
 
 ---
 
@@ -96,13 +96,13 @@ What makes this position defensible.
 
 | Mechanism | Action |
 |-----------|--------|
-| Network effects | More tracks using Ø8 = more valuable standard. Critical mass creates lock-in. |
+| Network effects | More tracks using ∞8 = more valuable standard. Critical mass creates lock-in. |
 | Platform integration | Reference implementations for streaming platforms, NFT marketplaces, DAWs |
 | Governance structure | Clear protocol evolution process; prevents fragmentation |
 | Flagship releases | Partner with forward-thinking artists for proof-of-concept tracks |
-| Institutional adoption | One major label or distributor adopting Ø8 creates cascade |
+| Institutional adoption | One major label or distributor adopting ∞8 creates cascade |
 
-**The goal: make Ø8 the default, not a choice.**
+**The goal: make ∞8 the default, not a choice.**
 
 ---
 
@@ -134,13 +134,13 @@ What makes this position defensible.
 
 ## The 40-Year Bet
 
-**Years 1-5**: Ø8 becomes standard for AI-assisted producers and remix culture. Flagship releases demonstrate value. Early platform integrations.
+**Years 1-5**: ∞8 becomes standard for AI-assisted producers and remix culture. Flagship releases demonstrate value. Early platform integrations.
 
-**Years 5-10**: Streaming platforms integrate Ø8 declarations as metadata layer. Listeners can see how music was made. Process transparency becomes expected.
+**Years 5-10**: Streaming platforms integrate ∞8 declarations as metadata layer. Listeners can see how music was made. Process transparency becomes expected.
 
-**Years 10-20**: Music IP is valued based on provenance chains and process transparency. Ø8 declarations affect licensing, royalties, and rights management.
+**Years 10-20**: Music IP is valued based on provenance chains and process transparency. ∞8 declarations affect licensing, royalties, and rights management.
 
-**Years 20-40**: All music has machine-readable creative lineage. Ø8 is foundational infrastructure—like TCP/IP for the internet of music provenance.
+**Years 20-40**: All music has machine-readable creative lineage. ∞8 is foundational infrastructure—like TCP/IP for the internet of music provenance.
 
 **We're not solving today's authenticity crisis. We're building the provenance layer for tomorrow's music economy.**
 
@@ -220,14 +220,15 @@ Any party can verify a declaration by:
 
 ## Naming Note
 
-**Ø8** (pronounced "zero-eight" or "null-eight")
+**∞8** (pronounced "infinite-eight" or "inf-eight")
 
-- **Ø** = null set, zero, origin. The starting point.
-- **8** = infinity when rotated (∞). The destination.
+- **∞** = infinity, endless creative lineage
+- **8** = infinity rotated, recursive loop
+- **ORIGIN** = the infinite origin layer
 
-From origin to infinite. The layer between.
+Every origin has infinite lineage backward. Every origin branches infinitely forward. You are a point on an infinite line.
 
-*Previously: CTAD (Creative Transparency and Authorship Declaration). The old name described function. The new name embodies position.*
+*Previously: Ø8 (origin layer). The evolution from origin to infinite origin.*
 
 ---
 

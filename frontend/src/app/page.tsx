@@ -13,19 +13,19 @@ export default function Home() {
             className="text-[56px] md:text-[72px] font-normal text-[#F5F3F0] tracking-tight mb-8"
             style={{ fontFamily: "'Söhne', var(--font-space-grotesk), sans-serif" }}
           >
-            Ø8
+            ∞8
           </h1>
 
           {/* Tagline */}
           <p className="text-xl md:text-2xl text-[#8A8A8A] mb-12">
-            The origin layer.
+            ORIGIN
           </p>
 
           {/* Description */}
           <p className="text-base text-[#8A8A8A] leading-relaxed mb-16">
-            Creative provenance protocol for AI-native music. Machine-readable
-            declarations for multiplayer creation. Process is provenance.
-            Mastery is transparent.
+            Creative provenance protocol.
+            Machine-readable declarations for multiplayer creation.
+            Process is provenance. Mastery is transparent.
           </p>
 
           {/* Buttons */}
@@ -50,7 +50,7 @@ export default function Home() {
       <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
         <div className="max-w-[960px] mx-auto">
           <h2 className="text-2xl font-medium text-[#F5F3F0] mb-12">
-            What Ø8 Does
+            What ∞8 Does
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -199,7 +199,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-8 px-6 md:px-16 border-t border-[#2A2A2A]">
         <div className="max-w-[960px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#8A8A8A]">
-          <div>Ø8 Protocol</div>
+          <div>∞8 Protocol</div>
           <div className="flex gap-8">
             <Link
               href="/gallery"

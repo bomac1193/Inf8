@@ -13,7 +13,7 @@ export function Header() {
               className="text-2xl font-medium text-[#F5F3F0] tracking-tight"
               style={{ fontFamily: "'Söhne', var(--font-space-grotesk), sans-serif" }}
             >
-              Ø8
+              ∞8
             </span>
             <span className="hidden sm:block text-xs text-[#8A8A8A] uppercase tracking-widest">
               Protocol

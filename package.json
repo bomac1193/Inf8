@@ -1,7 +1,7 @@
 {
   "name": "o8",
   "version": "1.0.0",
-  "description": "Creative provenance protocol for AI-native music",
+  "description": "∞8 - Creative provenance protocol for AI-native music. Infinite origin.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

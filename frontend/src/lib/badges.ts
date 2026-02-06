@@ -1,4 +1,4 @@
-// Ø8 Process-Based Badge System
+// ∞8 Process-Based Badge System
 // All badges are equal facets, not a ranking
 
 export interface Badge {

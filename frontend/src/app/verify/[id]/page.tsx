@@ -146,8 +146,8 @@ export default function VerifyPage({
   };
 
   const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-  const embedHtml = `<a href="${baseUrl}/verify/${declaration.id}" target="_blank" rel="noopener"><img src="${baseUrl}/api/og/${declaration.id}" alt="Ø8 Declaration: ${declaration.title}" width="600" /></a>`;
-  const embedMarkdown = `[![Ø8 Declaration: ${declaration.title}](${baseUrl}/api/og/${declaration.id})](${baseUrl}/verify/${declaration.id})`;
+  const embedHtml = `<a href="${baseUrl}/verify/${declaration.id}" target="_blank" rel="noopener"><img src="${baseUrl}/api/og/${declaration.id}" alt="∞8 Declaration: ${declaration.title}" width="600" /></a>`;
+  const embedMarkdown = `[![∞8 Declaration: ${declaration.title}](${baseUrl}/api/og/${declaration.id})](${baseUrl}/verify/${declaration.id})`;
 
   const handleEmbedCopy = (text: string) => {
     navigator.clipboard.writeText(text);
