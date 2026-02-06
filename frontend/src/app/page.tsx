@@ -22,10 +22,13 @@ export default function Home() {
           </p>
 
           {/* Description */}
+          <p className="text-lg md:text-xl text-[#F5F3F0] font-medium leading-relaxed mb-6">
+            Prove your process. Immortalize your chain.
+          </p>
+
           <p className="text-base text-[#8A8A8A] leading-relaxed mb-16">
-            Creative provenance protocol.
-            Machine-readable declarations for multiplayer creation.
-            Process is provenance. Mastery is transparent.
+            Creative provenance protocol for AI-native music.
+            Machine-readable declarations. Verifiable lineage.
           </p>
 
           {/* Buttons */}

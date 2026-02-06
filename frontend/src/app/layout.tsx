@@ -28,7 +28,7 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "∞8 | ORIGIN",
   description:
-    "Creative provenance protocol for AI-native music. Infinite origin. Process is provenance. Mastery is transparent.",
+    "Prove your process. Immortalize your chain. Creative provenance protocol for AI-native music. Machine-readable declarations. Verifiable lineage.",
   keywords: ["music", "provenance", "AI", "declaration", "IPFS", "protocol"],
 };
 
