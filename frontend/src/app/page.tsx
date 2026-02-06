@@ -105,6 +105,47 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Quick Start */}
+      <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
+        <div className="max-w-[960px] mx-auto">
+          <h2 className="text-2xl font-medium text-[#F5F3F0] mb-12">
+            Get Started in 3 Steps
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <div className="text-3xl font-medium text-[#F5F3F0] mb-4">1</div>
+              <p className="text-sm uppercase tracking-widest text-[#8A8A8A] mb-3">
+                Create or Import
+              </p>
+              <p className="text-[#8A8A8A] text-sm leading-relaxed">
+                Start from scratch or use our Suno bookmarklet to auto-fill track data. Takes 10 seconds.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <div className="text-3xl font-medium text-[#F5F3F0] mb-4">2</div>
+              <p className="text-sm uppercase tracking-widest text-[#8A8A8A] mb-3">
+                Document Process
+              </p>
+              <p className="text-[#8A8A8A] text-sm leading-relaxed">
+                Add tools, AI percentages, collaborators, and methodology. Be as detailed or minimal as you want.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <div className="text-3xl font-medium text-[#F5F3F0] mb-4">3</div>
+              <p className="text-sm uppercase tracking-widest text-[#8A8A8A] mb-3">
+                Save & Share
+              </p>
+              <p className="text-[#8A8A8A] text-sm leading-relaxed">
+                Get a unique URL for your declaration. Share it, embed it, or mint it on-chain later.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Suno Integration */}
       <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
         <div className="max-w-[960px] mx-auto">
@@ -112,56 +153,86 @@ export default function Home() {
             Suno Integration
           </h2>
           <p className="text-[#8A8A8A] leading-relaxed mb-8">
-            Created a track with Suno? Document it in 10 seconds.
+            Created a track with Suno? Document it in 10 seconds with our one-click bookmarklet.
           </p>
 
-          <div className="bg-[#1A1A1A] border border-[#2A2A2A] p-8 mb-6">
+          <div className="bg-[#1A1A1A] border border-[#2A2A2A] p-8 mb-8">
             <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
-              ONE-CLICK BOOKMARKLET
+              QUICK SETUP
             </p>
             <p className="text-sm text-[#8A8A8A] mb-6">
-              Click the button below to copy the bookmarklet code, then follow the manual setup instructions.
+              Click below to copy the bookmarklet code, then add it to your browser's bookmarks bar.
             </p>
             <button
               onClick={() => {
                 const bookmarkletCode = `javascript:(function(){if(!window.location.hostname.includes('suno')){alert('⚠️ Please run this bookmarklet while on suno.com');return;}let title='';let prompt='';let model='Suno';const titleSelectors=['[data-testid="song-title"]','.song-title','h1','[class*="title"]'];for(const selector of titleSelectors){const el=document.querySelector(selector);if(el&&el.textContent.trim()){title=el.textContent.trim();break;}}const promptSelectors=['[data-testid="prompt"]','[class*="prompt"]','textarea','[placeholder*="describe"]'];for(const selector of promptSelectors){const el=document.querySelector(selector);if(el){prompt=el.value||el.textContent.trim();if(prompt)break;}}const versionMatch=document.body.textContent.match(/v[0-9.]+/i);if(versionMatch){model='Suno '+versionMatch[0];}if(!title&&!prompt){title='Untitled Track';prompt='Generated with Suno AI';}const baseUrl=window.location.hostname.includes('localhost')?'http://localhost:3000/new':'https://inf8.vercel.app/new';const params=new URLSearchParams({title:title||'Untitled Track',prompt:prompt||'AI-generated track',model:model,artist:'Your Name'});const url=\`\${baseUrl}?\${params.toString()}\`;window.open(url,'_blank');alert('✅ Opening ∞8 ARCH declaration form with Suno data!');})();`;
                 navigator.clipboard.writeText(bookmarkletCode);
-                alert('✅ Bookmarklet code copied! Now follow the manual setup instructions below.');
+                alert('✅ Bookmarklet code copied! Now follow the setup instructions below.');
               }}
               className="px-6 py-3 bg-[#1A1A1A] border border-[#8A8A8A] text-[#F5F3F0] text-sm font-medium hover:bg-[#2A2A2A] transition-colors duration-100"
             >
-              Copy Bookmarklet Code
+              📋 Copy Bookmarklet Code
             </button>
           </div>
 
-          <div className="space-y-4">
-            <p className="text-sm text-[#F5F3F0] font-medium mb-2">Manual Setup (One-Time):</p>
-            <div className="flex items-start gap-4">
-              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">1.</span>
-              <p className="text-sm text-[#8A8A8A]">Click "Copy Bookmarklet Code" button above</p>
-            </div>
-            <div className="flex items-start gap-4">
-              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">2.</span>
-              <p className="text-sm text-[#8A8A8A]">Right-click on your Favorites Bar → Add page → Name it "∞8 + Suno"</p>
-            </div>
-            <div className="flex items-start gap-4">
-              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">3.</span>
-              <p className="text-sm text-[#8A8A8A]">In the URL field, paste the copied code (Ctrl+V) → Save</p>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div>
+              <p className="text-sm text-[#F5F3F0] font-medium mb-4 flex items-center gap-2">
+                <span className="text-xl">⚙️</span> One-Time Setup
+              </p>
+              <div className="space-y-3 pl-7">
+                <div className="flex items-start gap-3">
+                  <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">1</span>
+                  <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                    Click the "Copy Bookmarklet Code" button above
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">2</span>
+                  <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                    Right-click your bookmarks bar → "Add page" or "Add bookmark"
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">3</span>
+                  <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                    Name: "∞8 + Suno" → URL field: paste the code (Ctrl+V) → Save
+                  </p>
+                </div>
+              </div>
             </div>
 
-            <p className="text-sm text-[#F5F3F0] font-medium mb-2 mt-6">Using the Bookmarklet:</p>
-            <div className="flex items-start gap-4">
-              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">4.</span>
-              <p className="text-sm text-[#8A8A8A]">Go to suno.com and generate a track</p>
+            <div>
+              <p className="text-sm text-[#F5F3F0] font-medium mb-4 flex items-center gap-2">
+                <span className="text-xl">⚡</span> Daily Usage
+              </p>
+              <div className="space-y-3 pl-7">
+                <div className="flex items-start gap-3">
+                  <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">1</span>
+                  <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                    Go to suno.com and create your track
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">2</span>
+                  <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                    Click "∞8 + Suno" in your bookmarks bar
+                  </p>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">3</span>
+                  <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                    Declaration form opens pre-filled → Add details → Save
+                  </p>
+                </div>
+              </div>
             </div>
-            <div className="flex items-start gap-4">
-              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">5.</span>
-              <p className="text-sm text-[#8A8A8A]">Click the "∞8 + Suno" bookmark in your favorites bar</p>
-            </div>
-            <div className="flex items-start gap-4">
-              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">6.</span>
-              <p className="text-sm text-[#8A8A8A]">Declaration form opens with track data pre-filled → Add details → Save</p>
-            </div>
+          </div>
+
+          <div className="mt-8 p-4 bg-[#0D0D0D] border border-[#2A2A2A]">
+            <p className="text-xs text-[#8A8A8A]">
+              <span className="text-[#F5F3F0]">Tip:</span> The bookmarklet extracts track title, prompt, and model version automatically. Works on any Suno track page.
+            </p>
           </div>
         </div>
       </section>
@@ -225,6 +296,89 @@ export default function Home() {
                 <span className="text-[#F5F3F0]">{"}"}</span>
               </code>
             </pre>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
+        <div className="max-w-[960px] mx-auto">
+          <h2 className="text-2xl font-medium text-[#F5F3F0] mb-12">
+            Frequently Asked Questions
+          </h2>
+
+          <div className="space-y-6">
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-sm font-medium text-[#F5F3F0] mb-3">
+                Do I need a crypto wallet to use ∞8 ARCH?
+              </p>
+              <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                No. You can create declarations anonymously during beta. Connecting a wallet enables on-chain minting, revenue splits via smart contracts, and permanent provenance records. But basic documentation works without one.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-sm font-medium text-[#F5F3F0] mb-3">
+                What happens to my data?
+              </p>
+              <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                Declarations are stored in our database and can be viewed publicly in the gallery. Audio files are stored on IPFS (Pinata). Anonymous declarations can be deleted during beta. Wallet-connected and minted declarations become permanent for provenance integrity.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-sm font-medium text-[#F5F3F0] mb-3">
+                How is the transparency score calculated?
+              </p>
+              <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                It's based on declaration completeness: how many fields you fill, whether you've uploaded audio, documented your creative stack, added collaborators, etc. Higher scores indicate more thorough documentation, not "better" music.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-sm font-medium text-[#F5F3F0] mb-3">
+                Can I document non-AI music?
+              </p>
+              <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                Absolutely. Set all AI contribution percentages to 0% and document your traditional workflow. The protocol works for any creative process—AI-native, hybrid, or fully human.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-sm font-medium text-[#F5F3F0] mb-3">
+                What does "minting" mean and why would I do it?
+              </p>
+              <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                Minting creates an NFT of your declaration on the blockchain, making it permanently immutable. Benefits: cryptographic proof of creation date, integration with ISSUANCE platform for revenue streams, ability to track lineage and derivatives, and enforcing smart contract splits for collaborators.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-sm font-medium text-[#F5F3F0] mb-3">
+                Is this just for Suno? What about other AI music tools?
+              </p>
+              <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                The bookmarklet is Suno-specific for convenience, but you can manually create declarations for any tool: Udio, Stable Audio, AIVA, or even traditional DAWs. The protocol is tool-agnostic.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-sm font-medium text-[#F5F3F0] mb-3">
+                Can I edit declarations after creating them?
+              </p>
+              <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                Not yet. Once created, declarations are immutable by design to maintain provenance integrity. If you need to update information, create a new declaration with parentRelation set to "remix" or "derivative." Edit functionality may be added for pre-minted declarations.
+              </p>
+            </div>
+
+            <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <p className="text-sm font-medium text-[#F5F3F0] mb-3">
+                What's the difference between collaborators and contributors?
+              </p>
+              <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                Collaborators get revenue splits (on-chain enforcement via smart contracts). Contributors get credit but no direct splits (think: session musicians, studio engineers, co-writers). Both are recorded in the declaration for attribution.
+              </p>
+            </div>
           </div>
         </div>
       </section>
