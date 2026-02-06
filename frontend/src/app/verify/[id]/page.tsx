@@ -244,6 +244,74 @@ export default function VerifyPage({
           </div>
         </div>
 
+        {/* Mint on ISSUANCE */}
+        {declaration.transparencyScore >= 85 && (
+          <div className="p-6 bg-[#1A1A1A] border border-[#8A8A8A] mb-8">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+              <div>
+                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                  Ready for ISSUANCE
+                </p>
+                <h3 className="text-lg font-medium text-[#F5F3F0] mb-2">
+                  Mint as Luxury Sound NFT
+                </h3>
+                <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                  Your transparency score qualifies this declaration for minting on ISSUANCE.
+                  Unlock revenue streams, smart contract splits, and permanent on-chain provenance.
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  // Prepare declaration data for ISSUANCE
+                  const issuanceData = {
+                    declarationId: declaration.id,
+                    title: declaration.title,
+                    artist: declaration.artistName,
+                    artistWallet: declaration.artistWallet,
+                    transparencyScore: declaration.transparencyScore,
+                    aiContribution: {
+                      composition: declaration.aiComposition,
+                      arrangement: declaration.aiArrangement,
+                      production: declaration.aiProduction,
+                      mixing: declaration.aiMixing,
+                      mastering: declaration.aiMastering,
+                      average: Math.round(avgAI),
+                    },
+                    ipfsCID: declaration.ipfsCID,
+                    sha256: declaration.sha256,
+                    badges: badges.map((b) => b.key),
+                    collaborators: contributors,
+                    rights: {
+                      training: declaration.trainingRights,
+                      derivative: declaration.derivativeRights,
+                      remix: declaration.remixRights,
+                    },
+                  };
+
+                  // Encode data as URL parameter
+                  const encodedData = encodeURIComponent(JSON.stringify(issuanceData));
+
+                  // Open ISSUANCE with declaration data
+                  // TODO: Update with actual ISSUANCE minting URL when API is ready
+                  const issuanceUrl = `http://localhost:3001/mint?declaration=${encodedData}`;
+                  window.open(issuanceUrl, '_blank');
+                }}
+                className="shrink-0 px-6 py-3 bg-[#F5F3F0] text-[#0A0A0A] font-medium text-sm tracking-wide hover:opacity-85 transition-opacity duration-100 whitespace-nowrap"
+              >
+                Mint on ISSUANCE →
+              </button>
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-[#2A2A2A]">
+              <p className="text-xs text-[#8A8A8A]">
+                <span className="text-[#F5F3F0]">What happens next:</span> This declaration's full provenance
+                will be passed to ISSUANCE where you can mint it as an NFT, set up revenue splits via smart contracts,
+                and integrate with streaming platforms. Your transparency score ensures high-quality curation standards.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* AI Contribution Breakdown */}
         <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A] mb-8">
           <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
