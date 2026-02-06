@@ -150,7 +150,16 @@ export default function Dashboard() {
               <p className="text-sm text-[#F5F3F0] mb-1">Want to see token balance and on-chain data?</p>
               <p className="text-xs text-[#8A8A8A]">Connect a wallet to unlock rewards panel.</p>
             </div>
-            <ConnectButton />
+            <ConnectButton.Custom>
+              {({ openConnectModal }) => (
+                <button
+                  onClick={openConnectModal}
+                  className="px-4 py-2 text-sm text-[#8A8A8A] border border-[#2A2A2A] hover:border-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
+                >
+                  Connect Wallet
+                </button>
+              )}
+            </ConnectButton.Custom>
           </div>
         )}
 
@@ -162,7 +171,7 @@ export default function Dashboard() {
             </p>
             <Link
               href="/new"
-              className="px-4 py-2 bg-[#F5F3F0] text-[#0A0A0A] text-sm font-medium hover:opacity-85 transition-opacity duration-100"
+              className="px-4 py-2 border border-[#2A2A2A] text-[#8A8A8A] text-sm hover:border-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
             >
               New Declaration
             </Link>
