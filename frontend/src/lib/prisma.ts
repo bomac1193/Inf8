@@ -4,10 +4,8 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-// Prisma 7.x requires accelerateUrl for client initialization
-// For now, we'll use a simple singleton pattern
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({
-  accelerateUrl: process.env.DATABASE_URL || "file:./prisma/dev.db",
-});
+// Prisma 7.x with config system - database URL configured in prisma.config.ts
+// Simple singleton pattern for database connections
+export const prisma = globalForPrisma.prisma ?? new PrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
