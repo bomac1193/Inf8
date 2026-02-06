@@ -172,7 +172,7 @@ export default function Home() {
       <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
         <div className="max-w-[640px] mx-auto">
           <h2 className="text-2xl font-medium text-[#F5F3F0] mb-8">
-            Who this is for
+            Who This Is For
           </h2>
           <p className="text-[#8A8A8A] leading-relaxed mb-8">
             Masters-level producers using AI as serious creative tools, not
@@ -181,10 +181,22 @@ export default function Home() {
             platforms, tools, and contributors who need attribution
             infrastructure.
           </p>
-          <p className="text-[#8A8A8A] leading-relaxed">
+          <p className="text-[#8A8A8A] leading-relaxed mb-16">
             Forward-thinking labels building the next generation of music IP.
             Anyone who believes the future of music is multiplayer, generative,
             and AI-enabled.
+          </p>
+
+          <h2 className="text-2xl font-medium text-[#F5F3F0] mb-8">
+            Who This Is NOT For
+          </h2>
+          <p className="text-[#8A8A8A] leading-relaxed mb-4">
+            Casual beatmakers chasing presets.<br />
+            AI toy users posting "Suno magic."<br />
+            Artists afraid to show their workflow.
+          </p>
+          <p className="text-lg text-[#F5F3F0] font-medium leading-relaxed">
+            Using AI tools isn't shameful. Hiding your process is.
           </p>
         </div>
       </section>
