@@ -51,6 +51,70 @@ const AI_PRESETS: Record<string, AIContribution> = {
   "AI-Native": { composition: 0.7, arrangement: 0.65, production: 0.6, mixing: 0.3, mastering: 0.5 },
 };
 
+interface WorkflowTemplate {
+  name: string;
+  description: string;
+  aiModels: string;
+  daws: string;
+  plugins: string;
+  hardware: string;
+  aiContribution: AIContribution;
+  methodology: string;
+}
+
+const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
+  {
+    name: "Suno Only",
+    description: "Pure AI generation with Suno",
+    aiModels: "Suno v4",
+    daws: "N/A",
+    plugins: "N/A",
+    hardware: "N/A",
+    aiContribution: { composition: 1.0, arrangement: 1.0, production: 1.0, mixing: 1.0, mastering: 1.0 },
+    methodology: "Track generated entirely with Suno AI. Prompt engineering and iteration for desired output.",
+  },
+  {
+    name: "Udio Only",
+    description: "Pure AI generation with Udio",
+    aiModels: "Udio v1.5",
+    daws: "N/A",
+    plugins: "N/A",
+    hardware: "N/A",
+    aiContribution: { composition: 1.0, arrangement: 1.0, production: 1.0, mixing: 1.0, mastering: 1.0 },
+    methodology: "Track generated entirely with Udio AI. Prompt engineering and iteration for desired output.",
+  },
+  {
+    name: "AI + DAW Hybrid",
+    description: "AI generation with DAW production",
+    aiModels: "Suno v4",
+    daws: "Ableton Live 12",
+    plugins: "FabFilter Pro-Q 3, Valhalla VintageVerb, Serum",
+    hardware: "N/A",
+    aiContribution: { composition: 0.8, arrangement: 0.7, production: 0.4, mixing: 0.2, mastering: 0.1 },
+    methodology: "Initial composition and arrangement with Suno. Exported stems and processed in Ableton. Manual mixing and mastering with professional plugins.",
+  },
+  {
+    name: "AI-Assisted DAW",
+    description: "Traditional DAW with AI assistance",
+    aiModels: "AIVA, Splice AI",
+    daws: "FL Studio 21",
+    plugins: "Ozone 11, Neutron 4, Kontakt 7",
+    hardware: "MIDI keyboard",
+    aiContribution: { composition: 0.3, arrangement: 0.2, production: 0.2, mixing: 0.1, mastering: 0.3 },
+    methodology: "AI-generated melodic ideas and drum patterns. Human arrangement, performance, and production. AI-assisted mastering with Ozone.",
+  },
+  {
+    name: "Traditional (No AI)",
+    description: "100% human production",
+    aiModels: "N/A",
+    daws: "Pro Tools 2024",
+    plugins: "Waves Bundle, UAD, Soundtoys",
+    hardware: "Apollo interface, SSL console, analog outboard",
+    aiContribution: { composition: 0, arrangement: 0, production: 0, mixing: 0, mastering: 0 },
+    methodology: "Fully human composition, performance, and production. Traditional analog and digital workflow. No AI tools used.",
+  },
+];
+
 function NewDeclarationForm() {
   const { address, isConnected } = useAccount();
   const { writeContract, data: hash, isPending } = useWriteContract();
@@ -157,6 +221,14 @@ function NewDeclarationForm() {
   const applyPreset = (presetName: string) => {
     const preset = AI_PRESETS[presetName];
     if (preset) setAiContribution(preset);
+  };
+
+  const applyTemplate = (template: WorkflowTemplate) => {
+    setAiModels(template.aiModels);
+    setDaws(template.daws);
+    setPlugins(template.plugins);
+    setAiContribution(template.aiContribution);
+    setMethodology(template.methodology);
   };
 
   // Calculate transparency score (client-side preview)
@@ -388,6 +460,34 @@ function NewDeclarationForm() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Workflow Templates */}
+          <section className="p-4 bg-[#1A1A1A] border border-[#8A8A8A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3">
+              Quick Start Templates
+            </p>
+            <p className="text-xs text-[#8A8A8A] mb-4">
+              Choose a template to pre-fill your workflow, or start from scratch.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {WORKFLOW_TEMPLATES.map((template) => (
+                <button
+                  key={template.name}
+                  type="button"
+                  onClick={() => applyTemplate(template)}
+                  className="p-3 bg-[#0A0A0A] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 text-left"
+                  title={template.description}
+                >
+                  <p className="text-xs font-medium text-[#F5F3F0] mb-1">
+                    {template.name}
+                  </p>
+                  <p className="text-[10px] text-[#8A8A8A] line-clamp-2">
+                    {template.description}
+                  </p>
+                </button>
+              ))}
+            </div>
+          </section>
+
           {/* Identity Section */}
           <section className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
             <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
