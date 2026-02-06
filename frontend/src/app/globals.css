@@ -198,12 +198,12 @@
 
 .o8-slider::-webkit-slider-runnable-track {
   height: 2px;
-  background: var(--color-iron);
+  background: transparent;
 }
 
 .o8-slider::-moz-range-track {
   height: 2px;
-  background: var(--color-iron);
+  background: transparent;
   border: none;
 }
 
