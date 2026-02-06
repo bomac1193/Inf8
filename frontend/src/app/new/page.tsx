@@ -327,7 +327,7 @@ export default function NewDeclaration() {
             Create Declaration
           </h1>
           <p className="text-[#8A8A8A]">
-            Document the creative provenance of your music.
+            Document your creative provenance.
           </p>
         </div>
 
@@ -504,9 +504,17 @@ export default function NewDeclaration() {
                 className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none text-sm"
                 placeholder="Methodology — describe your creative process..."
               />
-              <p className="text-[10px] text-[#8A8A8A] mt-1">
-                {methodology.length}/200+ for Process Doc badge
-              </p>
+              <div className="mt-1 flex items-center justify-between">
+                <p className="text-[10px] text-[#8A8A8A]">
+                  {methodology.length}/200+ for Process Doc badge 🏷️
+                </p>
+                <div className="flex-1 h-1 bg-[#2A2A2A] ml-3 max-w-[100px]">
+                  <div
+                    className="h-full bg-[#4A7C59] transition-all duration-200"
+                    style={{ width: `${Math.min((methodology.length / 200) * 100, 100)}%` }}
+                  />
+                </div>
+              </div>
             </div>
           </section>
 
@@ -527,7 +535,7 @@ export default function NewDeclaration() {
 
             {collaborators.length === 0 ? (
               <p className="text-sm text-[#8A8A8A]">
-                No collaborators added. Add collaborators to earn the Multiplayer badge.
+                No collaborators? Earn Multiplayer badge 👥
               </p>
             ) : (
               <div className="space-y-4">
@@ -655,10 +663,10 @@ export default function NewDeclaration() {
               ) : (
                 <>
                   <p className="text-[#8A8A8A] text-sm mb-1">
-                    Drop audio file here or click to upload
+                    Drop audio file here ⬇️
                   </p>
                   <p className="text-[#8A8A8A] text-xs">
-                    Auto-uploads to IPFS via Pinata and computes SHA-256
+                    Auto IPFS → Pinata → SHA-256 fingerprint
                   </p>
                 </>
               )}
@@ -696,10 +704,10 @@ export default function NewDeclaration() {
             </div>
           </section>
 
-          {/* Consent Section */}
+          {/* Usage Rights Section */}
           <section className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
             <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
-              Usage Consent
+              Usage Rights
             </p>
             <div className="space-y-3">
               {[
@@ -746,7 +754,7 @@ export default function NewDeclaration() {
             </button>
             {!isConnected && (
               <p className="text-xs text-center text-[#8A8A8A]">
-                No wallet connected — declaration will be saved to database only.
+                No wallet = database only
               </p>
             )}
           </div>
