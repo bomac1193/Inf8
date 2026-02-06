@@ -156,18 +156,18 @@ export default function VerifyPage({
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0A] py-16 px-6 md:px-16">
+    <div className="min-h-screen bg-[#0A0A0A] py-12 px-6 md:px-12">
       <div className="max-w-[960px] mx-auto">
         {/* Back link */}
         <Link
           href="/gallery"
-          className="inline-block text-sm text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 mb-12"
+          className="inline-block text-sm text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 mb-8"
         >
           &larr; Back to Gallery
         </Link>
 
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-6 mb-12">
+        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
           <div>
             <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
               Declaration
@@ -203,37 +203,37 @@ export default function VerifyPage({
         </div>
 
         {/* Score Cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
-            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+        <div className="grid md:grid-cols-2 gap-4 mb-6">
+          <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
               Transparency Score
             </p>
-            <div className="flex items-baseline gap-2 mb-4">
-              <span className="text-5xl font-medium text-[#F5F3F0]">
+            <div className="flex items-baseline gap-2 mb-2">
+              <span className="text-4xl font-medium text-[#F5F3F0]">
                 {declaration.transparencyScore}
               </span>
-              <span className="text-[#8A8A8A]">/ 100</span>
+              <span className="text-[#8A8A8A] text-sm">/ 100</span>
             </div>
-            <div className="h-1 bg-[#2A2A2A]">
+            <div className="h-1 bg-[#2A2A2A] mb-1">
               <div
                 className="h-full bg-[#8A8A8A] transition-all duration-300"
                 style={{ width: `${declaration.transparencyScore}%` }}
               />
             </div>
-            <p className="text-xs text-[#8A8A8A] mt-2">
-              Based on declaration completeness, not AI percentage.
+            <p className="text-[10px] text-[#8A8A8A]">
+              Based on declaration completeness
             </p>
           </div>
 
-          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
-            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+          <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
               Average AI Contribution
             </p>
-            <div className="flex items-baseline gap-2 mb-4">
-              <span className="text-5xl font-medium text-[#F5F3F0]">
+            <div className="flex items-baseline gap-2 mb-2">
+              <span className="text-4xl font-medium text-[#F5F3F0]">
                 {Math.round(avgAI)}
               </span>
-              <span className="text-[#8A8A8A]">%</span>
+              <span className="text-[#8A8A8A] text-sm">%</span>
             </div>
             <div className="h-1 bg-[#2A2A2A]">
               <div
@@ -246,8 +246,8 @@ export default function VerifyPage({
 
         {/* Mint on ISSUANCE */}
         {declaration.transparencyScore >= 85 && (
-          <div className="p-6 bg-[#1A1A1A] border border-[#8A8A8A] mb-8">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div className="p-4 bg-[#1A1A1A] border border-[#8A8A8A] mb-6">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
                   Ready for ISSUANCE
@@ -303,11 +303,11 @@ export default function VerifyPage({
         )}
 
         {/* AI Contribution Breakdown */}
-        <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A] mb-8">
-          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+        <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A] mb-6">
+          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
             Production Intelligence
           </p>
-          <div className="grid grid-cols-5 gap-4 mb-8">
+          <div className="grid grid-cols-5 gap-3 mb-4">
             {[
               { label: "Composition", value: declaration.aiComposition },
               { label: "Arrangement", value: declaration.aiArrangement },
@@ -316,11 +316,11 @@ export default function VerifyPage({
               { label: "Mastering", value: declaration.aiMastering },
             ].map(({ label, value }) => (
               <div key={label} className="text-center">
-                <p className="text-2xl font-medium text-[#F5F3F0] mb-1">
+                <p className="text-xl font-medium text-[#F5F3F0] mb-0.5">
                   {value}%
                 </p>
-                <p className="text-xs text-[#8A8A8A]">{label}</p>
-                <div className="h-1 bg-[#2A2A2A] mt-2">
+                <p className="text-[10px] text-[#8A8A8A] mb-1">{label}</p>
+                <div className="h-1 bg-[#2A2A2A]">
                   <div
                     className="h-full bg-[#8A8A8A] transition-all duration-300"
                     style={{ width: `${value}%` }}
@@ -343,10 +343,10 @@ export default function VerifyPage({
         </div>
 
         {/* Collaborators & Consent */}
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <div className="grid md:grid-cols-2 gap-4 mb-6">
           {/* Collaborators */}
-          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
-            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+          <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3">
               Collaborators {contributors.length > 0 && '& Revenue Splits'}
             </p>
             {contributors.length === 0 ? (
@@ -381,11 +381,11 @@ export default function VerifyPage({
           </div>
 
           {/* Consent */}
-          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
-            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+          <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3">
               Usage Consent
             </p>
-            <div className="space-y-3">
+            <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <span className="text-[#8A8A8A]">AI Training</span>
                 <span className={declaration.trainingRights ? "text-[#4A7C59]" : "text-[#8B4049]"}>
@@ -410,8 +410,8 @@ export default function VerifyPage({
 
         {/* Lineage */}
         {(declaration.parentDeclarationId || (declaration.childDeclarations && declaration.childDeclarations.length > 0)) && (
-          <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A] mb-8">
-            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+          <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A] mb-6">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3">
               Lineage
             </p>
             {declaration.parentDeclarationId && (
@@ -460,11 +460,11 @@ export default function VerifyPage({
         )}
 
         {/* Provenance */}
-        <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A] mb-8">
-          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+        <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A] mb-6">
+          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3">
             Provenance
           </p>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {declaration.artistWallet && (
               <div>
                 <p className="text-xs text-[#8A8A8A] mb-1">Artist Wallet</p>
@@ -498,11 +498,11 @@ export default function VerifyPage({
         </div>
 
         {/* Embed Snippet */}
-        <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A] mb-8">
-          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
+        <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A] mb-6">
+          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3">
             Embed This Declaration
           </p>
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
               <div className="flex items-center justify-between mb-2">
                 <p className="text-xs text-[#8A8A8A]">HTML</p>
@@ -527,8 +527,8 @@ export default function VerifyPage({
         </div>
 
         {/* JSON Export */}
-        <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
-          <div className="flex items-center justify-between mb-6">
+        <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
+          <div className="flex items-center justify-between mb-3">
             <p className="text-xs uppercase tracking-widest text-[#8A8A8A]">
               Declaration Export
             </p>
