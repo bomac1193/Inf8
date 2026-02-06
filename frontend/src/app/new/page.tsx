@@ -160,6 +160,34 @@ function NewDeclarationForm() {
   const [isSaving, setIsSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
 
+  // Load parent declaration for versioning
+  useEffect(() => {
+    const fromVersion = searchParams?.get("fromVersion");
+    if (fromVersion) {
+      // Fetch parent declaration and pre-fill
+      fetch(`/api/declarations/${fromVersion}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setTitle(`${data.title} (v2)`);
+          setArtistName(data.artistName);
+          setDaws(data.daws || "");
+          setPlugins(data.plugins || "");
+          setAiModels(data.aiModels || "");
+          setMethodology(data.methodology || "");
+          setAiContribution({
+            composition: data.aiComposition / 100,
+            arrangement: data.aiArrangement / 100,
+            production: data.aiProduction / 100,
+            mixing: data.aiMixing / 100,
+            mastering: data.aiMastering / 100,
+          });
+          setParentDeclarationId(fromVersion);
+          setParentRelation("revision");
+        })
+        .catch((err) => console.error("Failed to load parent declaration:", err));
+    }
+  }, [searchParams]);
+
   // Pre-fill form from URL parameters (Suno bookmarklet integration)
   useEffect(() => {
     if (searchParams) {

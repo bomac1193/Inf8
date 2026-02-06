@@ -40,6 +40,12 @@ model Declaration {
   // Methodology description
   methodology       String?
 
+  // Creative Stack (tools used in production)
+  daws              String?  // DAWs used (comma-separated)
+  plugins           String?  // Plugins used (comma-separated)
+  aiModels          String?  // AI models used (comma-separated)
+  hardware          String?  // Hardware used (comma-separated)
+
   // Lineage
   parentDeclarationId String?
   parentRelation      String?

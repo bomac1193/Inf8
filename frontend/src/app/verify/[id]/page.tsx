@@ -158,13 +158,22 @@ export default function VerifyPage({
   return (
     <div className="min-h-screen bg-[#0A0A0A] py-12 px-6 md:px-12">
       <div className="max-w-[960px] mx-auto">
-        {/* Back link */}
-        <Link
-          href="/gallery"
-          className="inline-block text-sm text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 mb-8"
-        >
-          &larr; Back to Gallery
-        </Link>
+        {/* Back link & Actions */}
+        <div className="flex items-center justify-between mb-8">
+          <Link
+            href="/gallery"
+            className="inline-block text-sm text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
+          >
+            &larr; Back to Gallery
+          </Link>
+          <Link
+            href={`/new?fromVersion=${declaration.id}`}
+            className="px-4 py-2 bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F3F0] text-xs uppercase tracking-widest hover:border-[#8A8A8A] transition-colors duration-100"
+            title="Create a new version of this declaration"
+          >
+            + New Version
+          </Link>
+        </div>
 
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-8">
