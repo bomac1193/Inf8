@@ -174,53 +174,30 @@ export default function Home() {
           <h2 className="text-2xl font-medium text-[#F5F3F0] mb-8">
             Who This Is For
           </h2>
-
-          <div className="space-y-6 mb-16">
-            <div>
-              <p className="text-[#F5F3F0] font-medium mb-2">Professional Producers</p>
-              <p className="text-[#8A8A8A] leading-relaxed">
-                You use AI models (like Suno, Udio, AIVA) as production tools alongside traditional DAWs. You want to document exactly how AI contributed to composition, arrangement, production, mixing, and mastering.
-              </p>
-            </div>
-
-            <div>
-              <p className="text-[#F5F3F0] font-medium mb-2">Collaborative Creators</p>
-              <p className="text-[#8A8A8A] leading-relaxed">
-                Your tracks involve 3-20+ contributors across different platforms and tools. You need verifiable attribution with revenue splits and clear role documentation.
-              </p>
-            </div>
-
-            <div>
-              <p className="text-[#F5F3F0] font-medium mb-2">Remix & Derivative Artists</p>
-              <p className="text-[#8A8A8A] leading-relaxed">
-                You build on others' work and need verifiable source chains. Your derivative works inherit provenance from original material.
-              </p>
-            </div>
-
-            <div>
-              <p className="text-[#F5F3F0] font-medium mb-2">Forward-Thinking Labels</p>
-              <p className="text-[#8A8A8A] leading-relaxed">
-                You're building the next generation of music IP and need infrastructure for AI-native releases, transparent workflows, and verifiable creative provenance.
-              </p>
-            </div>
-          </div>
+          <p className="text-[#8A8A8A] leading-relaxed mb-6">
+            You're building tracks with Suno-generated melodies, live instruments, three remote collaborators, and AI-assisted mixing. Traditional metadata (ISRC codes, liner notes) can't capture what you're actually doing.
+          </p>
+          <p className="text-[#8A8A8A] leading-relaxed mb-6">
+            You see your workflow's complexity—the precise 73% AI composition paired with hand-crafted arrangement—not as something to hide, but as proof you understand your tools at a level most producers never reach.
+          </p>
+          <p className="text-[#8A8A8A] leading-relaxed mb-6">
+            You're working on remixes where every sample has a source chain. Derivative works where lineage matters. Collaborative projects where 15 people contributed and everyone needs verifiable attribution.
+          </p>
+          <p className="text-[#8A8A8A] leading-relaxed mb-16">
+            The infrastructure you need doesn't exist in the legacy music industry. You're here because you see what's already happening, and you want tools built for that reality.
+          </p>
 
           <h2 className="text-2xl font-medium text-[#F5F3F0] mb-8">
             Who This Is NOT For
           </h2>
-          <div className="space-y-4 mb-8">
-            <p className="text-[#8A8A8A] leading-relaxed">
-              • Hobbyists who don't want to document their creative process
-            </p>
-            <p className="text-[#8A8A8A] leading-relaxed">
-              • Artists seeking to hide or minimize AI tool usage
-            </p>
-            <p className="text-[#8A8A8A] leading-relaxed">
-              • Producers who view process transparency as a liability rather than an asset
-            </p>
-          </div>
-          <p className="text-lg text-[#F5F3F0] font-medium leading-relaxed">
-            Transparency is technique. Process is provenance.
+          <p className="text-[#8A8A8A] leading-relaxed mb-6">
+            This makes sense to you, or it doesn't.
+          </p>
+          <p className="text-[#8A8A8A] leading-relaxed mb-6">
+            If documenting your creative stack feels like exposure rather than demonstration—if showing your AI contribution percentages feels risky instead of valuable—this infrastructure isn't for you yet.
+          </p>
+          <p className="text-[#8A8A8A] leading-relaxed">
+            No judgment. Different tools for different moments. The protocol exists when you're ready.
           </p>
         </div>
       </section>
