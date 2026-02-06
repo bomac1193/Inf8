@@ -73,3 +73,61 @@ export async function PATCH(
     );
   }
 }
+
+// DELETE /api/declarations/[id] - Delete declaration (beta only, anonymous only)
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+
+    // Fetch the declaration first
+    const declaration = await prisma.declaration.findUnique({
+      where: { id },
+    });
+
+    if (!declaration) {
+      return NextResponse.json(
+        { error: "Declaration not found" },
+        { status: 404 }
+      );
+    }
+
+    // Only allow deletion of anonymous declarations (no wallet)
+    if (declaration.artistWallet) {
+      return NextResponse.json(
+        {
+          error: "Cannot delete wallet-connected declarations. Wallet-connected declarations are permanent for provenance integrity."
+        },
+        { status: 403 }
+      );
+    }
+
+    // Only allow deletion if not minted on-chain
+    if (declaration.tokenId) {
+      return NextResponse.json(
+        {
+          error: "Cannot delete minted declarations. On-chain declarations are immutable."
+        },
+        { status: 403 }
+      );
+    }
+
+    // Delete the declaration
+    await prisma.declaration.delete({
+      where: { id },
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: "Declaration deleted successfully"
+    });
+  } catch (error) {
+    console.error("Error deleting declaration:", error);
+    return NextResponse.json(
+      { error: "Failed to delete declaration" },
+      { status: 500 }
+    );
+  }
+}

@@ -8,6 +8,8 @@ interface Declaration {
   id: string;
   title: string;
   artistName: string;
+  artistWallet: string | null;
+  tokenId: number | null;
   aiComposition: number;
   aiArrangement: number;
   aiProduction: number;
@@ -29,6 +31,7 @@ export default function Gallery() {
   const [searchQuery, setSearchQuery] = useState("");
   const [declarations, setDeclarations] = useState<Declaration[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchDeclarations() {
@@ -51,6 +54,35 @@ export default function Gallery() {
     }
     fetchDeclarations();
   }, [filter]);
+
+  const handleDelete = async (id: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!confirm('Are you sure you want to delete this declaration? This action cannot be undone.')) {
+      return;
+    }
+
+    setDeleting(id);
+    try {
+      const res = await fetch(`/api/declarations/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (res.ok) {
+        // Remove from local state
+        setDeclarations(declarations.filter(d => d.id !== id));
+      } else {
+        const error = await res.json();
+        alert(error.error || 'Failed to delete declaration');
+      }
+    } catch (err) {
+      console.error('Delete failed:', err);
+      alert('Failed to delete declaration');
+    } finally {
+      setDeleting(null);
+    }
+  };
 
   const filteredDeclarations = declarations.filter((dec) => {
     if (!searchQuery) return true;
@@ -110,35 +142,37 @@ export default function Gallery() {
             {filteredDeclarations.map((dec) => {
               const avgAI = calculateAverageAI(dec);
               const badges = getBadges(dec.badge);
+              const canDelete = !dec.artistWallet && !dec.tokenId;
               return (
-                <Link key={dec.id} href={`/verify/${dec.id}`}>
-                  <div className="group p-6 bg-[#1A1A1A] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 cursor-pointer">
-                    {/* Header Row */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1 flex-wrap">
-                          <h3 className="font-medium text-[#F5F3F0]">
-                            {dec.title || "Untitled"}
-                          </h3>
-                          {badges.map((badge) => (
-                            <span
-                              key={badge.key}
-                              className="px-2 py-0.5 text-xs uppercase tracking-widest"
-                              style={{ backgroundColor: badge.color, color: badge.textColor }}
-                            >
-                              {badge.label}
-                            </span>
-                          ))}
+                <div key={dec.id} className="relative">
+                  <Link href={`/verify/${dec.id}`}>
+                    <div className="group p-6 bg-[#1A1A1A] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 cursor-pointer">
+                      {/* Header Row */}
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <div className="flex items-center gap-2 mb-1 flex-wrap">
+                            <h3 className="font-medium text-[#F5F3F0]">
+                              {dec.title || "Untitled"}
+                            </h3>
+                            {badges.map((badge) => (
+                              <span
+                                key={badge.key}
+                                className="px-2 py-0.5 text-xs uppercase tracking-widest"
+                                style={{ backgroundColor: badge.color, color: badge.textColor }}
+                              >
+                                {badge.label}
+                              </span>
+                            ))}
+                          </div>
+                          <p className="text-sm text-[#8A8A8A]">{dec.artistName}</p>
                         </div>
-                        <p className="text-sm text-[#8A8A8A]">{dec.artistName}</p>
+                        <div className="text-right">
+                          <p className="text-sm text-[#8A8A8A]">Score</p>
+                          <p className="text-lg font-medium text-[#F5F3F0]">
+                            {dec.transparencyScore}
+                          </p>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-sm text-[#8A8A8A]">Score</p>
-                        <p className="text-lg font-medium text-[#F5F3F0]">
-                          {dec.transparencyScore}
-                        </p>
-                      </div>
-                    </div>
 
                     {/* AI Contribution Bars */}
                     <div className="grid grid-cols-5 gap-4 mb-4">
@@ -175,6 +209,19 @@ export default function Gallery() {
                     </div>
                   </div>
                 </Link>
+
+                {/* Delete Button (Beta - Anonymous Only) */}
+                {canDelete && (
+                  <button
+                    onClick={(e) => handleDelete(dec.id, e)}
+                    disabled={deleting === dec.id}
+                    className="absolute top-2 right-2 px-3 py-1 text-xs bg-[#2A2A2A] text-[#8A8A8A] hover:bg-[#3A3A3A] hover:text-[#F5F3F0] border border-[#3A3A3A] transition-colors duration-100 disabled:opacity-50 disabled:cursor-not-allowed z-10"
+                    title="Delete this anonymous declaration (beta testing only)"
+                  >
+                    {deleting === dec.id ? 'Deleting...' : 'Delete'}
+                  </button>
+                )}
+              </div>
               );
             })}
           </div>
