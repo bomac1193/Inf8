@@ -491,8 +491,16 @@ export default function NewDeclaration() {
               <span className="text-[10px] text-[#8A8A8A] font-mono">
                 AVG AI {Math.round(avgAI * 100)}%
               </span>
-              <span className="text-[10px] text-[#8A8A8A] font-mono">
-                SCORE {transparencyScore()}
+              <span
+                className="text-[10px] font-mono"
+                style={{
+                  color: transparencyScore() >= 95 ? '#F5F3F0' :
+                         transparencyScore() >= 70 ? '#8A8A8A' :
+                         transparencyScore() >= 50 ? '#8A8A8A' : '#8A8A8A'
+                }}
+                title={`Transparency Score: ${transparencyScore()}/100 - Increases as you add methodology, creative stack, collaborators, and audio`}
+              >
+                TRANSPARENCY {transparencyScore()}/100
               </span>
             </div>
 

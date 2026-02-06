@@ -174,29 +174,53 @@ export default function Home() {
           <h2 className="text-2xl font-medium text-[#F5F3F0] mb-8">
             Who This Is For
           </h2>
-          <p className="text-[#8A8A8A] leading-relaxed mb-8">
-            Masters-level producers using AI as serious creative tools, not
-            crutches. Remix artists building complex derivative works who need
-            verifiable source chains. Collaborative creators working across
-            platforms, tools, and contributors who need attribution
-            infrastructure.
-          </p>
-          <p className="text-[#8A8A8A] leading-relaxed mb-16">
-            Forward-thinking labels building the next generation of music IP.
-            Anyone who believes the future of music is multiplayer, generative,
-            and AI-enabled.
-          </p>
+
+          <div className="space-y-6 mb-16">
+            <div>
+              <p className="text-[#F5F3F0] font-medium mb-2">Professional Producers</p>
+              <p className="text-[#8A8A8A] leading-relaxed">
+                You use AI models (like Suno, Udio, AIVA) as production tools alongside traditional DAWs. You want to document exactly how AI contributed to composition, arrangement, production, mixing, and mastering.
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[#F5F3F0] font-medium mb-2">Collaborative Creators</p>
+              <p className="text-[#8A8A8A] leading-relaxed">
+                Your tracks involve 3-20+ contributors across different platforms and tools. You need verifiable attribution with revenue splits and clear role documentation.
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[#F5F3F0] font-medium mb-2">Remix & Derivative Artists</p>
+              <p className="text-[#8A8A8A] leading-relaxed">
+                You build on others' work and need verifiable source chains. Your derivative works inherit provenance from original material.
+              </p>
+            </div>
+
+            <div>
+              <p className="text-[#F5F3F0] font-medium mb-2">Forward-Thinking Labels</p>
+              <p className="text-[#8A8A8A] leading-relaxed">
+                You're building the next generation of music IP and need infrastructure for AI-native releases, transparent workflows, and verifiable creative provenance.
+              </p>
+            </div>
+          </div>
 
           <h2 className="text-2xl font-medium text-[#F5F3F0] mb-8">
             Who This Is NOT For
           </h2>
-          <p className="text-[#8A8A8A] leading-relaxed mb-4">
-            Casual beatmakers chasing presets.<br />
-            AI toy users posting "Suno magic."<br />
-            Artists afraid to show their workflow.
-          </p>
+          <div className="space-y-4 mb-8">
+            <p className="text-[#8A8A8A] leading-relaxed">
+              • Hobbyists who don't want to document their creative process
+            </p>
+            <p className="text-[#8A8A8A] leading-relaxed">
+              • Artists seeking to hide or minimize AI tool usage
+            </p>
+            <p className="text-[#8A8A8A] leading-relaxed">
+              • Producers who view process transparency as a liability rather than an asset
+            </p>
+          </div>
           <p className="text-lg text-[#F5F3F0] font-medium leading-relaxed">
-            Using AI tools isn't shameful. Hiding your process is.
+            Transparency is technique. Process is provenance.
           </p>
         </div>
       </section>
@@ -216,10 +240,22 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Disclaimer */}
+      <section className="py-12 px-6 md:px-16 border-t border-[#2A2A2A]">
+        <div className="max-w-[960px] mx-auto">
+          <p className="text-xs text-[#8A8A8A] leading-relaxed mb-4">
+            <span className="text-[#F5F3F0] font-medium">Disclaimer:</span> ∞8 ARCH provides infrastructure for creative provenance documentation. Users are solely responsible for the accuracy of their declarations and compliance with applicable laws. We make no warranties regarding the legal enforceability of declarations or rights claimed therein. This service is provided "as-is" without guarantees of any kind.
+          </p>
+          <p className="text-xs text-[#8A8A8A] leading-relaxed">
+            AI model names (Suno, Udio, AIVA, etc.) are trademarks of their respective owners. Mention of these tools is for descriptive purposes only and does not imply endorsement or affiliation. Users should comply with the terms of service of any third-party tools they document in their declarations.
+          </p>
+        </div>
+      </section>
+
       {/* Footer */}
       <footer className="py-8 px-6 md:px-16 border-t border-[#2A2A2A]">
         <div className="max-w-[960px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#8A8A8A]">
-          <div>∞8 ARCH</div>
+          <div>∞8 ARCH — Open Protocol</div>
           <div className="flex gap-8">
             <Link
               href="/gallery"
@@ -228,7 +264,7 @@ export default function Home() {
               Gallery
             </Link>
             <a
-              href="https://github.com/bomac1193/O8"
+              href="https://github.com/bomac1193/Inf8"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-[#F5F3F0] transition-opacity duration-100"
