@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* O8 Design System - Dark mode only */
+/* ∞8 ARCH Design System - Dark mode only */
 :root {
   /* Primary palette */
   --color-void: #0A0A0A;
@@ -156,7 +156,7 @@
   }
 }
 
-/* RainbowKit modal overrides — match Ø8 aesthetic
+/* RainbowKit modal overrides — match ∞8 ARCH aesthetic
    These stay outside @layer so they beat RainbowKit's inline styles */
 [data-rk],
 [data-rk] *,
@@ -164,6 +164,7 @@
 [data-rk] *::after {
   border-radius: 0px !important;
   font-family: 'Söhne', var(--font-plex-sans), system-ui, sans-serif !important;
+  font-weight: 400 !important; /* Remove all bold fonts, match site aesthetic */
 }
 
 [data-rk] [role="dialog"] {
@@ -185,7 +186,7 @@
   color: #0A0A0A !important;
 }
 
-/* Ø8 sliders — compact, black thumb */
+/* ∞8 ARCH sliders — compact, black thumb */
 .o8-slider {
   -webkit-appearance: none;
   appearance: none;
