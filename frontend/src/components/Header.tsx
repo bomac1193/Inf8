@@ -16,7 +16,7 @@ export function Header() {
               ∞8
             </span>
             <span className="hidden sm:block text-xs text-[#8A8A8A] uppercase tracking-widest">
-              Protocol
+              ARCH
             </span>
           </Link>
 

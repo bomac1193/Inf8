@@ -39,7 +39,7 @@ const LOGO = `
 
 program
   .name("o8")
-  .description("∞8 — Creative provenance protocol for AI-native music")
+  .description("∞8 ARCH — Declarations v1.0 — Creative provenance protocol for AI-native music")
   .version("1.0.0")
   .option("--json", "Output in JSON format")
   .option("--quiet", "Minimal output");
@@ -236,7 +236,7 @@ program
 
       // Pretty print
       console.log("");
-      console.log(chalk.bold("∞8 Declaration"));
+      console.log(chalk.bold("∞8 ARCH Declaration"));
       console.log(chalk.gray("─".repeat(50)));
       console.log("");
 

@@ -26,10 +26,10 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "∞8 | ORIGIN",
+  title: "∞8 ARCH | Declarations",
   description:
     "Prove your process. Immortalize your chain. Creative provenance protocol for AI-native music. Machine-readable declarations. Verifiable lineage.",
-  keywords: ["music", "provenance", "AI", "declaration", "IPFS", "protocol"],
+  keywords: ["music", "provenance", "AI", "declaration", "IPFS", "protocol", "arch", "declarations"],
 };
 
 export default function RootLayout({

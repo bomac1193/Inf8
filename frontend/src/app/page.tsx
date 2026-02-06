@@ -17,8 +17,13 @@ export default function Home() {
           </h1>
 
           {/* Tagline */}
-          <p className="text-xl md:text-2xl text-[#8A8A8A] mb-12">
-            ORIGIN
+          <p className="text-xl md:text-2xl text-[#8A8A8A] mb-8">
+            ARCH
+          </p>
+
+          {/* Product Name */}
+          <p className="text-base uppercase tracking-widest text-[#8A8A8A] mb-6">
+            Declarations v1.0
           </p>
 
           {/* Description */}
@@ -53,7 +58,7 @@ export default function Home() {
       <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
         <div className="max-w-[960px] mx-auto">
           <h2 className="text-2xl font-medium text-[#F5F3F0] mb-12">
-            What ∞8 Does
+            What ∞8 ARCH Does
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -202,7 +207,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-8 px-6 md:px-16 border-t border-[#2A2A2A]">
         <div className="max-w-[960px] mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-[#8A8A8A]">
-          <div>∞8 Protocol</div>
+          <div>∞8 ARCH</div>
           <div className="flex gap-8">
             <Link
               href="/gallery"

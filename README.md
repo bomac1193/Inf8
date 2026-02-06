@@ -1,6 +1,6 @@
-# ∞8
+# ∞8 ARCH
 
-**ORIGIN**
+**Declarations v1.0**
 
 Creative provenance protocol for AI-native music.
 
@@ -37,7 +37,7 @@ The music industry's metadata infrastructure was built for a world that no longe
 
 ISRC codes tell you nothing about how music was made. They identify; they don't illuminate. The metadata infrastructure for AI-native music creation does not exist.
 
-**This is the problem ∞8 solves.**
+**This is the problem ∞8 ARCH solves.**
 
 ---
 
@@ -220,15 +220,22 @@ Any party can verify a declaration by:
 
 ## Naming Note
 
-**∞8** (pronounced "infinite-eight" or "inf-eight")
+**∞8 ARCH** (pronounced "inf-eight arch" or "infinite arch")
+
+### Brand Hierarchy
+```
+∞8 ARCH              ← BRAND (symbol, culture, identity)
+└── Declarations     ← PROTOCOL (product, utility)
+```
 
 - **∞** = infinity, endless creative lineage
 - **8** = infinity rotated, recursive loop
-- **ORIGIN** = the infinite origin layer
+- **ARCH** = architectural permanence, eternal structure
+- **Declarations** = machine-readable provenance protocol
 
-Every origin has infinite lineage backward. Every origin branches infinitely forward. You are a point on an infinite line.
+Every track has infinite lineage. Every process builds an eternal chain. You are an architect of provenance.
 
-*Previously: Ø8 (origin layer). The evolution from origin to infinite origin.*
+*Evolution: Ø8 (origin layer) → ∞8 ORIGIN (infinite origin) → ∞8 ARCH (infinite architecture)*
 
 ---
 
