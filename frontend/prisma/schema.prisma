@@ -2,12 +2,13 @@
 // Creative provenance protocol for AI-native music
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // Declaration: The unified track registration
