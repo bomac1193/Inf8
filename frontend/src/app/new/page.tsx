@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { keccak256, toBytes } from "viem";
@@ -54,6 +55,7 @@ export default function NewDeclaration() {
   const { address, isConnected } = useAccount();
   const { writeContract, data: hash, isPending } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isMintSuccess } = useWaitForTransactionReceipt({ hash });
+  const searchParams = useSearchParams();
 
   // Form state
   const [title, setTitle] = useState("");
@@ -93,6 +95,32 @@ export default function NewDeclaration() {
   // API save state
   const [isSaving, setIsSaving] = useState(false);
   const [savedId, setSavedId] = useState<string | null>(null);
+
+  // Pre-fill form from URL parameters (Suno bookmarklet integration)
+  useEffect(() => {
+    if (searchParams) {
+      const urlTitle = searchParams.get("title");
+      const urlPrompt = searchParams.get("prompt");
+      const urlModel = searchParams.get("model");
+      const urlArtist = searchParams.get("artist");
+
+      if (urlTitle) setTitle(urlTitle);
+      if (urlArtist) setArtistName(urlArtist);
+      if (urlModel) setAiModels(urlModel);
+      if (urlPrompt) setMethodology(urlPrompt);
+
+      // If coming from Suno, set AI-Native preset
+      if (urlModel && urlModel.toLowerCase().includes("suno")) {
+        setAiContribution({
+          composition: 1.0,
+          arrangement: 1.0,
+          production: 0.5,
+          mixing: 0.3,
+          mastering: 0.3,
+        });
+      }
+    }
+  }, [searchParams]);
 
   const updateAI = (key: keyof AIContribution, value: number) => {
     setAiContribution({ ...aiContribution, [key]: value });

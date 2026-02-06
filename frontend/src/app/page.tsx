@@ -105,6 +105,57 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Suno Integration */}
+      <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
+        <div className="max-w-[960px] mx-auto">
+          <h2 className="text-2xl font-medium text-[#F5F3F0] mb-6">
+            Suno Integration
+          </h2>
+          <p className="text-[#8A8A8A] leading-relaxed mb-8">
+            Created a track with Suno? Document it in 10 seconds.
+          </p>
+
+          <div className="bg-[#1A1A1A] border border-[#2A2A2A] p-8 mb-6">
+            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+              ONE-CLICK BOOKMARKLET
+            </p>
+            <p className="text-sm text-[#8A8A8A] mb-6">
+              Drag this button to your bookmarks bar. Click it while on suno.com to auto-fill your declaration.
+            </p>
+            <a
+              href="javascript:(function(){if(!window.location.hostname.includes('suno')){alert('⚠️ Please run this bookmarklet while on suno.com');return;}let title='';let prompt='';let model='Suno';const titleSelectors=['[data-testid=&quot;song-title&quot;]','.song-title','h1','[class*=&quot;title&quot;]'];for(const selector of titleSelectors){const el=document.querySelector(selector);if(el&&el.textContent.trim()){title=el.textContent.trim();break;}}const promptSelectors=['[data-testid=&quot;prompt&quot;]','[class*=&quot;prompt&quot;]','textarea','[placeholder*=&quot;describe&quot;]'];for(const selector of promptSelectors){const el=document.querySelector(selector);if(el){prompt=el.value||el.textContent.trim();if(prompt)break;}}const versionMatch=document.body.textContent.match(/v[0-9.]+/i);if(versionMatch){model='Suno '+versionMatch[0];}if(!title&&!prompt){title='Untitled Track';prompt='Generated with Suno AI';}const baseUrl=window.location.hostname.includes('localhost')?'http://localhost:3000/new':'https://inf8.vercel.app/new';const params=new URLSearchParams({title:title||'Untitled Track',prompt:prompt||'AI-generated track',model:model,artist:'Your Name'});const url=`${baseUrl}?${params.toString()}`;window.open(url,'_blank');alert('✅ Opening ∞8 ARCH declaration form with Suno data!');})();"
+              className="inline-block px-6 py-3 bg-[#1A1A1A] border border-[#8A8A8A] text-[#F5F3F0] text-sm font-medium hover:bg-[#2A2A2A] transition-colors duration-100 cursor-move"
+              onClick={(e) => e.preventDefault()}
+            >
+              ∞8 + Suno
+            </a>
+          </div>
+
+          <div className="space-y-4">
+            <div className="flex items-start gap-4">
+              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">1.</span>
+              <p className="text-sm text-[#8A8A8A]">Drag the button above to your browser's bookmarks bar</p>
+            </div>
+            <div className="flex items-start gap-4">
+              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">2.</span>
+              <p className="text-sm text-[#8A8A8A]">Generate a track on suno.com</p>
+            </div>
+            <div className="flex items-start gap-4">
+              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">3.</span>
+              <p className="text-sm text-[#8A8A8A]">Click the "∞8 + Suno" bookmark</p>
+            </div>
+            <div className="flex items-start gap-4">
+              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">4.</span>
+              <p className="text-sm text-[#8A8A8A]">Declaration form opens with track title, prompt, and AI model pre-filled</p>
+            </div>
+            <div className="flex items-start gap-4">
+              <span className="text-[#8A8A8A] font-mono text-sm shrink-0">5.</span>
+              <p className="text-sm text-[#8A8A8A]">Add any additional details (collaborators, creative stack) and save</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Declaration Preview */}
       <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
         <div className="max-w-[960px] mx-auto">
