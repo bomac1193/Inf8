@@ -130,6 +130,8 @@ function NewDeclarationForm() {
   const [ipfsCID, setIpfsCID] = useState("");
   const [sha256Hash, setSha256Hash] = useState("");
   const [methodology, setMethodology] = useState("");
+  const [aiPrompt, setAiPrompt] = useState("");
+  const [promptVisibility, setPromptVisibility] = useState<"public" | "private" | "paywalled">("private");
   const [aiContribution, setAiContribution] = useState<AIContribution>({
     composition: 0,
     arrangement: 0,
@@ -192,7 +194,8 @@ function NewDeclarationForm() {
   useEffect(() => {
     if (searchParams) {
       const urlTitle = searchParams.get("title");
-      const urlPrompt = searchParams.get("prompt");
+      const urlMethodology = searchParams.get("methodology");
+      const urlAiPrompt = searchParams.get("aiPrompt");
       const urlModel = searchParams.get("model");
       const urlArtist = searchParams.get("artist");
 
@@ -211,7 +214,8 @@ function NewDeclarationForm() {
 
       if (urlTitle) setTitle(urlTitle);
       if (urlArtist) setArtistName(urlArtist);
-      if (urlPrompt) setMethodology(urlPrompt);
+      if (urlMethodology) setMethodology(urlMethodology);
+      if (urlAiPrompt) setAiPrompt(urlAiPrompt);
 
       // Creative stack auto-fill
       if (urlAiModels) setAiModels(urlAiModels);
@@ -349,6 +353,8 @@ function NewDeclarationForm() {
           remixRights,
           contributorSplits: collaborators.length > 0 ? collaborators : [],
           methodology,
+          aiPrompt,
+          promptVisibility,
           daws,
           plugins,
           aiModels,
@@ -688,13 +694,17 @@ function NewDeclarationForm() {
               </span>
             </div>
 
+            {/* Methodology - Public description */}
             <div className="mt-4">
+              <label className="block text-xs text-[#8A8A8A] mb-2">
+                Methodology (Public) — Describe your creative process
+              </label>
               <textarea
                 value={methodology}
                 onChange={(e) => setMethodology(e.target.value)}
                 rows={3}
                 className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none text-sm"
-                placeholder="Methodology — describe your creative process..."
+                placeholder="e.g., Started with Suno generation. Exported stems and rebuilt in Ableton. Added live vocals. Mixed with analog-style processing..."
               />
               <div className="mt-1 flex items-center justify-between">
                 <p className="text-[10px] text-[#8A8A8A]">
@@ -707,6 +717,38 @@ function NewDeclarationForm() {
                   />
                 </div>
               </div>
+            </div>
+
+            {/* AI Prompt - Optional with visibility control */}
+            <div className="mt-4 p-4 bg-[#0A0A0A] border border-[#2A2A2A]">
+              <div className="flex items-center justify-between mb-2">
+                <label className="text-xs text-[#8A8A8A]">
+                  AI Prompt (Optional) — Exact prompt used
+                </label>
+                <select
+                  value={promptVisibility}
+                  onChange={(e) => setPromptVisibility(e.target.value as "public" | "private" | "paywalled")}
+                  className="px-2 py-1 text-xs bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F3F0] outline-none"
+                >
+                  <option value="private">Private (Keep secret)</option>
+                  <option value="public">Public (Full transparency)</option>
+                  <option value="paywalled">Paywalled (Future)</option>
+                </select>
+              </div>
+              <textarea
+                value={aiPrompt}
+                onChange={(e) => setAiPrompt(e.target.value)}
+                rows={2}
+                className="w-full px-4 py-2.5 bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none text-sm"
+                placeholder={promptVisibility === "private"
+                  ? "Your exact AI prompt (will not be shown publicly)"
+                  : "Your exact AI prompt (will be visible to all)"}
+              />
+              <p className="text-[10px] text-[#8A8A8A] mt-1">
+                {promptVisibility === "private" && "🔒 Prompt will be kept private"}
+                {promptVisibility === "public" && "🌐 Prompt will be publicly visible (+5 transparency bonus)"}
+                {promptVisibility === "paywalled" && "💰 Prompt access requires payment (coming soon)"}
+              </p>
             </div>
           </section>
 

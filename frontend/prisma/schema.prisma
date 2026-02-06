@@ -37,8 +37,12 @@ model Declaration {
   // Computed scores
   transparencyScore Int      @default(0)
 
-  // Methodology description
+  // Methodology description (public - describes process)
   methodology       String?
+
+  // AI Prompt (optional - exact prompt, artist controls visibility)
+  aiPrompt          String?
+  promptVisibility  String   @default("private") // "public", "private", "paywalled"
 
   // Creative Stack (tools used in production)
   daws              String?  // DAWs used (comma-separated)
