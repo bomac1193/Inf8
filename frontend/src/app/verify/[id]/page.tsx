@@ -255,45 +255,28 @@ export default function VerifyPage({
                 <h3 className="text-lg font-medium text-[#F5F3F0] mb-2">
                   Mint as Luxury Sound NFT
                 </h3>
-                <p className="text-sm text-[#8A8A8A] leading-relaxed">
+                <p className="text-sm text-[#8A8A8A] leading-relaxed mb-3">
                   Your transparency score qualifies this declaration for minting on ISSUANCE.
                   Unlock revenue streams, smart contract splits, and permanent on-chain provenance.
                 </p>
+                {contributors.length > 0 && (
+                  <div className="flex items-center gap-2 text-xs">
+                    <span className="text-[#8A8A8A]">Smart Contract Splits:</span>
+                    <span className="text-[#F5F3F0] font-mono">
+                      {contributors.length} collaborator{contributors.length > 1 ? 's' : ''} configured
+                    </span>
+                  </div>
+                )}
               </div>
               <button
                 onClick={() => {
-                  // Prepare declaration data for ISSUANCE
-                  const issuanceData = {
-                    declarationId: declaration.id,
-                    title: declaration.title,
-                    artist: declaration.artistName,
-                    artistWallet: declaration.artistWallet,
-                    transparencyScore: declaration.transparencyScore,
-                    aiContribution: {
-                      composition: declaration.aiComposition,
-                      arrangement: declaration.aiArrangement,
-                      production: declaration.aiProduction,
-                      mixing: declaration.aiMixing,
-                      mastering: declaration.aiMastering,
-                      average: Math.round(avgAI),
-                    },
-                    ipfsCID: declaration.ipfsCID,
-                    sha256: declaration.sha256,
-                    badges: badges.map((b) => b.key),
-                    collaborators: contributors,
-                    rights: {
-                      training: declaration.trainingRights,
-                      derivative: declaration.derivativeRights,
-                      remix: declaration.remixRights,
-                    },
-                  };
+                  // Use the ISSUANCE API endpoint
+                  const baseUrl = window.location.origin;
+                  const apiEndpoint = `${baseUrl}/api/issuance/declarations/${declaration.id}`;
 
-                  // Encode data as URL parameter
-                  const encodedData = encodeURIComponent(JSON.stringify(issuanceData));
-
-                  // Open ISSUANCE with declaration data
-                  // TODO: Update with actual ISSUANCE minting URL when API is ready
-                  const issuanceUrl = `http://localhost:3001/mint?declaration=${encodedData}`;
+                  // Open ISSUANCE with API endpoint reference
+                  // ISSUANCE will call this endpoint to get full declaration data including splits
+                  const issuanceUrl = `http://localhost:3001/mint?api=${encodeURIComponent(apiEndpoint)}`;
                   window.open(issuanceUrl, '_blank');
                 }}
                 className="shrink-0 px-6 py-3 bg-[#F5F3F0] text-[#0A0A0A] font-medium text-sm tracking-wide hover:opacity-85 transition-opacity duration-100 whitespace-nowrap"
@@ -302,12 +285,19 @@ export default function VerifyPage({
               </button>
             </div>
 
-            <div className="mt-4 pt-4 border-t border-[#2A2A2A]">
+            <div className="mt-4 pt-4 border-t border-[#2A2A2A] space-y-2">
               <p className="text-xs text-[#8A8A8A]">
-                <span className="text-[#F5F3F0]">What happens next:</span> This declaration's full provenance
-                will be passed to ISSUANCE where you can mint it as an NFT, set up revenue splits via smart contracts,
-                and integrate with streaming platforms. Your transparency score ensures high-quality curation standards.
+                <span className="text-[#F5F3F0]">What happens next:</span> ISSUANCE will read this declaration's
+                full provenance via API endpoint <code className="px-1 py-0.5 bg-[#0A0A0A] text-[#F5F3F0] font-mono text-[10px]">/api/issuance/declarations/{declaration.id}</code>
               </p>
+              <ul className="text-xs text-[#8A8A8A] space-y-1 pl-4">
+                <li>• NFT minted with rarity tier based on transparency score ({declaration.transparencyScore}/100)</li>
+                {contributors.length > 0 && (
+                  <li>• Revenue splits automatically enforced via smart contracts ({contributors.map(c => `${c.name}: ${c.split}%`).join(', ')})</li>
+                )}
+                <li>• All provenance data stored immutably on-chain</li>
+                <li>• Integration with streaming platforms for automated royalty distribution</li>
+              </ul>
             </div>
           </div>
         )}
@@ -357,24 +347,36 @@ export default function VerifyPage({
           {/* Collaborators */}
           <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
             <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
-              Collaborators
+              Collaborators {contributors.length > 0 && '& Revenue Splits'}
             </p>
             {contributors.length === 0 ? (
               <p className="text-sm text-[#8A8A8A]">Solo declaration</p>
             ) : (
-              <div className="space-y-3">
-                {contributors.map((c, i) => (
-                  <div key={i} className="flex items-center justify-between">
-                    <div>
-                      <p className="text-[#F5F3F0] text-sm">{c.name}</p>
-                      <p className="text-xs text-[#8A8A8A]">{c.role}</p>
+              <>
+                <div className="space-y-3 mb-4">
+                  {contributors.map((c, i) => (
+                    <div key={i} className="flex items-center justify-between">
+                      <div>
+                        <p className="text-[#F5F3F0] text-sm">{c.name}</p>
+                        <p className="text-xs text-[#8A8A8A]">{c.role}</p>
+                        {c.wallet && (
+                          <p className="text-[10px] text-[#8A8A8A] font-mono mt-0.5 truncate max-w-[160px]">
+                            {c.wallet}
+                          </p>
+                        )}
+                      </div>
+                      <span className="text-sm font-mono text-[#F5F3F0]">
+                        {c.split}%
+                      </span>
                     </div>
-                    <span className="text-sm font-mono text-[#F5F3F0]">
-                      {c.split}%
-                    </span>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+                <div className="pt-3 border-t border-[#2A2A2A]">
+                  <p className="text-xs text-[#8A8A8A]">
+                    <span className="text-[#F5F3F0]">Smart Contract Ready:</span> Splits will be automatically enforced on-chain when minted on ISSUANCE.
+                  </p>
+                </div>
+              </>
             )}
           </div>
 
