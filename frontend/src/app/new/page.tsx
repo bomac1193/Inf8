@@ -104,13 +104,41 @@ function NewDeclarationForm() {
       const urlModel = searchParams.get("model");
       const urlArtist = searchParams.get("artist");
 
+      // Creative stack parameters
+      const urlAiModels = searchParams.get("aiModels");
+      const urlDaws = searchParams.get("daws");
+      const urlPlugins = searchParams.get("plugins");
+      const urlHardware = searchParams.get("hardware");
+
+      // AI contribution parameters (0-100 scale from bookmarklet)
+      const urlAiComp = searchParams.get("aiComp");
+      const urlAiArr = searchParams.get("aiArr");
+      const urlAiProd = searchParams.get("aiProd");
+      const urlAiMix = searchParams.get("aiMix");
+      const urlAiMaster = searchParams.get("aiMaster");
+
       if (urlTitle) setTitle(urlTitle);
       if (urlArtist) setArtistName(urlArtist);
-      if (urlModel) setAiModels(urlModel);
       if (urlPrompt) setMethodology(urlPrompt);
 
-      // If coming from Suno, set AI-Native preset
-      if (urlModel && urlModel.toLowerCase().includes("suno")) {
+      // Creative stack auto-fill
+      if (urlAiModels) setAiModels(urlAiModels);
+      else if (urlModel) setAiModels(urlModel);
+
+      if (urlDaws) setDaws(urlDaws);
+      if (urlPlugins) setPlugins(urlPlugins);
+
+      // AI contribution auto-fill (convert from 0-100 to 0-1 scale)
+      if (urlAiComp || urlAiArr || urlAiProd || urlAiMix || urlAiMaster) {
+        setAiContribution({
+          composition: urlAiComp ? parseInt(urlAiComp) / 100 : 0,
+          arrangement: urlAiArr ? parseInt(urlAiArr) / 100 : 0,
+          production: urlAiProd ? parseInt(urlAiProd) / 100 : 0,
+          mixing: urlAiMix ? parseInt(urlAiMix) / 100 : 0,
+          mastering: urlAiMaster ? parseInt(urlAiMaster) / 100 : 0,
+        });
+      } else if (urlModel && urlModel.toLowerCase().includes("suno")) {
+        // Fallback: If coming from Suno but no explicit AI values, use defaults
         setAiContribution({
           composition: 1.0,
           arrangement: 1.0,
