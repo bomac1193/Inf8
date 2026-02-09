@@ -119,3 +119,65 @@ model RewardHistory {
   @@index([artistWallet])
   @@index([declarationId])
 }
+
+// CreatorIdentity: Unified identity for voice/audio/visual DNA (v2.0 protocol)
+// Used by Vòxā for voice provenance registration
+model CreatorIdentity {
+  id                  String   @id @default(cuid())
+  identityId          String   @unique // Format: "o8-[hash]"
+  version             String   @default("2.0")
+
+  // Creator info
+  creatorName         String
+  creatorWallet       String?
+  creatorSignature    String?
+  verificationLevel   String   @default("none") // "none", "basic", "enhanced", "verified"
+
+  // Voice DNA (from Vòxā/Chromox) - stored as JSON
+  voiceDNA            Json?
+
+  // Audio DNA (from Starforge) - stored as JSON
+  audioDNA            Json?
+
+  // Visual DNA (from Clarosa) - stored as JSON
+  visualDNA           Json?
+
+  // Narrative DNA (from Boveda) - stored as JSON
+  narrativeDNA        Json?
+
+  // Character Genome (from Boveda) - stored as JSON
+  genome              Json?
+
+  // Licensing terms
+  trainingRights      Boolean  @default(false)
+  derivativeRights    Boolean  @default(true)
+  commercialRights    Boolean  @default(true)
+  attributionRequired Boolean  @default(true)
+  revenueSplit        Float    @default(0.4) // 0-1, e.g., 0.4 = 40%
+  ratePerSecondCents  Int?     // Optional fixed rate per synthesis second
+
+  // Provenance
+  audioFingerprint    String?  // SHA-256 of reference audio
+  audioDurationMs     Int?
+  audioFormat         String?
+  ipfsCid             String?
+  blockchainTx        String?
+
+  // Provider references
+  chromoxPersonaId    String?  // Links to Vòxā persona
+  bovedaGenomeId      String?  // Links to Boveda genome
+  starforgeCatalogId  String?  // Links to Starforge catalog
+
+  // Coherence metrics (computed)
+  coherenceOverall    Float?
+  coherencePairwise   Json?
+
+  // Timestamps
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([creatorWallet])
+  @@index([creatorName])
+  @@index([chromoxPersonaId])
+  @@index([verificationLevel])
+}
