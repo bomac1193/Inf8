@@ -3,8 +3,20 @@
  * Re-exports all core functionality
  */
 
-// Types
+// Types (v1)
 export * from "./types.js";
+
+// Types (v2 - Creative Identity Protocol)
+export * from "./types.v2.js";
+
+// Converters (BOVEDA ↔ o8)
+export {
+  bovedaToO8,
+  o8ToBoveda,
+  mergeExternalDNA,
+  validateIdentityForUseCase,
+  type BovedaCharacterGenome,
+} from "./converters.js";
 
 // Validation
 export {

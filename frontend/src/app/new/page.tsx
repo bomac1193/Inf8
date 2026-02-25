@@ -168,6 +168,9 @@ function NewDeclarationForm() {
   const [workflowType, setWorkflowType] = useState<"original" | "version" | "derivative">("original");
   const [showPicker, setShowPicker] = useState(false);
 
+  // Quick mode state
+  const [isQuickMode, setIsQuickMode] = useState(true);
+
   // Load parent declaration for versioning
   useEffect(() => {
     const fromVersion = searchParams?.get("fromVersion");
@@ -241,6 +244,15 @@ function NewDeclarationForm() {
         });
       } else if (urlModel && urlModel.toLowerCase().includes("suno")) {
         // Fallback: If coming from Suno but no explicit AI values, use defaults
+        setAiContribution({
+          composition: 1.0,
+          arrangement: 1.0,
+          production: 0.5,
+          mixing: 0.3,
+          mastering: 0.3,
+        });
+      } else if (urlModel && urlModel.toLowerCase().includes("udio")) {
+        // Fallback: If coming from Udio but no explicit AI values, use defaults
         setAiContribution({
           composition: 1.0,
           arrangement: 1.0,
@@ -490,7 +502,7 @@ function NewDeclarationForm() {
     <div className="min-h-screen bg-[#0A0A0A] py-16 px-6 md:px-16">
       <div className="max-w-[640px] mx-auto">
         {/* Header */}
-        <div className="mb-12">
+        <div className="mb-8">
           <h1 className="text-2xl font-medium text-[#F5F3F0] mb-2">
             Create Declaration
           </h1>
@@ -499,7 +511,193 @@ function NewDeclarationForm() {
           </p>
         </div>
 
+        {/* Mode Toggle */}
+        <div className="flex items-center gap-3 mb-8 p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
+          <button
+            type="button"
+            onClick={() => setIsQuickMode(true)}
+            className={`px-4 py-2 text-sm font-medium transition-colors duration-100 ${
+              isQuickMode
+                ? "bg-[#F5F3F0] text-[#0A0A0A]"
+                : "text-[#8A8A8A] hover:text-[#F5F3F0]"
+            }`}
+          >
+            Quick
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsQuickMode(false)}
+            className={`px-4 py-2 text-sm font-medium transition-colors duration-100 ${
+              !isQuickMode
+                ? "bg-[#F5F3F0] text-[#0A0A0A]"
+                : "text-[#8A8A8A] hover:text-[#F5F3F0]"
+            }`}
+          >
+            Full
+          </button>
+          <span className="text-xs text-[#8A8A8A] ml-2">
+            {isQuickMode ? "5 fields, under 30 seconds" : "Full declaration with all details"}
+          </span>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-8">
+          {/* Quick Mode Form */}
+          {isQuickMode && (
+            <>
+              {/* Quick Identity */}
+              <section className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                      Track Title
+                    </label>
+                    <input
+                      type="text"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
+                      placeholder="Track title"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                      Artist Name
+                    </label>
+                    <input
+                      type="text"
+                      value={artistName}
+                      onChange={(e) => setArtistName(e.target.value)}
+                      required
+                      className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
+                      placeholder="Your name or alias"
+                    />
+                  </div>
+                </div>
+              </section>
+
+              {/* Quick AI Slider - Single overall percentage */}
+              <section className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+                  How much AI was involved?
+                </p>
+                <div className="flex items-center gap-4">
+                  <span className="text-xs text-[#8A8A8A] shrink-0">Human</span>
+                  <div className="relative flex-1 h-6">
+                    <div
+                      className="absolute top-0 left-0 h-full bg-[#8A8A8A] opacity-20 pointer-events-none transition-all duration-75 rounded-full"
+                      style={{ width: `${Math.round(avgAI * 100)}%` }}
+                    />
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={Math.round(avgAI * 100)}
+                      onChange={(e) => {
+                        const v = Number(e.target.value) / 100;
+                        setAiContribution({ composition: v, arrangement: v, production: v, mixing: v, mastering: v });
+                      }}
+                      className="o8-slider absolute inset-0 w-full h-full"
+                    />
+                  </div>
+                  <span className="text-xs text-[#8A8A8A] shrink-0">AI</span>
+                  <span className="w-10 text-right text-sm text-[#F5F3F0] font-mono tabular-nums shrink-0">
+                    {Math.round(avgAI * 100)}%
+                  </span>
+                </div>
+                <div className="flex justify-between mt-3">
+                  {["0%", "25%", "50%", "75%", "100%"].map((label) => {
+                    const val = parseInt(label) / 100;
+                    return (
+                      <button
+                        key={label}
+                        type="button"
+                        onClick={() => setAiContribution({ composition: val, arrangement: val, production: val, mixing: val, mastering: val })}
+                        className="px-2 py-1 text-[10px] border border-[#2A2A2A] text-[#8A8A8A] hover:border-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
+                      >
+                        {label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </section>
+
+              {/* Quick Methodology */}
+              <section className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+                <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                  How was it made? (optional)
+                </label>
+                <textarea
+                  value={methodology}
+                  onChange={(e) => setMethodology(e.target.value)}
+                  rows={2}
+                  className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none text-sm"
+                  placeholder="e.g., Generated with Suno v4, then mixed in Ableton..."
+                />
+              </section>
+
+              {/* Quick Audio Upload */}
+              <section className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
+                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+                  Audio file (optional)
+                </p>
+                <div
+                  onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+                  onDragLeave={() => setIsDragging(false)}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                  className={`p-6 border-2 border-dashed text-center cursor-pointer transition-colors duration-100 ${
+                    isDragging
+                      ? "border-[#8A8A8A] bg-[#2A2A2A]"
+                      : ipfsCID
+                      ? "border-[#4A7C59] bg-[#0A0A0A]"
+                      : "border-[#2A2A2A] hover:border-[#8A8A8A]"
+                  }`}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="audio/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) handleFileUpload(file);
+                    }}
+                  />
+                  {isUploading ? (
+                    <p className="text-[#8A8A8A] text-sm">Uploading to IPFS...</p>
+                  ) : ipfsCID ? (
+                    <p className="text-[#4A7C59] text-sm">Uploaded to IPFS</p>
+                  ) : (
+                    <p className="text-[#8A8A8A] text-sm">Drop audio or click to upload</p>
+                  )}
+                </div>
+                {uploadError && (
+                  <p className="text-xs text-[#8B7355] mt-2">{uploadError}</p>
+                )}
+              </section>
+
+              {/* Quick Submit */}
+              <div className="space-y-3">
+                <button
+                  type="submit"
+                  disabled={isPending || isConfirming || isSaving || !artistName}
+                  className="w-full py-3 px-6 bg-[#F5F3F0] text-[#0A0A0A] font-medium text-sm tracking-wide hover:opacity-85 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity duration-100"
+                >
+                  {isSaving ? "Saving..." : "Save Declaration"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsQuickMode(false)}
+                  className="w-full py-2 text-xs text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
+                >
+                  Want more detail? Switch to Full Mode
+                </button>
+              </div>
+            </>
+          )}
+
+          {/* Full Mode Form */}
+          {!isQuickMode && (<>
           {/* Workflow Selector */}
           <section className="p-6 bg-[#0D0D0D] border border-[#3A3A3A]">
             <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-6">
@@ -1151,6 +1349,7 @@ function NewDeclarationForm() {
               </p>
             )}
           </div>
+          </>)}
         </form>
       </div>
     </div>

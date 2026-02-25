@@ -16,6 +16,7 @@ typechain-types/
 .env
 .env.local
 .env.*.local
+deployed-addresses-*.env
 
 # Database
 *.db

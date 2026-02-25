@@ -237,7 +237,18 @@ export default function Gallery() {
                               </span>
                             )}
                           </div>
-                          <p className="text-xs text-[#8A8A8A]">{dec.artistName}</p>
+                          <p className="text-xs text-[#8A8A8A]">
+                            <span
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                window.location.href = `/profile/${encodeURIComponent(dec.artistName)}`;
+                              }}
+                              className="hover:text-[#F5F3F0] hover:underline cursor-pointer transition-colors duration-100"
+                            >
+                              {dec.artistName}
+                            </span>
+                          </p>
                         </div>
                         <div className="text-right shrink-0 ml-4">
                           <p className="text-xs text-[#8A8A8A] mb-0.5">Score</p>

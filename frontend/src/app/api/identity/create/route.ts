@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
         verificationLevel: body.creator.verification_level,
 
         // Voice DNA (stored as JSON)
-        voiceDNA: body.dna.voice as unknown as Record<string, unknown>,
+        voiceDNA: body.dna.voice as never,
 
         // Licensing terms
         trainingRights: body.licensing.training_rights,

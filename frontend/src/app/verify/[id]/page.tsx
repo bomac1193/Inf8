@@ -57,7 +57,8 @@ export default function VerifyPage({
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [embedCopied, setEmbedCopied] = useState(false);
+  const [embedCopied, setEmbedCopied] = useState<string | null>(null);
+  const [showEmbedPreview, setShowEmbedPreview] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchDeclaration() {
@@ -150,14 +151,21 @@ export default function VerifyPage({
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
-  const embedHtml = `<a href="${baseUrl}/verify/${declaration.id}" target="_blank" rel="noopener"><img src="${baseUrl}/api/og/${declaration.id}" alt="∞8 Declaration: ${declaration.title}" width="600" /></a>`;
-  const embedMarkdown = `[![∞8 Declaration: ${declaration.title}](${baseUrl}/api/og/${declaration.id})](${baseUrl}/verify/${declaration.id})`;
+  const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://inf8.vercel.app";
+  const badgeUrl = `${baseUrl}/api/declarations/${declaration.id}/badge`;
+  const verifyUrl = `${baseUrl}/verify/${declaration.id}`;
+  const embedUrl = `${baseUrl}/api/declarations/${declaration.id}/embed`;
 
-  const handleEmbedCopy = (text: string) => {
+  const embedSnippets = {
+    markdown: `[![∞8 Declared](${badgeUrl})](${verifyUrl})`,
+    htmlImg: `<a href="${verifyUrl}" target="_blank" rel="noopener noreferrer"><img src="${badgeUrl}" alt="∞8 Declared: ${(declaration.title || "Untitled").replace(/"/g, "&quot;")}" width="340" height="120" /></a>`,
+    htmlIframe: `<iframe src="${embedUrl}" width="420" height="260" frameborder="0" style="border:none;max-width:100%;"></iframe>`,
+  };
+
+  const handleEmbedCopy = (key: string, text: string) => {
     navigator.clipboard.writeText(text);
-    setEmbedCopied(true);
-    setTimeout(() => setEmbedCopied(false), 2000);
+    setEmbedCopied(key);
+    setTimeout(() => setEmbedCopied(null), 2000);
   };
 
   return (
@@ -198,7 +206,9 @@ export default function VerifyPage({
             <h1 className="text-2xl font-medium text-[#F5F3F0] mb-1 truncate">
               {declaration.title || "Untitled"}
             </h1>
-            <p className="text-sm text-[#8A8A8A]">{declaration.artistName}</p>
+            <Link href={`/profile/${encodeURIComponent(declaration.artistName)}`} className="text-sm text-[#8A8A8A] hover:text-[#F5F3F0] hover:underline transition-colors duration-100">
+              {declaration.artistName}
+            </Link>
             <p className="text-[10px] text-[#8A8A8A] mt-1 font-mono">
               {new Date(declaration.createdAt).toLocaleDateString()}
             </p>
@@ -481,31 +491,135 @@ export default function VerifyPage({
           </div>
         </div>
 
-        {/* Embed Snippet */}
+        {/* Embed & Share */}
         <div className="p-3 bg-black border border-[#3A3A3A] mb-4">
-          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3">
-            Embed This Declaration
+          <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-1">
+            Embed & Share
           </p>
-          <div className="space-y-3">
+          <p className="text-xs text-[#8A8A8A] mb-4">
+            Put your declaration badge in SoundCloud, Bandcamp, Linktree, or anywhere on the web.
+          </p>
+
+          <div className="space-y-4">
+            {/* Markdown Badge */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-xs text-[#8A8A8A]">HTML</p>
+              <div className="flex items-center justify-between mb-1.5">
+                <p className="text-xs text-[#F5F3F0]">Markdown Badge</p>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setShowEmbedPreview(showEmbedPreview === "markdown" ? null : "markdown")}
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                  >
+                    {showEmbedPreview === "markdown" ? "Hide" : "Preview"}
+                  </button>
+                  <button
+                    onClick={() => handleEmbedCopy("markdown", embedSnippets.markdown)}
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                  >
+                    {embedCopied === "markdown" ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+              </div>
+              <p className="text-[10px] text-[#8A8A8A] mb-2">Works in GitHub READMEs, Notion, and most markdown contexts.</p>
+              <pre className="p-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[10px] text-[#8A8A8A] overflow-x-auto whitespace-pre-wrap break-all font-mono">
+                {embedSnippets.markdown}
+              </pre>
+              {showEmbedPreview === "markdown" && (
+                <div className="mt-2 p-3 bg-[#0A0A0A] border border-[#2A2A2A]">
+                  <p className="text-[9px] uppercase tracking-widest text-[#8A8A8A] mb-2">Preview</p>
+                  <a href={verifyUrl} target="_blank" rel="noopener noreferrer">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={badgeUrl} alt={`∞8 Declared: ${declaration.title}`} width={340} height={120} />
+                  </a>
+                </div>
+              )}
+            </div>
+
+            {/* HTML Image Tag */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <p className="text-xs text-[#F5F3F0]">HTML Image Badge</p>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setShowEmbedPreview(showEmbedPreview === "htmlImg" ? null : "htmlImg")}
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                  >
+                    {showEmbedPreview === "htmlImg" ? "Hide" : "Preview"}
+                  </button>
+                  <button
+                    onClick={() => handleEmbedCopy("htmlImg", embedSnippets.htmlImg)}
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                  >
+                    {embedCopied === "htmlImg" ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+              </div>
+              <p className="text-[10px] text-[#8A8A8A] mb-2">Drop into any HTML page, Linktree custom HTML block, or email signature.</p>
+              <pre className="p-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[10px] text-[#8A8A8A] overflow-x-auto whitespace-pre-wrap break-all font-mono">
+                {embedSnippets.htmlImg}
+              </pre>
+              {showEmbedPreview === "htmlImg" && (
+                <div className="mt-2 p-3 bg-[#0A0A0A] border border-[#2A2A2A]">
+                  <p className="text-[9px] uppercase tracking-widest text-[#8A8A8A] mb-2">Preview</p>
+                  <a href={verifyUrl} target="_blank" rel="noopener noreferrer">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={badgeUrl} alt={`∞8 Declared: ${declaration.title}`} width={340} height={120} />
+                  </a>
+                </div>
+              )}
+            </div>
+
+            {/* Iframe Embed */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <p className="text-xs text-[#F5F3F0]">Iframe Widget</p>
+                <div className="flex items-center gap-3">
+                  <button
+                    onClick={() => setShowEmbedPreview(showEmbedPreview === "htmlIframe" ? null : "htmlIframe")}
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                  >
+                    {showEmbedPreview === "htmlIframe" ? "Hide" : "Preview"}
+                  </button>
+                  <button
+                    onClick={() => handleEmbedCopy("htmlIframe", embedSnippets.htmlIframe)}
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                  >
+                    {embedCopied === "htmlIframe" ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+              </div>
+              <p className="text-[10px] text-[#8A8A8A] mb-2">Rich widget with full AI breakdown. Works on any site that supports iframes.</p>
+              <pre className="p-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[10px] text-[#8A8A8A] overflow-x-auto whitespace-pre-wrap break-all font-mono">
+                {embedSnippets.htmlIframe}
+              </pre>
+              {showEmbedPreview === "htmlIframe" && (
+                <div className="mt-2 p-3 bg-[#0A0A0A] border border-[#2A2A2A]">
+                  <p className="text-[9px] uppercase tracking-widest text-[#8A8A8A] mb-2">Preview</p>
+                  <iframe
+                    src={embedUrl}
+                    width={420}
+                    height={260}
+                    style={{ border: "none", maxWidth: "100%" }}
+                    title={`∞8 Declaration embed: ${declaration.title}`}
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Direct link */}
+            <div className="pt-3 border-t border-[#2A2A2A]">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-[#F5F3F0] mb-0.5">Direct Link</p>
+                  <p className="text-[10px] text-[#8A8A8A] font-mono truncate max-w-[280px]">{verifyUrl}</p>
+                </div>
                 <button
-                  onClick={() => handleEmbedCopy(embedHtml)}
-                  className="text-xs text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
+                  onClick={() => handleEmbedCopy("directLink", verifyUrl)}
+                  className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider shrink-0 ml-4"
                 >
-                  {embedCopied ? "Copied" : "Copy"}
+                  {embedCopied === "directLink" ? "Copied!" : "Copy"}
                 </button>
               </div>
-              <pre className="p-3 bg-[#0A0A0A] border border-[#2A2A2A] text-xs text-[#8A8A8A] overflow-x-auto">
-                {embedHtml}
-              </pre>
-            </div>
-            <div>
-              <p className="text-xs text-[#8A8A8A] mb-2">Markdown</p>
-              <pre className="p-3 bg-[#0A0A0A] border border-[#2A2A2A] text-xs text-[#8A8A8A] overflow-x-auto">
-                {embedMarkdown}
-              </pre>
             </div>
           </div>
         </div>

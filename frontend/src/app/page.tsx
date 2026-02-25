@@ -28,12 +28,12 @@ export default function Home() {
 
           {/* Description */}
           <p className="text-lg md:text-xl text-[#F5F3F0] font-medium leading-relaxed mb-6">
-            Prove your process. Immortalize your chain.
+            The professional standard for documenting how music gets made in the AI era.
           </p>
 
           <p className="text-base text-[#8A8A8A] leading-relaxed mb-16">
-            Creative provenance protocol for AI-native music.
-            Machine-readable declarations. Verifiable lineage.
+            Prove your process. Machine-readable declarations.
+            Verifiable creative lineage. Free to use.
           </p>
 
           {/* Buttons */}
@@ -119,7 +119,7 @@ export default function Home() {
                 Create or Import
               </p>
               <p className="text-[#8A8A8A] text-sm leading-relaxed">
-                Start from scratch or use our Suno bookmarklet to auto-fill track data. Takes 10 seconds.
+                Start from scratch or use our Suno/Udio bookmarklets to auto-fill track data. Takes 10 seconds.
               </p>
             </div>
 
@@ -146,93 +146,126 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Suno Integration */}
+      {/* AI Platform Integrations */}
       <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
         <div className="max-w-[960px] mx-auto">
           <h2 className="text-2xl font-medium text-[#F5F3F0] mb-6">
-            Suno Integration
+            Platform Integrations
           </h2>
           <p className="text-[#8A8A8A] leading-relaxed mb-8">
-            Created a track with Suno? Document it in 10 seconds with our one-click bookmarklet.
+            Created a track with Suno or Udio? Document it in 10 seconds with our one-click bookmarklets. Each bookmarklet extracts track metadata and pre-fills your declaration form.
           </p>
 
-          <div className="bg-[#1A1A1A] border border-[#2A2A2A] p-8 mb-8">
-            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
-              QUICK SETUP
-            </p>
-            <p className="text-sm text-[#8A8A8A] mb-6">
-              Click below to copy the bookmarklet code, then add it to your browser's bookmarks bar.
-            </p>
-            <button
-              onClick={() => {
-                const bookmarkletCode = `javascript:(function(){const hostname=window.location.hostname;let isSuno=hostname.includes('suno');let isUdio=hostname.includes('udio');if(!isSuno&&!isUdio){alert('⚠️ Please run this on suno.com or udio.com');return;}let title='';let prompt='';let lyrics='';let artist='';let model='';let platformName=isSuno?'Suno':'Udio';const titleEls=document.querySelectorAll('h1, [class*="title"], [class*="Title"], [class*="song"]');for(const el of titleEls){const text=el.textContent.trim();if(text&&text.length<100&&!text.includes(platformName)&&!text.includes('Create')){title=text;break;}}const textareas=document.querySelectorAll('textarea');for(const ta of textareas){const text=ta.value||ta.textContent||'';const placeholder=ta.placeholder||'';if(placeholder.toLowerCase().includes('descri')||placeholder.toLowerCase().includes('prompt')){if(text&&!lyrics){prompt=text;}}else if(text.length>50){lyrics=text;}}if(!prompt&&lyrics){const lines=lyrics.split('\\n');if(lines.length>0){prompt='Song with lyrics: '+lines[0].substring(0,100)+'...';}}const buttons=document.querySelectorAll('button, a, span, div');for(const btn of buttons){const text=btn.textContent?.trim()||'';if(text.includes('@')&&text.length<30){artist=text.replace('@','').trim();break;}}let versionMatch=document.body.innerHTML.match(/[Vv](ersion)?\\s*[0-9.]+/);if(!versionMatch){versionMatch=document.body.textContent.match(/v[0-9.]+/i);}if(versionMatch){let versionStr=versionMatch[0].replace(/version/i,'').replace(/\\s+/g,'').trim();if(!versionStr.startsWith('v')){versionStr='v'+versionStr;}model=platformName+' '+versionStr;}else{model=isSuno?'Suno v4':'Udio v1.5';}if(!title){title='Untitled Track';}if(!prompt){prompt='Generated with '+platformName+' AI';}const baseUrl=hostname.includes('localhost')?'http://localhost:3000/new':'https://inf8.vercel.app/new';const params=new URLSearchParams({title:title,aiPrompt:prompt,methodology:'AI-generated track with '+platformName+'. Review and describe your actual process.',model:model,artist:artist||'Your Name',aiModels:model,daws:'N/A',plugins:'N/A',hardware:'N/A',aiComp:'100',aiArr:'100',aiProd:'100',aiMix:'100',aiMaster:'100'});const url=\`\${baseUrl}?\${params.toString()}\`;window.open(url,'_blank');alert('✅ Opening ∞8 ARCH declaration form with '+platformName+' data!');})();`;
-                navigator.clipboard.writeText(bookmarkletCode);
-                alert('✅ Bookmarklet code copied! Now follow the setup instructions below.');
-              }}
-              className="px-6 py-3 bg-[#1A1A1A] border border-[#8A8A8A] text-[#F5F3F0] text-sm font-medium hover:bg-[#2A2A2A] transition-colors duration-100"
-            >
-              📋 Copy Bookmarklet Code
-            </button>
+          {/* Bookmarklet Buttons */}
+          <div className="grid md:grid-cols-2 gap-6 mb-8">
+            {/* Suno Bookmarklet */}
+            <div className="bg-[#1A1A1A] border border-[#2A2A2A] p-8">
+              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                Suno
+              </p>
+              <p className="text-sm text-[#8A8A8A] mb-4">
+                Extracts title, prompt, model version, and artist from suno.com track pages.
+              </p>
+              <button
+                onClick={() => {
+                  const bookmarkletCode = `javascript:(function(){if(!window.location.hostname.includes('suno')){alert('Please run this bookmarklet while on suno.com');return;}let title='';let prompt='';let lyrics='';let artist='';let model='Suno';const titleEls=document.querySelectorAll('h1,[class*="title"],[class*="Title"],[class*="song"]');for(const el of titleEls){const text=el.textContent.trim();if(text&&text.length<100&&!text.includes('Suno')&&!text.includes('Create')){title=text;break;}}if(!title){const dt=document.title;if(dt&&!dt.toLowerCase().startsWith('suno')){title=dt.replace(/\\s*[\\|\\u2013\\u2014-]\\s*Suno.*$/i,'').trim();}}const textareas=document.querySelectorAll('textarea');for(const ta of textareas){const text=ta.value||ta.textContent||'';const ph=ta.placeholder||'';if(ph.toLowerCase().includes('descri')||ph.toLowerCase().includes('prompt')){if(text){prompt=text;}}else if(text.length>50){lyrics=text;}}if(!prompt&&lyrics){const fl=lyrics.split('\\n').find(function(l){return l.trim().length>0;});if(fl){prompt='Song with lyrics: '+fl.substring(0,100)+'...';}}const spans=document.querySelectorAll('button,a,span,div');for(const el of spans){const text=el.textContent?.trim()||'';if(text.includes('@')&&text.length<30){artist=text.replace('@','').trim();break;}}let vm=document.body.textContent.match(/v[0-9.]+/i);if(vm){let vs=vm[0].trim();if(!vs.startsWith('v')){vs='v'+vs;}model='Suno '+vs;}else{model='Suno v4';}if(!title){title='Untitled Track';}if(!prompt){prompt='Generated with Suno AI';}const baseUrl=window.location.hostname.includes('localhost')?'http://localhost:3000/new':'https://inf8.vercel.app/new';const params=new URLSearchParams({title:title,aiPrompt:prompt,methodology:'AI-generated track with '+model+'. Review and describe your actual process.',model:model,artist:artist||'Your Name',aiModels:model,daws:'N/A',plugins:'N/A',hardware:'N/A',aiComp:'100',aiArr:'100',aiProd:'100',aiMix:'100',aiMaster:'100'});window.open(baseUrl+'?'+params.toString(),'_blank');alert('Opening declaration form with Suno data!');})();`;
+                  navigator.clipboard.writeText(bookmarkletCode);
+                  alert('Suno bookmarklet code copied! Create a bookmark and paste this as the URL.');
+                }}
+                className="px-5 py-3 bg-[#0A0A0A] border border-[#8A8A8A] text-[#F5F3F0] text-sm font-medium hover:bg-[#2A2A2A] transition-colors duration-100 w-full"
+              >
+                Copy Suno Bookmarklet
+              </button>
+            </div>
+
+            {/* Udio Bookmarklet */}
+            <div className="bg-[#1A1A1A] border border-[#2A2A2A] p-8">
+              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                Udio
+              </p>
+              <p className="text-sm text-[#8A8A8A] mb-4">
+                Extracts title, prompt, tags, lyrics, model version, and creator from udio.com track pages.
+              </p>
+              <button
+                onClick={() => {
+                  const bookmarkletCode = `javascript:(function(){if(!window.location.hostname.includes('udio')){alert('Please run this bookmarklet while on udio.com');return;}let title='';let prompt='';let lyrics='';let tags='';let artist='';let model='';let duration='';const h1s=document.querySelectorAll('h1');for(const el of h1s){const t=el.textContent.trim();if(t&&t.length>0&&t.length<120&&!t.toLowerCase().includes('udio')&&!t.toLowerCase().includes('create')&&!t.toLowerCase().includes('sign')){title=t;break;}}if(!title){const sels=['[class*="songTitle"]','[class*="SongTitle"]','[class*="trackTitle"]','[class*="TrackTitle"]','h2'];for(const s of sels){const el=document.querySelector(s);if(el&&el.textContent.trim()&&el.textContent.trim().length<120){title=el.textContent.trim();break;}}}if(!title){const dt=document.title;if(dt&&!dt.toLowerCase().startsWith('udio')){title=dt.replace(/\\s*[\\|\\u2013\\u2014-]\\s*Udio.*$/i,'').trim();}}const allEls=document.querySelectorAll('*');for(const el of allEls){if(el.children.length===0&&el.textContent.trim()==='Prompt'){const p=el.parentElement;if(p){const sibs=p.querySelectorAll('*');for(const sib of sibs){const st=sib.textContent.trim();if(st&&st!=='Prompt'&&st.length>5&&st.length<1000){prompt=st;break;}}if(!prompt&&p.nextElementSibling){const nt=p.nextElementSibling.textContent.trim();if(nt&&nt.length>5){prompt=nt;}}}if(prompt)break;}}if(!prompt){const ps=['[class*="prompt"]','[class*="Prompt"]','[class*="description"]'];for(const s of ps){const els=document.querySelectorAll(s);for(const el of els){const t=(el.value||el.textContent||'').trim();if(t&&t.length>5&&t.length<1000&&t!=='Prompt'){prompt=t;break;}}if(prompt)break;}}const tagLinks=document.querySelectorAll('a[href*="/tags/"]');const tagSet=new Set();for(const link of tagLinks){const t=link.textContent.trim();if(t&&t.length<50){tagSet.add(t);}}tags=Array.from(tagSet).join(', ');for(const el of allEls){if(el.children.length===0&&el.textContent.trim()==='Lyrics'){const p=el.parentElement;if(p){const sibs=p.querySelectorAll('*');for(const sib of sibs){const st=sib.textContent.trim();if(st&&st!=='Lyrics'&&st.length>20){lyrics=st;break;}}if(!lyrics&&p.nextElementSibling){const nt=p.nextElementSibling.textContent.trim();if(nt&&nt.length>20){lyrics=nt;}}}if(lyrics)break;}}const creatorLinks=document.querySelectorAll('a[href*="/creators/"]');for(const link of creatorLinks){const t=link.textContent.trim();if(t&&t.length<50&&t.length>0){artist=t.replace('@','').trim();break;}}if(!artist){const spans=document.querySelectorAll('span,a,div,p');for(const el of spans){const t=el.textContent.trim();if(t.startsWith('@')&&t.length<30&&t.length>1){artist=t.replace('@','').trim();break;}}}const pt=document.body.textContent||'';if(/v1\\.5\\s*Allegro/i.test(pt)){model='Udio v1.5 Allegro';}else if(/v1\\.5/i.test(pt)){model='Udio v1.5';}else if(/v1\\.0/i.test(pt)||/\\bv1\\b/i.test(pt)){model='Udio v1';}else{model='Udio v1.5';}if(!title){title='Untitled Track';}if(!prompt&&lyrics){const fl=lyrics.split('\\n').find(function(l){return l.trim().length>0;});if(fl){prompt='Song with lyrics: '+fl.substring(0,100)+'...';}}if(!prompt&&tags){prompt='AI-generated track. Tags: '+tags;}if(!prompt){prompt='Generated with Udio AI';}let methodology='AI-generated track with '+model+'.';if(tags){methodology+=' Tags: '+tags+'.';}methodology+=' Review and describe your actual process.';const baseUrl=window.location.hostname.includes('localhost')?'http://localhost:3000/new':'https://inf8.vercel.app/new';const params=new URLSearchParams({title:title,aiPrompt:prompt,methodology:methodology,model:model,artist:artist||'Your Name',aiModels:model,daws:'N/A',plugins:'N/A',hardware:'N/A',aiComp:'100',aiArr:'100',aiProd:'100',aiMix:'100',aiMaster:'100'});window.open(baseUrl+'?'+params.toString(),'_blank');alert('Opening declaration form with Udio data!');})();`;
+                  navigator.clipboard.writeText(bookmarkletCode);
+                  alert('Udio bookmarklet code copied! Create a bookmark and paste this as the URL.');
+                }}
+                className="px-5 py-3 bg-[#0A0A0A] border border-[#8A8A8A] text-[#F5F3F0] text-sm font-medium hover:bg-[#2A2A2A] transition-colors duration-100 w-full"
+              >
+                Copy Udio Bookmarklet
+              </button>
+            </div>
           </div>
 
+          {/* Setup Instructions */}
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <p className="text-sm text-[#F5F3F0] font-medium mb-4 flex items-center gap-2">
-                <span className="text-xl">⚙️</span> One-Time Setup
+              <p className="text-sm text-[#F5F3F0] font-medium mb-4">
+                One-Time Setup
               </p>
-              <div className="space-y-3 pl-7">
+              <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">1</span>
                   <p className="text-sm text-[#8A8A8A] leading-relaxed">
-                    Click the "Copy Bookmarklet Code" button above
+                    Copy the bookmarklet code for your platform (Suno or Udio)
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">2</span>
                   <p className="text-sm text-[#8A8A8A] leading-relaxed">
-                    Right-click your bookmarks bar → "Add page" or "Add bookmark"
+                    Right-click your bookmarks bar &rarr; &ldquo;Add page&rdquo; or &ldquo;Add bookmark&rdquo;
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">3</span>
                   <p className="text-sm text-[#8A8A8A] leading-relaxed">
-                    Name: "∞8 + Suno" → URL field: paste the code (Ctrl+V) → Save
+                    Name it (e.g. &ldquo;&#8734;8 + Suno&rdquo; or &ldquo;&#8734;8 + Udio&rdquo;) &rarr; Paste the code as the URL &rarr; Save
                   </p>
                 </div>
               </div>
             </div>
 
             <div>
-              <p className="text-sm text-[#F5F3F0] font-medium mb-4 flex items-center gap-2">
-                <span className="text-xl">⚡</span> Daily Usage
+              <p className="text-sm text-[#F5F3F0] font-medium mb-4">
+                Daily Usage
               </p>
-              <div className="space-y-3 pl-7">
+              <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">1</span>
                   <p className="text-sm text-[#8A8A8A] leading-relaxed">
-                    Go to suno.com and create your track
+                    Go to suno.com or udio.com and open a track page
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">2</span>
                   <p className="text-sm text-[#8A8A8A] leading-relaxed">
-                    Click "∞8 + Suno" in your bookmarks bar
+                    Click the bookmarklet in your bookmarks bar
                   </p>
                 </div>
                 <div className="flex items-start gap-3">
                   <span className="text-[#F5F3F0] font-mono text-xs shrink-0 bg-[#2A2A2A] px-2 py-1">3</span>
                   <p className="text-sm text-[#8A8A8A] leading-relaxed">
-                    Declaration form opens pre-filled → Add details → Save
+                    Declaration form opens pre-filled &rarr; Review details &rarr; Save
                   </p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="mt-8 p-4 bg-[#0D0D0D] border border-[#2A2A2A]">
-            <p className="text-xs text-[#8A8A8A]">
-              <span className="text-[#F5F3F0]">Tip:</span> The bookmarklet extracts track title, prompt, and model version automatically. Works on any Suno track page.
-            </p>
+          {/* Extraction details */}
+          <div className="mt-8 grid md:grid-cols-2 gap-4">
+            <div className="p-4 bg-[#0D0D0D] border border-[#2A2A2A]">
+              <p className="text-xs text-[#8A8A8A]">
+                <span className="text-[#F5F3F0]">Suno:</span> Extracts track title, prompt, model version (v3.5, v4), and artist name from any Suno track page.
+              </p>
+            </div>
+            <div className="p-4 bg-[#0D0D0D] border border-[#2A2A2A]">
+              <p className="text-xs text-[#8A8A8A]">
+                <span className="text-[#F5F3F0]">Udio:</span> Extracts track title, prompt, tags, lyrics, model version (v1, v1.5, v1.5 Allegro), and creator name from any Udio track page.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -355,10 +388,10 @@ export default function Home() {
 
             <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
               <p className="text-sm font-medium text-[#F5F3F0] mb-3">
-                Is this just for Suno? What about other AI music tools?
+                Is this just for Suno and Udio? What about other AI music tools?
               </p>
               <p className="text-sm text-[#8A8A8A] leading-relaxed">
-                The bookmarklet is Suno-specific for convenience, but you can manually create declarations for any tool: Udio, Stable Audio, AIVA, or even traditional DAWs. The protocol is tool-agnostic.
+                We have dedicated bookmarklets for Suno and Udio, but you can manually create declarations for any tool: Stable Audio, AIVA, or even traditional DAWs. The protocol is tool-agnostic.
               </p>
             </div>
 
@@ -390,29 +423,23 @@ export default function Home() {
             Who This Is For
           </h2>
           <p className="text-[#8A8A8A] leading-relaxed mb-6">
-            You're building tracks with Suno-generated melodies, live instruments, three remote collaborators, and AI-assisted mixing. Traditional metadata (ISRC codes, liner notes) can't capture what you're actually doing.
+            <span className="text-[#F5F3F0]">AI-native producers</span> building tracks with Suno, Udio, or custom models — and want a professional record of how they work. Not because anyone asked. Because your process is the proof.
           </p>
           <p className="text-[#8A8A8A] leading-relaxed mb-6">
-            You see your workflow's complexity—the precise 73% AI composition paired with hand-crafted arrangement—not as something to hide, but as proof you understand your tools at a level most producers never reach.
+            <span className="text-[#F5F3F0]">Producer-engineers</span> running hybrid workflows — AI stems into Ableton, live vocals over generated arrangements, three collaborators across two continents. Traditional metadata can't capture what you're doing.
           </p>
           <p className="text-[#8A8A8A] leading-relaxed mb-6">
-            You're working on remixes where every sample has a source chain. Derivative works where lineage matters. Collaborative projects where 15 people contributed and everyone needs verifiable attribution.
+            <span className="text-[#F5F3F0]">Anyone who sees transparency as a competitive advantage</span> — not a liability. Your 73% AI composition paired with hand-crafted arrangement isn't something to hide. It's proof you understand your tools at a level most producers never reach.
           </p>
           <p className="text-[#8A8A8A] leading-relaxed mb-16">
-            The infrastructure you need doesn't exist in the legacy music industry. You're here because you see what's already happening, and you want tools built for that reality.
+            EU AI Act Article 50 requires AI content labeling by August 2026. The infrastructure you'll need doesn't exist yet in the legacy music industry. It exists here.
           </p>
 
           <h2 className="text-2xl font-medium text-[#F5F3F0] mb-8">
-            Who This Is NOT For
+            Not for everyone. That's the point.
           </h2>
           <p className="text-[#8A8A8A] leading-relaxed mb-6">
-            This makes sense to you, or it doesn't.
-          </p>
-          <p className="text-[#8A8A8A] leading-relaxed mb-6">
-            If documenting your creative stack feels like exposure rather than demonstration—if showing your AI contribution percentages feels risky instead of valuable—this infrastructure isn't for you yet.
-          </p>
-          <p className="text-[#8A8A8A] leading-relaxed">
-            No judgment. Different tools for different moments. The protocol exists when you're ready.
+            If documenting your creative stack feels like exposure rather than demonstration, that's fine — different stages, different needs. The protocol is here when you're ready.
           </p>
         </div>
       </section>
@@ -421,7 +448,7 @@ export default function Home() {
       <section className="py-24 px-6 md:px-16 border-t border-[#2A2A2A]">
         <div className="max-w-[640px] mx-auto text-center">
           <p className="text-xl text-[#8A8A8A] mb-8">
-            Using AI tools is not shameful. Using them poorly is.
+            Your process is your proof. Document it.
           </p>
           <Link
             href="/new"
