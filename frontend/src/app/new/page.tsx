@@ -718,7 +718,7 @@ function NewDeclarationForm() {
                     : "border-[#2A2A2A] bg-[#0D0D0D] hover:border-[#3A3A3A]"
                 }`}
               >
-                <div className="text-3xl mb-3">✨</div>
+                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3 font-mono">01</p>
                 <p className="text-sm font-medium text-[#F5F3F0] mb-2">Brand New Track</p>
                 <p className="text-xs text-[#8A8A8A] leading-relaxed">
                   Original composition with no source material
@@ -738,7 +738,7 @@ function NewDeclarationForm() {
                     : "border-[#2A2A2A] bg-[#0D0D0D] hover:border-[#3A3A3A]"
                 }`}
               >
-                <div className="text-3xl mb-3">🔄</div>
+                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3 font-mono">02</p>
                 <p className="text-sm font-medium text-[#F5F3F0] mb-2">New Version</p>
                 <p className="text-xs text-[#8A8A8A] leading-relaxed">
                   Revision or iteration of your own track
@@ -763,7 +763,7 @@ function NewDeclarationForm() {
                     : "border-[#2A2A2A] bg-[#0D0D0D] hover:border-[#3A3A3A]"
                 }`}
               >
-                <div className="text-3xl mb-3">🎛️</div>
+                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3 font-mono">03</p>
                 <p className="text-sm font-medium text-[#F5F3F0] mb-2">Remix/Cover/Sample</p>
                 <p className="text-xs text-[#8A8A8A] leading-relaxed">
                   Derivative work based on another track
@@ -1078,8 +1078,8 @@ function NewDeclarationForm() {
               />
               <p className="text-[10px] text-[#8A8A8A] mt-1">
                 {promptVisibility === "private" && "Prompt will be kept private (not shown on declaration page)"}
-                {promptVisibility === "public" && "🌐 Prompt will be publicly visible (+5 transparency bonus)"}
-                {promptVisibility === "paywalled" && "💰 Fans must pay to view prompt (smart contract revenue split)"}
+                {promptVisibility === "public" && "Prompt will be publicly visible (+5 transparency bonus)"}
+                {promptVisibility === "paywalled" && "Fans must pay to view prompt (smart contract revenue split)"}
               </p>
             </div>
           </section>
