@@ -2,6 +2,11 @@
 
 import { use, useState, useEffect } from "react";
 import Link from "next/link";
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { keccak256, toBytes } from "viem";
+import { O8RegistryABI } from "@/contracts/abis";
+import { O8_CONTRACTS } from "@/lib/wagmi";
 import { getBadges } from "@/lib/badges";
 import { DeclarationBadge } from "@/components/DeclarationBadge";
 import { LineageTimeline } from "@/components/LineageTimeline";
@@ -11,6 +16,8 @@ interface Declaration {
   title: string;
   artistName: string;
   artistWallet: string | null;
+  tokenId: number | null;
+  txHash: string | null;
   aiComposition: number;
   aiArrangement: number;
   aiProduction: number;
@@ -59,6 +66,38 @@ export default function VerifyPage({
   const [copied, setCopied] = useState(false);
   const [embedCopied, setEmbedCopied] = useState<string | null>(null);
   const [showEmbedPreview, setShowEmbedPreview] = useState<string | null>(null);
+
+  // Wallet & mint state
+  const { address, isConnected } = useAccount();
+  const { writeContract, data: mintHash, isPending: isMinting } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isMintSuccess } = useWaitForTransactionReceipt({ hash: mintHash });
+
+  const handleMint = () => {
+    if (!declaration || !address || !declaration.ipfsCID) return;
+
+    const contractHash = keccak256(toBytes(declaration.ipfsCID + declaration.artistName + Date.now()));
+    const tokenURI = `ipfs://${declaration.ipfsCID}`;
+
+    writeContract({
+      address: O8_CONTRACTS.registry as `0x${string}`,
+      abi: O8RegistryABI,
+      functionName: "mintTrack",
+      args: [
+        declaration.title || declaration.artistName,
+        declaration.artistName,
+        declaration.aiComposition,
+        declaration.aiArrangement,
+        declaration.aiProduction,
+        declaration.aiMastering,
+        declaration.ipfsCID,
+        contractHash,
+        declaration.trainingRights,
+        declaration.derivativeRights,
+        declaration.remixRights,
+        tokenURI,
+      ],
+    });
+  };
 
   useEffect(() => {
     async function fetchDeclaration() {
@@ -490,6 +529,57 @@ export default function VerifyPage({
             )}
           </div>
         </div>
+
+        {/* Publish On-Chain */}
+        {!declaration.tokenId && declaration.ipfsCID && (
+          <div className="p-3 bg-black border border-[#3A3A3A] mb-4">
+            <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-3">
+              On-Chain
+            </p>
+            {isMintSuccess ? (
+              <div className="p-4 border border-[#4A7C59]">
+                <p className="text-xs uppercase tracking-widest text-[#4A7C59] mb-2">
+                  Published on-chain
+                </p>
+                <a
+                  href={`https://amoy.polygonscan.com/tx/${mintHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-[#8A8A8A] hover:text-[#F5F3F0] font-mono transition-colors duration-100"
+                >
+                  View transaction
+                </a>
+              </div>
+            ) : !isConnected ? (
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-[#8A8A8A]">
+                  Connect a wallet to mint this declaration as an NFT with permanent provenance.
+                </p>
+                <div className="shrink-0 ml-4">
+                  <ConnectButton />
+                </div>
+              </div>
+            ) : (
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs text-[#8A8A8A]">
+                    Mint as ERC-721 on Polygon Amoy. Immutable provenance record.
+                  </p>
+                  <p className="text-[10px] text-[#8A8A8A] font-mono mt-1 truncate max-w-[300px]">
+                    {address}
+                  </p>
+                </div>
+                <button
+                  onClick={handleMint}
+                  disabled={isMinting || isConfirming}
+                  className="shrink-0 ml-4 px-4 py-2 bg-[#F5F3F0] text-[#0A0A0A] text-xs font-medium tracking-wide hover:opacity-85 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity duration-100"
+                >
+                  {isMinting ? "Confirm in wallet..." : isConfirming ? "Publishing..." : "Mint on-chain"}
+                </button>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Embed & Share */}
         <div className="p-3 bg-black border border-[#3A3A3A] mb-4">

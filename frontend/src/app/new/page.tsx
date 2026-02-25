@@ -2,11 +2,6 @@
 
 import { useState, useCallback, useRef, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { keccak256, toBytes } from "viem";
-import { O8RegistryABI } from "@/contracts/abis";
-import { O8_CONTRACTS } from "@/lib/wagmi";
 import { computeSHA256, uploadToPinata } from "@/lib/ipfs";
 import { DeclarationPicker } from "@/components/DeclarationPicker";
 
@@ -118,9 +113,6 @@ const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
 ];
 
 function NewDeclarationForm() {
-  const { address, isConnected } = useAccount();
-  const { writeContract, data: hash, isPending } = useWriteContract();
-  const { isLoading: isConfirming, isSuccess: isMintSuccess } = useWaitForTransactionReceipt({ hash });
   const searchParams = useSearchParams();
 
   // Form state
@@ -346,7 +338,7 @@ function NewDeclarationForm() {
   // Validate collaborator splits
   const splitsValid = collaborators.length === 0 || collaborators.reduce((sum, c) => sum + c.split, 0) === 100;
 
-  // Save to API (database only, no wallet required)
+  // Save to API
   const saveToAPI = async () => {
     if (!artistName) return;
     setIsSaving(true);
@@ -358,7 +350,6 @@ function NewDeclarationForm() {
         body: JSON.stringify({
           title,
           artistName,
-          artistWallet: isConnected ? address : null,
           aiComposition: Math.round(aiContribution.composition * 100),
           aiArrangement: Math.round(aiContribution.arrangement * 100),
           aiProduction: Math.round(aiContribution.production * 100),
@@ -392,48 +383,11 @@ function NewDeclarationForm() {
     }
   };
 
-  // Mint on-chain (requires wallet)
-  const handleMint = async () => {
-    if (!address || !ipfsCID || !artistName) return;
-
-    const contractHash = keccak256(toBytes(ipfsCID + artistName + Date.now()));
-    const tokenURI = `ipfs://${ipfsCID}`;
-
-    // Bridge 5 frontend phases to 4 contract phases until contract V2
-    writeContract({
-      address: O8_CONTRACTS.registry as `0x${string}`,
-      abi: O8RegistryABI,
-      functionName: "mintTrack",
-      args: [
-        title || artistName,
-        artistName,
-        Math.round(aiContribution.composition * 100),
-        Math.round(aiContribution.arrangement * 100),
-        Math.round(aiContribution.production * 100),
-        Math.round(aiContribution.mastering * 100),
-        ipfsCID,
-        contractHash,
-        trainingRights,
-        derivativeRights,
-        remixRights,
-        tokenURI,
-      ],
-    });
-  };
-
-  // Submit handler: save to DB, then optionally mint
+  // Submit handler
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!splitsValid) return;
-
-    if (isConnected && ipfsCID) {
-      // Save to API first, then mint on-chain
-      await saveToAPI();
-      await handleMint();
-    } else {
-      // Save to API only
-      await saveToAPI();
-    }
+    await saveToAPI();
   };
 
   const avgAI =
@@ -444,7 +398,7 @@ function NewDeclarationForm() {
       aiContribution.mastering) /
     5;
 
-  if (savedId && !isConnected) {
+  if (savedId) {
     return (
       <div className="min-h-screen bg-[#0A0A0A] py-16 px-6 md:px-16">
         <div className="max-w-[640px] mx-auto">
@@ -452,11 +406,8 @@ function NewDeclarationForm() {
             <p className="text-xs uppercase tracking-widest text-[#4A7C59] mb-4">
               Declaration Saved
             </p>
-            <p className="text-[#F5F3F0] mb-4">
-              Your declaration has been saved to the database.
-            </p>
-            <p className="text-[#8A8A8A] text-sm mb-6">
-              Connect a wallet to publish on-chain.
+            <p className="text-[#F5F3F0] mb-6">
+              Your creative provenance has been recorded.
             </p>
             <div className="flex justify-center gap-4">
               <a
@@ -465,33 +416,13 @@ function NewDeclarationForm() {
               >
                 View Declaration
               </a>
-              <ConnectButton />
+              <a
+                href="/new"
+                className="px-4 py-2 border border-[#2A2A2A] text-[#F5F3F0] text-sm font-medium hover:border-[#8A8A8A] transition-colors duration-100"
+              >
+                Create Another
+              </a>
             </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (isMintSuccess) {
-    return (
-      <div className="min-h-screen bg-[#0A0A0A] py-16 px-6 md:px-16">
-        <div className="max-w-[640px] mx-auto">
-          <div className="text-center py-16 bg-[#1A1A1A] border border-[#4A7C59]">
-            <p className="text-xs uppercase tracking-widest text-[#4A7C59] mb-4">
-              Declaration Published
-            </p>
-            <p className="text-[#F5F3F0] mb-6">
-              Your declaration has been minted on-chain.
-            </p>
-            <a
-              href={`https://amoy.polygonscan.com/tx/${hash}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#8A8A8A] hover:text-[#F5F3F0] text-sm"
-            >
-              View transaction
-            </a>
           </div>
         </div>
       </div>
@@ -680,7 +611,7 @@ function NewDeclarationForm() {
               <div className="space-y-3">
                 <button
                   type="submit"
-                  disabled={isPending || isConfirming || isSaving || !artistName}
+                  disabled={isSaving || !artistName}
                   className="w-full py-3 px-6 bg-[#F5F3F0] text-[#0A0A0A] font-medium text-sm tracking-wide hover:opacity-85 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity duration-100"
                 >
                   {isSaving ? "Saving..." : "Save Declaration"}
@@ -885,16 +816,6 @@ function NewDeclarationForm() {
                   placeholder="Your name or alias"
                 />
               </div>
-              {isConnected && (
-                <div>
-                  <label className="block text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
-                    Wallet
-                  </label>
-                  <div className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#8A8A8A] font-mono text-sm">
-                    {address}
-                  </div>
-                </div>
-              )}
             </div>
           </section>
 
@@ -1330,24 +1251,11 @@ function NewDeclarationForm() {
           <div className="space-y-3">
             <button
               type="submit"
-              disabled={isPending || isConfirming || isSaving || !artistName || !splitsValid}
+              disabled={isSaving || !artistName || !splitsValid}
               className="w-full py-3 px-6 bg-[#F5F3F0] text-[#0A0A0A] font-medium text-sm tracking-wide hover:opacity-85 disabled:opacity-40 disabled:cursor-not-allowed transition-opacity duration-100"
             >
-              {isPending
-                ? "Confirm in wallet..."
-                : isConfirming
-                ? "Publishing on-chain..."
-                : isSaving
-                ? "Saving..."
-                : isConnected && ipfsCID
-                ? "Publish Declaration On-Chain"
-                : "Save Declaration"}
+              {isSaving ? "Saving..." : "Save Declaration"}
             </button>
-            {!isConnected && (
-              <p className="text-xs text-center text-[#8A8A8A]">
-                No wallet = database only
-              </p>
-            )}
           </div>
           </>)}
         </form>
