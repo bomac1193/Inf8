@@ -361,10 +361,10 @@ export default function Home() {
 
             <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
               <p className="text-sm font-medium text-[#F5F3F0] mb-3">
-                How is the transparency score calculated?
+                What do the labels mean (Human, AI-Assisted, AI-Native, Full AI)?
               </p>
               <p className="text-sm text-[#8A8A8A] leading-relaxed">
-                It's based on declaration completeness: how many fields you fill, whether you've uploaded audio, documented your creative stack, added collaborators, etc. Higher scores indicate more thorough documentation, not "better" music.
+                They're derived from your AI contribution across five production phases. Human = 0% AI. AI-Assisted = up to 25%. AI-Native = 25-75%. Full AI = 75%+. No judgment either way — it's a description, not a ranking.
               </p>
             </div>
 

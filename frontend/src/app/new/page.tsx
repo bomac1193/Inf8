@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect, Suspense } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { computeSHA256, uploadToPinata } from "@/lib/ipfs";
 import { DeclarationPicker } from "@/components/DeclarationPicker";
@@ -273,22 +273,6 @@ function NewDeclarationForm() {
     setMethodology(template.methodology);
   };
 
-  // Calculate transparency score (client-side preview)
-  const transparencyScore = useCallback(() => {
-    let score = 30; // declaring at all
-    score += 20; // AI phases always filled
-    score += Math.round(Math.min(methodology.length / 200, 1) * 15);
-    const stackItems = [
-      ...daws.split(",").filter(Boolean),
-      ...plugins.split(",").filter(Boolean),
-      ...aiModels.split(",").filter(Boolean),
-    ];
-    score += Math.min(stackItems.length * 3, 15);
-    if (ipfsCID) score += 5;
-    if (sha256Hash) score += 5;
-    if (collaborators.length > 0) score += 10;
-    return Math.min(score, 100);
-  }, [methodology, daws, plugins, aiModels, ipfsCID, sha256Hash, collaborators]);
 
   // Handle file upload for IPFS
   const handleFileUpload = async (file: File) => {
@@ -929,21 +913,10 @@ function NewDeclarationForm() {
               })}
             </div>
 
-            {/* Score + Avg inline */}
-            <div className="flex items-center justify-between mt-4 pt-3 border-t border-[#2A2A2A]">
-              <span className="text-[10px] text-[#8A8A8A] font-mono">
-                AVG AI {Math.round(avgAI * 100)}%
-              </span>
-              <span
-                className="text-[10px] font-mono"
-                style={{
-                  color: transparencyScore() >= 95 ? '#F5F3F0' :
-                         transparencyScore() >= 70 ? '#8A8A8A' :
-                         transparencyScore() >= 50 ? '#8A8A8A' : '#8A8A8A'
-                }}
-                title={`Transparency Score: ${transparencyScore()}/100 - Increases as you add methodology, creative stack, collaborators, and audio`}
-              >
-                TRANSPARENCY {transparencyScore()}/100
+            {/* AI Label */}
+            <div className="mt-4 pt-3 border-t border-[#2A2A2A]">
+              <span className="text-[10px] uppercase tracking-widest text-[#8A8A8A] font-mono">
+                {avgAI === 0 ? "Human" : avgAI <= 0.25 ? "AI-Assisted" : avgAI <= 0.75 ? "AI-Native" : "Full AI"}
               </span>
             </div>
 
@@ -959,17 +932,6 @@ function NewDeclarationForm() {
                 className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none text-sm"
                 placeholder="e.g., Started with Suno generation. Exported stems and rebuilt in Ableton. Added live vocals. Mixed with analog-style processing..."
               />
-              <div className="mt-1 flex items-center justify-between">
-                <p className="text-[10px] text-[#8A8A8A]">
-                  {methodology.length}/200+ for Process Doc badge
-                </p>
-                <div className="flex-1 h-1 bg-[#2A2A2A] ml-3 max-w-[100px]">
-                  <div
-                    className="h-full bg-[#4A7C59] transition-all duration-200"
-                    style={{ width: `${Math.min((methodology.length / 200) * 100, 100)}%` }}
-                  />
-                </div>
-              </div>
             </div>
 
             {/* AI Prompt - Optional with visibility control */}

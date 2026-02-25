@@ -59,12 +59,6 @@ export default function ProfilePage() {
 
   // Compute stats
   const totalDeclarations = declarations.length;
-  const avgTransparency = totalDeclarations > 0
-    ? Math.round(declarations.reduce((s, d) => s + d.transparencyScore, 0) / totalDeclarations)
-    : 0;
-  const avgAI = totalDeclarations > 0
-    ? Math.round(declarations.reduce((s, d) => s + calculateAverageAI(d), 0) / totalDeclarations)
-    : 0;
   const onChainCount = declarations.filter(d => d.tokenId).length;
   const withAudioCount = declarations.filter(d => d.ipfsCID).length;
 
@@ -108,19 +102,15 @@ export default function ProfilePage() {
           </div>
         ) : (
           <>
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 mb-12">
               <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
                 <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">Declarations</p>
                 <p className="text-2xl font-mono text-[#F5F3F0]">{totalDeclarations}</p>
               </div>
               <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
-                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">Avg Transparency</p>
-                <p className="text-2xl font-mono text-[#F5F3F0]">{avgTransparency}</p>
-              </div>
-              <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
-                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">Avg AI</p>
-                <p className="text-2xl font-mono text-[#F5F3F0]">{avgAI}%</p>
+                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">With Audio</p>
+                <p className="text-2xl font-mono text-[#F5F3F0]">{withAudioCount}</p>
               </div>
               <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
                 <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">On-Chain</p>
@@ -163,27 +153,19 @@ export default function ProfilePage() {
               <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">All Declarations</p>
               {declarations.map((dec) => {
                 const ai = calculateAverageAI(dec);
-                const badges = getBadges(dec.badge);
+                const aiLabel = ai === 0 ? "Human" : ai <= 25 ? "AI-Assisted" : ai <= 75 ? "AI-Native" : "Full AI";
                 return (
                   <Link key={dec.id} href={`/verify/${dec.id}`}>
                     <div className="p-4 bg-black border border-[#3A3A3A] hover:border-[#F5F3F0] transition-colors duration-100 cursor-pointer">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-0.5">
-                            <h3 className="text-sm font-medium text-[#F5F3F0] truncate">
-                              {dec.title || "Untitled"}
-                            </h3>
-                            {badges.length > 0 && (
-                              <span className="text-[10px] text-[#8A8A8A] font-mono shrink-0">
-                                [{badges.length}]
-                              </span>
-                            )}
-                          </div>
+                          <h3 className="text-sm font-medium text-[#F5F3F0] truncate">
+                            {dec.title || "Untitled"}
+                          </h3>
                         </div>
-                        <div className="text-right shrink-0 ml-4">
-                          <p className="text-xs text-[#8A8A8A] mb-0.5">Score</p>
-                          <p className="text-sm font-mono text-[#F5F3F0]">{dec.transparencyScore}</p>
-                        </div>
+                        <span className="text-[10px] uppercase tracking-widest text-[#8A8A8A] font-mono shrink-0 ml-4">
+                          {aiLabel}
+                        </span>
                       </div>
 
                       <div className="flex items-center gap-2 mb-2">
@@ -206,7 +188,6 @@ export default function ProfilePage() {
                       </div>
 
                       <div className="flex items-center justify-between text-[10px] text-[#8A8A8A] font-mono">
-                        <span>AVG {Math.round(ai)}%</span>
                         <span>{new Date(dec.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>

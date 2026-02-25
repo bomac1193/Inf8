@@ -180,7 +180,6 @@ export default function VerifyPage({
       sha256: declaration.sha256,
     },
     badges: badges.map((b) => b.key),
-    transparency_score: declaration.transparencyScore,
     created_at: declaration.createdAt,
   };
 
@@ -252,13 +251,23 @@ export default function VerifyPage({
               {new Date(declaration.createdAt).toLocaleDateString()}
             </p>
           </div>
-          <div className="flex flex-col items-end gap-1 shrink-0">
+        </div>
+
+        {/* Status */}
+        <div className="p-3 bg-black border border-[#3A3A3A] mb-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-1">Status</p>
+              <p className="text-sm font-mono text-[#F5F3F0] uppercase tracking-widest">
+                {avgAI === 0 ? "Human" : avgAI <= 25 ? "AI-Assisted" : avgAI <= 75 ? "AI-Native" : "Full AI"}
+              </p>
+            </div>
             {badges.length > 0 && (
-              <div className="flex flex-wrap gap-1 justify-end">
-                {badges.slice(0, 3).map((badge) => (
+              <div className="flex gap-2">
+                {badges.map((badge) => (
                   <span
                     key={badge.key}
-                    className="px-1.5 py-0.5 text-[9px] uppercase tracking-wider"
+                    className="px-2 py-1 text-[9px] uppercase tracking-wider"
                     style={{ backgroundColor: badge.color, color: badge.textColor }}
                   >
                     {badge.label}
@@ -269,59 +278,19 @@ export default function VerifyPage({
           </div>
         </div>
 
-        {/* Score Cards - Compact */}
-        <div className="grid md:grid-cols-2 gap-3 mb-4">
-          <div className="p-3 bg-black border border-[#3A3A3A]">
-            <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-1">
-              Transparency Score
-            </p>
-            <div className="flex items-baseline gap-2 mb-1">
-              <span className="text-2xl font-medium text-[#F5F3F0] font-mono">
-                {declaration.transparencyScore}
-              </span>
-              <span className="text-[#8A8A8A] text-xs">/ 100</span>
-            </div>
-            <div className="h-0.5 bg-[#1A1A1A]">
-              <div
-                className="h-full bg-[#F5F3F0] transition-all duration-300"
-                style={{ width: `${declaration.transparencyScore}%` }}
-              />
-            </div>
-          </div>
-
-          <div className="p-3 bg-black border border-[#3A3A3A]">
-            <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-1">
-              Avg AI Contribution
-            </p>
-            <div className="flex items-baseline gap-2 mb-1">
-              <span className="text-2xl font-medium text-[#F5F3F0] font-mono">
-                {Math.round(avgAI)}
-              </span>
-              <span className="text-[#8A8A8A] text-xs">%</span>
-            </div>
-            <div className="h-0.5 bg-[#1A1A1A]">
-              <div
-                className="h-full bg-[#F5F3F0] transition-all duration-300"
-                style={{ width: `${avgAI}%` }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {/* Mint on ISSUANCE - Compact */}
-        {declaration.transparencyScore >= 85 && (
+        {/* Mint on ISSUANCE */}
+        {declaration.ipfsCID && (
           <div className="p-3 bg-black border border-[#F5F3F0] mb-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
-                  Ready for ISSUANCE
+                  ISSUANCE
                 </p>
                 <h3 className="text-lg font-medium text-[#F5F3F0] mb-2">
-                  Mint as Luxury Sound NFT
+                  Mint on-chain
                 </h3>
                 <p className="text-sm text-[#8A8A8A] leading-relaxed mb-3">
-                  Your transparency score qualifies this declaration for minting on ISSUANCE.
-                  Unlock revenue streams, smart contract splits, and permanent on-chain provenance.
+                  Publish this declaration as an NFT. Permanent provenance, smart contract splits, revenue streams.
                 </p>
                 {contributors.length > 0 && (
                   <div className="flex items-center gap-2 text-xs">
@@ -355,7 +324,7 @@ export default function VerifyPage({
                 full provenance via API endpoint <code className="px-1 py-0.5 bg-[#0A0A0A] text-[#F5F3F0] font-mono text-[10px]">/api/issuance/declarations/{declaration.id}</code>
               </p>
               <ul className="text-xs text-[#8A8A8A] space-y-1 pl-4">
-                <li>• NFT minted with rarity tier based on transparency score ({declaration.transparencyScore}/100)</li>
+                <li>• NFT minted with full provenance metadata on-chain</li>
                 {contributors.length > 0 && (
                   <li>• Revenue splits automatically enforced via smart contracts ({contributors.map(c => `${c.name}: ${c.split}%`).join(', ')})</li>
                 )}
