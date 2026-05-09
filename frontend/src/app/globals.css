@@ -178,15 +178,17 @@
   }
 }
 
-/* RainbowKit modal overrides  match Nsibidi aesthetic
-   These stay outside @layer so they beat RainbowKit's inline styles */
-[data-rk],
-[data-rk] *,
-[data-rk] *::before,
-[data-rk] *::after {
+/* RainbowKit modal overrides  scope to the actual modal/dialog so we
+   don't clobber typography on the rest of the app. RainbowKitProvider
+   adds [data-rk] to a wrapper around the whole app; only the dialog
+   contents need our overrides. */
+[data-rk] [role="dialog"],
+[data-rk] [role="dialog"] *,
+[data-rk] [role="dialog"] *::before,
+[data-rk] [role="dialog"] *::after {
   border-radius: 0px !important;
   font-family: var(--font-sans) !important;
-  font-weight: 400 !important; /* Remove all bold fonts, match site aesthetic */
+  font-weight: 400 !important;
 }
 
 [data-rk] [role="dialog"] {
