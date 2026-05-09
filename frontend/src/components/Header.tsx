@@ -9,7 +9,7 @@ export function Header() {
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center">
-            <span className="font-display text-2xl font-light text-[#F5F3F0] tracking-tight">
+            <span className="font-heading text-2xl font-light text-[#F5F3F0] tracking-tight">
               Nsibidi
             </span>
           </Link>

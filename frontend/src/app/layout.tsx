@@ -5,9 +5,9 @@ import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
 
 // Cormorant Garamond is the closest free serif to Canela. It loads via
-// next/font and slots into the --font-display fallback chain via the
-// CSS variable below. When the real Canela .woff2 files are dropped
-// into /public/fonts/canela/, the browser automatically prefers them
+// next/font and slots into the --font-heading fallback chain via the
+// CSS variable below. When the real Canela files are present in
+// /public/fonts/canela/, the browser automatically prefers them
 // (Canela is first in the cascade in globals.css).
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],

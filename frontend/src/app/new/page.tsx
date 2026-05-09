@@ -418,7 +418,7 @@ function NewDeclarationForm() {
       <div className="max-w-[640px] mx-auto">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="font-display text-3xl md:text-4xl font-light text-[#F5F3F0] mb-2">
+          <h1 className="font-heading text-3xl md:text-4xl font-light text-[#F5F3F0] mb-2">
             New declaration
           </h1>
           <p className="text-[#8A8A8A] text-sm">

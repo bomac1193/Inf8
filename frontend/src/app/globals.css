@@ -13,23 +13,26 @@
 /* ---------- @font-face for Canela + Söhne (paid, locally hosted) ---------- */
 /* Files copied from /home/sphinxy/chrysalis/public/fonts/. */
 
+/* Canela Deck is the display cut, designed for 25pt+ headers. We use
+   it for the wordmark and section headings. Canela Text would be the
+   body cut if we ever needed it. */
 @font-face {
   font-family: "Canela";
-  src: url("/fonts/canela/Canela-Light.otf") format("opentype");
+  src: url("/fonts/canela/CanelaDeck-Light.otf") format("opentype");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Canela";
-  src: url("/fonts/canela/Canela-Light.otf") format("opentype");
+  src: url("/fonts/canela/CanelaDeck-Regular.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Canela";
-  src: url("/fonts/canela/Canela-Medium.otf") format("opentype");
+  src: url("/fonts/canela/CanelaDeck-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -118,7 +121,7 @@
      keep the page legible until the .woff2 files are dropped in. */
   --font-sans: 'Söhne', system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
   --font-mono: 'Söhne Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --font-display: 'Canela', var(--font-cormorant), "Garamond Premier Pro", "EB Garamond", "Iowan Old Style", "Hoefler Text", Georgia, serif;
+  --font-heading: 'Canela', var(--font-cormorant), "Garamond Premier Pro", "EB Garamond", "Iowan Old Style", "Hoefler Text", Georgia, serif;
 
   /* Border radius - all 0 for sharp corners */
   --radius-none: 0px;
@@ -150,8 +153,8 @@
 
   /* Headings: Canela. Sentence case enforced by content, not CSS. */
   h1, h2, h3, h4, h5, h6,
-  .font-display {
-    font-family: var(--font-display);
+  .font-heading {
+    font-family: var(--font-heading);
     font-weight: 400;
     letter-spacing: -0.01em;
   }

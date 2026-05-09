@@ -8,11 +8,11 @@ export default function Home() {
       {/* Full-screen hero. Wordmark, one line, one action. */}
       <section className="flex-1 flex flex-col items-center justify-center px-6">
         <div className="max-w-[640px] text-center">
-          <h1 className="font-display text-[88px] md:text-[128px] font-light text-[#F5F3F0] tracking-tight leading-none mb-12">
+          <h1 className="font-heading text-[88px] md:text-[128px] font-light text-[#F5F3F0] tracking-tight leading-none mb-12">
             Nsibidi
           </h1>
 
-          <p className="font-display text-xl md:text-2xl text-[#F5F3F0] font-light leading-snug mb-16">
+          <p className="font-heading text-xl md:text-2xl text-[#F5F3F0] font-light leading-snug mb-16">
             A record of relationships and origin.
           </p>
 

@@ -10,7 +10,7 @@ export default function Protocol() {
           <p className="text-[10px] tracking-[0.04em] text-[#5A5A5A] mb-6">
             Nsibidi
           </p>
-          <h1 className="font-display text-[48px] md:text-[64px] font-light text-[#F5F3F0] tracking-tight leading-tight mb-6">
+          <h1 className="font-heading text-[48px] md:text-[64px] font-light text-[#F5F3F0] tracking-tight leading-tight mb-6">
             Cross-media provenance protocol.
           </h1>
           <p className="text-lg text-[#8A8A8A] leading-relaxed max-w-[560px]">
@@ -21,7 +21,7 @@ export default function Protocol() {
         </header>
 
         <section className="mb-20">
-          <h2 className="font-display text-2xl md:text-3xl font-light text-[#F5F3F0] mb-8">
+          <h2 className="font-heading text-2xl md:text-3xl font-light text-[#F5F3F0] mb-8">
             What it records.
           </h2>
           <dl className="space-y-8">
@@ -45,7 +45,7 @@ export default function Protocol() {
         </section>
 
         <section className="mb-20">
-          <h2 className="font-display text-2xl md:text-3xl font-light text-[#F5F3F0] mb-8">
+          <h2 className="font-heading text-2xl md:text-3xl font-light text-[#F5F3F0] mb-8">
             How it works.
           </h2>
           <ol className="space-y-8 text-[#F5F3F0] leading-relaxed">
@@ -65,7 +65,7 @@ export default function Protocol() {
         </section>
 
         <section className="mb-20">
-          <h2 className="font-display text-2xl md:text-3xl font-light text-[#F5F3F0] mb-8">
+          <h2 className="font-heading text-2xl md:text-3xl font-light text-[#F5F3F0] mb-8">
             Why.
           </h2>
           <div className="space-y-6 text-[#F5F3F0] leading-relaxed">
@@ -116,7 +116,7 @@ function Field({ label, body }: { label: string; body: string }) {
 function Step({ n, body }: { n: string; body: string }) {
   return (
     <li className="grid grid-cols-[40px_1fr] gap-6">
-      <span className="font-display text-2xl font-light text-[#5A5A5A] leading-none pt-1">
+      <span className="font-heading text-2xl font-light text-[#5A5A5A] leading-none pt-1">
         {n}
       </span>
       <p className="text-[#F5F3F0] leading-relaxed">{body}</p>
