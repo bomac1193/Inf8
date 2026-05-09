@@ -89,10 +89,10 @@ export default function MyDeclarations() {
       <div className="max-w-[960px] mx-auto">
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-2xl font-medium text-[#F5F3F0] mb-2">
-            My Declarations
+          <h1 className="font-display text-3xl md:text-4xl font-light text-[#F5F3F0] mb-2">
+            Your declarations
           </h1>
-          <p className="text-[#8A8A8A]">
+          <p className="text-[#8A8A8A] text-sm">
             Declarations from your connected wallet.
           </p>
         </div>
@@ -125,17 +125,17 @@ export default function MyDeclarations() {
           <>
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
                 <p className="text-xs text-[#8A8A8A] mb-1">Total</p>
                 <p className="text-2xl font-medium text-[#F5F3F0]">{declarations.length}</p>
               </div>
-              <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
                 <p className="text-xs text-[#8A8A8A] mb-1">Avg Transparency</p>
                 <p className="text-2xl font-medium text-[#F5F3F0]">
                   {Math.round(declarations.reduce((sum, d) => sum + d.transparencyScore, 0) / declarations.length)}
                 </p>
               </div>
-              <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
+              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
                 <p className="text-xs text-[#8A8A8A] mb-1">Minted</p>
                 <p className="text-2xl font-medium text-[#F5F3F0]">
                   {declarations.filter(d => d.tokenId).length}
@@ -152,7 +152,7 @@ export default function MyDeclarations() {
                 return (
                   <div key={dec.id} className="relative">
                     <Link href={`/verify/${dec.id}`}>
-                      <div className="group p-6 bg-[#1A1A1A] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 cursor-pointer">
+                      <div className="group p-6 bg-[#0E0E0E] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 cursor-pointer">
                         {/* Header Row */}
                         <div className="flex items-start justify-between mb-4">
                           <div>
@@ -163,14 +163,14 @@ export default function MyDeclarations() {
                               {badges.map((badge) => (
                                 <span
                                   key={badge.key}
-                                  className="px-2 py-0.5 text-xs uppercase tracking-widest"
+                                  className="px-2 py-0.5 text-xs tracking-[0.04em]"
                                   style={{ backgroundColor: badge.color, color: badge.textColor }}
                                 >
                                   {badge.label}
                                 </span>
                               ))}
                               {dec.tokenId && (
-                                <span className="px-2 py-0.5 text-xs uppercase tracking-widest bg-[#5A5A5A] text-[#F5F3F0]">
+                                <span className="px-2 py-0.5 text-xs tracking-[0.04em] bg-[#5A5A5A] text-[#F5F3F0]">
                                   MINTED
                                 </span>
                               )}

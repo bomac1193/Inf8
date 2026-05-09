@@ -130,7 +130,7 @@ export default function VerifyPage({
     return (
       <div className="min-h-screen bg-[#0A0A0A] flex items-center justify-center px-6">
         <div className="text-center">
-          <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-2">
+          <p className="text-[10px] tracking-[0.04em] text-[#8A8A8A] mb-2">
             Not Found
           </p>
           <h1 className="text-2xl font-medium text-[#F5F3F0] mb-4">
@@ -220,14 +220,14 @@ export default function VerifyPage({
           <div className="flex items-center gap-2">
             <Link
               href={`/new?fromVersion=${declaration.id}`}
-              className="px-3 py-1.5 bg-black border border-[#3A3A3A] text-[#F5F3F0] text-[10px] uppercase tracking-widest hover:border-[#F5F3F0] transition-colors duration-100"
+              className="px-3 py-1.5 bg-black border border-[#3A3A3A] text-[#F5F3F0] text-[10px] tracking-[0.04em] hover:border-[#F5F3F0] transition-colors duration-100"
               title="Create a new version"
             >
               + Version
             </Link>
             <Link
               href={`/new?fromDerivative=${declaration.id}`}
-              className="px-3 py-1.5 bg-black border border-[#3A3A3A] text-[#F5F3F0] text-[10px] uppercase tracking-widest hover:border-[#F5F3F0] transition-colors duration-100"
+              className="px-3 py-1.5 bg-black border border-[#3A3A3A] text-[#F5F3F0] text-[10px] tracking-[0.04em] hover:border-[#F5F3F0] transition-colors duration-100"
               title="Create a remix/cover/sample"
             >
               + Remix
@@ -238,7 +238,7 @@ export default function VerifyPage({
         {/* Header - Compact */}
         <div className="flex items-start justify-between gap-4 mb-4">
           <div className="flex-1 min-w-0">
-            <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-1">
+            <p className="text-[10px] tracking-[0.04em] text-[#8A8A8A] mb-1">
               Declaration
             </p>
             <h1 className="text-2xl font-medium text-[#F5F3F0] mb-1 truncate">
@@ -257,8 +257,8 @@ export default function VerifyPage({
         <div className="p-3 bg-black border border-[#3A3A3A] mb-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-1">Status</p>
-              <p className="text-sm font-mono text-[#F5F3F0] uppercase tracking-widest">
+              <p className="text-[10px] tracking-[0.04em] text-[#8A8A8A] mb-1">Status</p>
+              <p className="text-sm font-mono text-[#F5F3F0] tracking-[0.04em]">
                 {avgAI === 0 ? "Human" : avgAI <= 25 ? "AI-Assisted" : avgAI <= 75 ? "AI-Native" : "Full AI"}
               </p>
             </div>
@@ -267,7 +267,7 @@ export default function VerifyPage({
                 {badges.map((badge) => (
                   <span
                     key={badge.key}
-                    className="px-2 py-1 text-[9px] uppercase tracking-wider"
+                    className="px-2 py-1 text-[9px] tracking-[0.04em] tracking-wider"
                     style={{ backgroundColor: badge.color, color: badge.textColor }}
                   >
                     {badge.label}
@@ -283,7 +283,7 @@ export default function VerifyPage({
           <div className="p-3 bg-black border border-[#F5F3F0] mb-4">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+                <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">
                   ISSUANCE
                 </p>
                 <h3 className="text-lg font-medium text-[#F5F3F0] mb-2">
@@ -335,40 +335,35 @@ export default function VerifyPage({
           </div>
         )}
 
-        {/* AI Contribution Breakdown - Compact */}
-        <div className="p-3 bg-black border border-[#3A3A3A] mb-4">
-          <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-3">
-            Production Intelligence
+        {/* Production intelligence  typographic table, no gauges */}
+        <div className="p-5 bg-[#0E0E0E] border border-[#1A1A1A] mb-4">
+          <p className="text-[11px] tracking-[0.04em] text-[#8A8A8A] mb-4">
+            Production intelligence
           </p>
-          <div className="grid grid-cols-5 gap-2">
+          <dl className="font-mono text-[12px] space-y-1.5">
             {[
-              { label: "Comp", value: declaration.aiComposition },
-              { label: "Arr", value: declaration.aiArrangement },
-              { label: "Prod", value: declaration.aiProduction },
-              { label: "Mix", value: declaration.aiMixing },
-              { label: "Mstr", value: declaration.aiMastering },
+              { label: "composition", value: declaration.aiComposition },
+              { label: "arrangement", value: declaration.aiArrangement },
+              { label: "production",  value: declaration.aiProduction },
+              { label: "mixing",      value: declaration.aiMixing },
+              { label: "mastering",   value: declaration.aiMastering },
             ].map(({ label, value }) => (
-              <div key={label} className="text-center">
-                <p className="text-sm font-mono text-[#F5F3F0] mb-0.5">
-                  {value}%
-                </p>
-                <p className="text-[9px] text-[#8A8A8A] mb-1">{label}</p>
-                <div className="h-0.5 bg-[#1A1A1A]">
-                  <div
-                    className="h-full bg-[#F5F3F0] transition-all duration-300"
-                    style={{ width: `${value}%` }}
-                  />
-                </div>
+              <div key={label} className="flex items-baseline justify-between border-b border-[#161616] pb-1.5 last:border-b-0">
+                <dt className="text-[#8A8A8A]">{label}</dt>
+                <dd className="text-[#F5F3F0] tabular-nums">
+                  {(value / 100).toFixed(2)}
+                  <span className="text-[#5A5A5A] ml-1.5 text-[10px]">ai</span>
+                </dd>
               </div>
             ))}
-          </div>
+          </dl>
 
           {declaration.methodology && (
-            <div>
-              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+            <div className="mt-5 pt-4 border-t border-[#1A1A1A]">
+              <p className="text-[11px] tracking-[0.04em] text-[#8A8A8A] mb-2">
                 Methodology
               </p>
-              <p className="text-[#F5F3F0] leading-relaxed">
+              <p className="text-[#F5F3F0] leading-relaxed text-sm">
                 {declaration.methodology}
               </p>
             </div>
@@ -379,7 +374,7 @@ export default function VerifyPage({
         <div className="grid md:grid-cols-2 gap-4 mb-4">
           {/* Collaborators */}
           <div className="p-3 bg-black border border-[#3A3A3A]">
-            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3">
+            <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-3">
               Collaborators {contributors.length > 0 && '& Revenue Splits'}
             </p>
             {contributors.length === 0 ? (
@@ -415,7 +410,7 @@ export default function VerifyPage({
 
           {/* Consent */}
           <div className="p-3 bg-black border border-[#3A3A3A]">
-            <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3">
+            <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-3">
               Usage Consent
             </p>
             <div className="space-y-2">
@@ -463,7 +458,7 @@ export default function VerifyPage({
 
         {/* Provenance */}
         <div className="p-3 bg-black border border-[#3A3A3A] mb-4">
-          <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-3">
+          <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-3">
             Provenance
           </p>
           <div className="space-y-2">
@@ -502,12 +497,12 @@ export default function VerifyPage({
         {/* Publish On-Chain */}
         {!declaration.tokenId && declaration.ipfsCID && (
           <div className="p-3 bg-black border border-[#3A3A3A] mb-4">
-            <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-3">
+            <p className="text-[10px] tracking-[0.04em] text-[#8A8A8A] mb-3">
               On-Chain
             </p>
             {isMintSuccess ? (
               <div className="p-4 border border-[#4A7C59]">
-                <p className="text-xs uppercase tracking-widest text-[#4A7C59] mb-2">
+                <p className="text-xs tracking-[0.04em] text-[#4A7C59] mb-2">
                   Published on-chain
                 </p>
                 <a
@@ -552,7 +547,7 @@ export default function VerifyPage({
 
         {/* Embed & Share */}
         <div className="p-3 bg-black border border-[#3A3A3A] mb-4">
-          <p className="text-[10px] uppercase tracking-widest text-[#8A8A8A] mb-1">
+          <p className="text-[10px] tracking-[0.04em] text-[#8A8A8A] mb-1">
             Embed & Share
           </p>
           <p className="text-xs text-[#8A8A8A] mb-4">
@@ -567,13 +562,13 @@ export default function VerifyPage({
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setShowEmbedPreview(showEmbedPreview === "markdown" ? null : "markdown")}
-                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 tracking-[0.04em] tracking-wider"
                   >
                     {showEmbedPreview === "markdown" ? "Hide" : "Preview"}
                   </button>
                   <button
                     onClick={() => handleEmbedCopy("markdown", embedSnippets.markdown)}
-                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 tracking-[0.04em] tracking-wider"
                   >
                     {embedCopied === "markdown" ? "Copied!" : "Copy"}
                   </button>
@@ -585,7 +580,7 @@ export default function VerifyPage({
               </pre>
               {showEmbedPreview === "markdown" && (
                 <div className="mt-2 p-3 bg-[#0A0A0A] border border-[#2A2A2A]">
-                  <p className="text-[9px] uppercase tracking-widest text-[#8A8A8A] mb-2">Preview</p>
+                  <p className="text-[9px] tracking-[0.04em] text-[#8A8A8A] mb-2">Preview</p>
                   <a href={verifyUrl} target="_blank" rel="noopener noreferrer">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={badgeUrl} alt={`Nsibidi Declared: ${declaration.title}`} width={340} height={120} />
@@ -601,13 +596,13 @@ export default function VerifyPage({
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setShowEmbedPreview(showEmbedPreview === "htmlImg" ? null : "htmlImg")}
-                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 tracking-[0.04em] tracking-wider"
                   >
                     {showEmbedPreview === "htmlImg" ? "Hide" : "Preview"}
                   </button>
                   <button
                     onClick={() => handleEmbedCopy("htmlImg", embedSnippets.htmlImg)}
-                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 tracking-[0.04em] tracking-wider"
                   >
                     {embedCopied === "htmlImg" ? "Copied!" : "Copy"}
                   </button>
@@ -619,7 +614,7 @@ export default function VerifyPage({
               </pre>
               {showEmbedPreview === "htmlImg" && (
                 <div className="mt-2 p-3 bg-[#0A0A0A] border border-[#2A2A2A]">
-                  <p className="text-[9px] uppercase tracking-widest text-[#8A8A8A] mb-2">Preview</p>
+                  <p className="text-[9px] tracking-[0.04em] text-[#8A8A8A] mb-2">Preview</p>
                   <a href={verifyUrl} target="_blank" rel="noopener noreferrer">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={badgeUrl} alt={`Nsibidi Declared: ${declaration.title}`} width={340} height={120} />
@@ -635,13 +630,13 @@ export default function VerifyPage({
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setShowEmbedPreview(showEmbedPreview === "htmlIframe" ? null : "htmlIframe")}
-                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 tracking-[0.04em] tracking-wider"
                   >
                     {showEmbedPreview === "htmlIframe" ? "Hide" : "Preview"}
                   </button>
                   <button
                     onClick={() => handleEmbedCopy("htmlIframe", embedSnippets.htmlIframe)}
-                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider"
+                    className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 tracking-[0.04em] tracking-wider"
                   >
                     {embedCopied === "htmlIframe" ? "Copied!" : "Copy"}
                   </button>
@@ -653,7 +648,7 @@ export default function VerifyPage({
               </pre>
               {showEmbedPreview === "htmlIframe" && (
                 <div className="mt-2 p-3 bg-[#0A0A0A] border border-[#2A2A2A]">
-                  <p className="text-[9px] uppercase tracking-widest text-[#8A8A8A] mb-2">Preview</p>
+                  <p className="text-[9px] tracking-[0.04em] text-[#8A8A8A] mb-2">Preview</p>
                   <iframe
                     src={embedUrl}
                     width={420}
@@ -674,7 +669,7 @@ export default function VerifyPage({
                 </div>
                 <button
                   onClick={() => handleEmbedCopy("directLink", verifyUrl)}
-                  className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 uppercase tracking-wider shrink-0 ml-4"
+                  className="text-[10px] text-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100 tracking-[0.04em] tracking-wider shrink-0 ml-4"
                 >
                   {embedCopied === "directLink" ? "Copied!" : "Copy"}
                 </button>
@@ -686,12 +681,12 @@ export default function VerifyPage({
         {/* JSON Export */}
         <div className="p-3 bg-black border border-[#3A3A3A]">
           <div className="flex items-center justify-between mb-3">
-            <p className="text-xs uppercase tracking-widest text-[#8A8A8A]">
+            <p className="text-xs tracking-[0.04em] text-[#8A8A8A]">
               Declaration Export
             </p>
             <button
               onClick={handleCopy}
-              className="px-4 py-2 text-xs uppercase tracking-widest border border-[#2A2A2A] text-[#8A8A8A] hover:border-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
+              className="px-4 py-2 text-xs tracking-[0.04em] border border-[#2A2A2A] text-[#8A8A8A] hover:border-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
             >
               {copied ? "Copied" : "Copy JSON"}
             </button>

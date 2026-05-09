@@ -127,7 +127,7 @@ export function LineageTimeline({ currentDeclarationId, currentDeclaration }: Li
 
   if (loading) {
     return (
-      <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
+      <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
         <p className="text-xs text-[#8A8A8A]">Loading lineage...</p>
       </div>
     );
@@ -135,8 +135,8 @@ export function LineageTimeline({ currentDeclarationId, currentDeclaration }: Li
 
   if (fullTimeline.length === 1) {
     return (
-      <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
-        <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">
+      <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+        <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">
           Creative Lineage
         </p>
         <p className="text-sm text-[#8A8A8A]">
@@ -147,8 +147,8 @@ export function LineageTimeline({ currentDeclarationId, currentDeclaration }: Li
   }
 
   return (
-    <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
-      <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">
+    <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+      <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">
         Creative Evolution Timeline
       </p>
 
@@ -173,7 +173,7 @@ export function LineageTimeline({ currentDeclarationId, currentDeclaration }: Li
                   <div className="w-px h-4 bg-[#2A2A2A]" />
                   <div className="flex-1 flex items-center gap-2">
                     <div className="flex-1 h-px bg-[#2A2A2A]" />
-                    <span className="text-[10px] text-[#8A8A8A] uppercase tracking-widest px-2 py-0.5 bg-[#0A0A0A]">
+                    <span className="text-[10px] text-[#8A8A8A] tracking-[0.04em] px-2 py-0.5 bg-[#0A0A0A]">
                       {node.parentRelation || "revision"}
                     </span>
                     <div className="flex-1 h-px bg-[#2A2A2A]" />
@@ -198,7 +198,7 @@ export function LineageTimeline({ currentDeclarationId, currentDeclaration }: Li
                         {node.title || "Untitled"}
                       </h4>
                       {isCurrent && (
-                        <span className="px-1.5 py-0.5 text-[10px] uppercase tracking-widest bg-[#8A8A8A] text-[#0A0A0A]">
+                        <span className="px-1.5 py-0.5 text-[10px] tracking-[0.04em] bg-[#8A8A8A] text-[#0A0A0A]">
                           Current
                         </span>
                       )}

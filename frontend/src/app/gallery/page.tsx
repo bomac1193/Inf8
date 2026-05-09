@@ -117,11 +117,11 @@ export default function Gallery() {
       <div className="max-w-[960px] mx-auto">
         {/* Header */}
         <div className="mb-12">
-          <h1 className="text-2xl font-medium text-[#F5F3F0] mb-2">
-            Declarations
+          <h1 className="font-display text-3xl md:text-4xl font-light text-[#F5F3F0] mb-2">
+            The lake
           </h1>
-          <p className="text-[#8A8A8A]">
-            Browse creative provenance declarations.
+          <p className="text-[#8A8A8A] text-sm">
+            Every declaration in the cross-media lineage graph.
           </p>
         </div>
 
@@ -132,12 +132,12 @@ export default function Gallery() {
             placeholder="Search by title or artist..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 px-4 py-3 bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
+            className="flex-1 px-4 py-3 bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
           />
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as SortOption)}
-            className="px-3 py-2 text-xs bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F3F0] focus:border-[#8A8A8A] outline-none cursor-pointer"
+            className="px-3 py-2 text-xs bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] focus:border-[#8A8A8A] outline-none cursor-pointer"
           >
             <option value="date-desc">Latest First</option>
             <option value="date-asc">Oldest First</option>
@@ -197,7 +197,7 @@ export default function Gallery() {
                             </span>
                           </p>
                         </div>
-                        <span className="text-[10px] uppercase tracking-widest text-[#8A8A8A] font-mono shrink-0 ml-4">
+                        <span className="text-[10px] tracking-[0.04em] text-[#8A8A8A] font-mono shrink-0 ml-4">
                           {aiLabel}
                         </span>
                       </div>
@@ -212,7 +212,7 @@ export default function Gallery() {
                           { label: "Ms", value: dec.aiMastering / 100, title: "Mastering" },
                         ].map(({ label, value, title }) => (
                           <div key={label} className="flex-1" title={`${title}: ${Math.round(value * 100)}%`}>
-                            <div className="h-1 bg-[#1A1A1A]">
+                            <div className="h-1 bg-[#0E0E0E]">
                               <div
                                 className="h-full bg-[#F5F3F0] transition-all duration-300"
                                 style={{ width: `${value * 100}%` }}
@@ -226,7 +226,7 @@ export default function Gallery() {
                       <div className="flex items-center justify-between text-[10px] text-[#8A8A8A] font-mono">
                         <div className="flex items-center gap-2">
                           {badges.slice(0, 3).map((badge) => (
-                            <span key={badge.key} className="uppercase tracking-wider">
+                            <span key={badge.key} className="tracking-[0.04em] tracking-wider">
                               {badge.label}
                             </span>
                           ))}

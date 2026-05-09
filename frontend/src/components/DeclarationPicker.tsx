@@ -73,7 +73,7 @@ export function DeclarationPicker({ isOpen, onClose, onSelect, currentArtist }: 
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by title, artist, or ID..."
-            className="w-full px-4 py-2.5 bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none text-sm"
+            className="w-full px-4 py-2.5 bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none text-sm"
             autoFocus
           />
         </div>
@@ -103,7 +103,7 @@ export function DeclarationPicker({ isOpen, onClose, onSelect, currentArtist }: 
                     onSelect(declaration.id, declaration.title);
                     onClose();
                   }}
-                  className="w-full text-left p-4 bg-[#1A1A1A] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100"
+                  className="w-full text-left p-4 bg-[#0E0E0E] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1 min-w-0">

@@ -104,16 +104,16 @@ export default function ProfilePage() {
           <>
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 mb-12">
-              <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
-                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">Declarations</p>
+              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+                <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">Declarations</p>
                 <p className="text-2xl font-mono text-[#F5F3F0]">{totalDeclarations}</p>
               </div>
-              <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
-                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">With Audio</p>
+              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+                <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">With Audio</p>
                 <p className="text-2xl font-mono text-[#F5F3F0]">{withAudioCount}</p>
               </div>
-              <div className="p-4 bg-[#1A1A1A] border border-[#2A2A2A]">
-                <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-2">On-Chain</p>
+              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+                <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">On-Chain</p>
                 <p className="text-2xl font-mono text-[#F5F3F0]">{onChainCount}</p>
               </div>
             </div>
@@ -122,8 +122,8 @@ export default function ProfilePage() {
             {(allTools.size > 0 || allBadges.size > 0) && (
               <div className="grid md:grid-cols-2 gap-6 mb-12">
                 {allTools.size > 0 && (
-                  <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
-                    <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">Creative Stack</p>
+                  <div className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+                    <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">Creative Stack</p>
                     <div className="flex flex-wrap gap-2">
                       {Array.from(allTools).map(tool => (
                         <span key={tool} className="px-2 py-1 text-xs bg-[#0A0A0A] border border-[#2A2A2A] text-[#8A8A8A]">
@@ -134,8 +134,8 @@ export default function ProfilePage() {
                   </div>
                 )}
                 {allBadges.size > 0 && (
-                  <div className="p-6 bg-[#1A1A1A] border border-[#2A2A2A]">
-                    <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">Badges Earned</p>
+                  <div className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+                    <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">Badges Earned</p>
                     <div className="flex flex-wrap gap-2">
                       {Array.from(allBadges).map(badge => (
                         <span key={badge} className="px-2 py-1 text-xs bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] font-mono">
@@ -150,7 +150,7 @@ export default function ProfilePage() {
 
             {/* Declarations List */}
             <div className="space-y-3">
-              <p className="text-xs uppercase tracking-widest text-[#8A8A8A] mb-4">All Declarations</p>
+              <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">All Declarations</p>
               {declarations.map((dec) => {
                 const ai = calculateAverageAI(dec);
                 const aiLabel = ai === 0 ? "Human" : ai <= 25 ? "AI-Assisted" : ai <= 75 ? "AI-Native" : "Full AI";
@@ -163,7 +163,7 @@ export default function ProfilePage() {
                             {dec.title || "Untitled"}
                           </h3>
                         </div>
-                        <span className="text-[10px] uppercase tracking-widest text-[#8A8A8A] font-mono shrink-0 ml-4">
+                        <span className="text-[10px] tracking-[0.04em] text-[#8A8A8A] font-mono shrink-0 ml-4">
                           {aiLabel}
                         </span>
                       </div>
@@ -177,7 +177,7 @@ export default function ProfilePage() {
                           { label: "Ms", value: dec.aiMastering / 100 },
                         ].map(({ label, value }) => (
                           <div key={label} className="flex-1">
-                            <div className="h-1 bg-[#1A1A1A]">
+                            <div className="h-1 bg-[#0E0E0E]">
                               <div
                                 className="h-full bg-[#F5F3F0] transition-all duration-300"
                                 style={{ width: `${value * 100}%` }}
