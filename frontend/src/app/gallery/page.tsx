@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { getBadges, GALLERY_FILTERS, type GalleryFilterKey } from "@/lib/badges";
+import { processChip } from "@/lib/process";
 
 interface Declaration {
   id: string;
@@ -18,14 +19,6 @@ interface Declaration {
   transparencyScore: number;
   badge: string | null;
   createdAt: string;
-}
-
-function getAILabel(dec: Declaration) {
-  const avg = (dec.aiComposition + dec.aiArrangement + dec.aiProduction + dec.aiMixing + dec.aiMastering) / 5;
-  if (avg === 0) return "Human";
-  if (avg <= 25) return "AI-Assisted";
-  if (avg <= 75) return "AI-Native";
-  return "Full AI";
 }
 
 type SortOption = "date-desc" | "date-asc";
@@ -169,7 +162,6 @@ export default function Gallery() {
         ) : (
           <div className="space-y-3">
             {filteredDeclarations.map((dec) => {
-              const aiLabel = getAILabel(dec);
               const badges = getBadges(dec.badge);
               const canDelete = !dec.artistWallet && !dec.tokenId;
               return (
@@ -197,29 +189,9 @@ export default function Gallery() {
                             </span>
                           </p>
                         </div>
-                        <span className="text-[10px] tracking-[0.04em] text-[#8A8A8A] font-mono shrink-0 ml-4">
-                          {aiLabel}
+                        <span className="text-[10px] tracking-[0.04em] text-[#8A8A8A] shrink-0 ml-4">
+                          {processChip(dec)}
                         </span>
-                      </div>
-
-                      {/* AI Contribution - Phase Bars */}
-                      <div className="flex items-center gap-2 mb-2">
-                        {[
-                          { label: "C", value: dec.aiComposition / 100, title: "Composition" },
-                          { label: "A", value: dec.aiArrangement / 100, title: "Arrangement" },
-                          { label: "P", value: dec.aiProduction / 100, title: "Production" },
-                          { label: "M", value: dec.aiMixing / 100, title: "Mixing" },
-                          { label: "Ms", value: dec.aiMastering / 100, title: "Mastering" },
-                        ].map(({ label, value, title }) => (
-                          <div key={label} className="flex-1" title={`${title}: ${Math.round(value * 100)}%`}>
-                            <div className="h-1 bg-[#141414]">
-                              <div
-                                className="h-full bg-[#F5F3F0] transition-all duration-300"
-                                style={{ width: `${value * 100}%` }}
-                              />
-                            </div>
-                          </div>
-                        ))}
                       </div>
 
                       {/* Footer */}

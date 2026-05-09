@@ -11,6 +11,7 @@ import { getBadges } from "@/lib/badges";
 import { DeclarationBadge } from "@/components/DeclarationBadge";
 import { LineageTimeline } from "@/components/LineageTimeline";
 import { CanonStrip } from "@/components/CanonStrip";
+import { summarizeProcess } from "@/lib/process";
 
 interface Declaration {
   id: string;
@@ -54,32 +55,6 @@ function calculateAverageAI(dec: Declaration) {
   return (
     (dec.aiComposition + dec.aiArrangement + dec.aiProduction + dec.aiMixing + dec.aiMastering) / 5
   );
-}
-
-// Reduce the 5 AI-stage scores to a single human-readable sentence.
-// Threshold: >= 50% AI on a stage = "AI", otherwise "by hand".
-function summarizeProcess(dec: Declaration) {
-  const stages: Array<{ name: string; v: number }> = [
-    { name: "Composition",  v: dec.aiComposition },
-    { name: "Arrangement",  v: dec.aiArrangement },
-    { name: "Production",   v: dec.aiProduction },
-    { name: "Mixing",       v: dec.aiMixing },
-    { name: "Mastering",    v: dec.aiMastering },
-  ];
-  const byHand = stages.filter((s) => s.v < 50).map((s) => s.name);
-  const aiAssisted = stages.filter((s) => s.v >= 50).map((s) => s.name);
-
-  if (aiAssisted.length === 0) return "Hand-made across the full process.";
-  if (byHand.length === 0)     return "AI-native across the full process.";
-
-  const join = (xs: string[]) =>
-    xs.length === 1
-      ? xs[0]
-      : xs.length === 2
-      ? `${xs[0]} and ${xs[1]}`
-      : `${xs.slice(0, -1).join(", ")}, and ${xs[xs.length - 1]}`;
-
-  return `${join(byHand)} by hand. AI-assisted ${join(aiAssisted).toLowerCase()}.`;
 }
 
 export default function VerifyPage({

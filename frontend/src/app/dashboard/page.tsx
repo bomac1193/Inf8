@@ -8,6 +8,7 @@ import { formatEther } from "viem";
 import { O8TokenABI, O8RegistryABI } from "@/contracts/abis";
 import { O8_CONTRACTS } from "@/lib/wagmi";
 import { getBadges } from "@/lib/badges";
+import { processChip } from "@/lib/process";
 
 interface Declaration {
   id: string;
@@ -21,12 +22,6 @@ interface Declaration {
   transparencyScore: number;
   badge: string | null;
   createdAt: string;
-}
-
-function calculateAverageAI(dec: Declaration) {
-  return (
-    (dec.aiComposition + dec.aiArrangement + dec.aiProduction + dec.aiMixing + dec.aiMastering) / 5 / 100
-  );
 }
 
 export default function Dashboard() {
@@ -193,7 +188,6 @@ export default function Dashboard() {
           ) : (
             <div className="space-y-4">
               {declarations.map((dec) => {
-                const avgAI = calculateAverageAI(dec);
                 const badges = getBadges(dec.badge);
                 return (
                   <Link key={dec.id} href={`/verify/${dec.id}`}>
@@ -224,20 +218,9 @@ export default function Dashboard() {
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-8">
-                          <div className="text-right">
-                            <p className="text-xs text-[#8A8A8A]">Score</p>
-                            <p className="text-lg font-medium text-[#F5F3F0]">
-                              {dec.transparencyScore}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <p className="text-xs text-[#8A8A8A]">AI</p>
-                            <p className="text-lg font-medium text-[#F5F3F0]">
-                              {Math.round(avgAI * 100)}%
-                            </p>
-                          </div>
-                        </div>
+                        <span className="text-[10px] tracking-[0.04em] text-[#8A8A8A] shrink-0">
+                          {processChip(dec)}
+                        </span>
                       </div>
                     </div>
                   </Link>

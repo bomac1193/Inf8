@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { getBadges } from "@/lib/badges";
+import { processChip } from "@/lib/process";
 
 interface Declaration {
   id: string;
@@ -24,12 +25,6 @@ interface Declaration {
   plugins: string | null;
   aiModels: string | null;
   createdAt: string;
-}
-
-function calculateAverageAI(dec: Declaration) {
-  return (
-    (dec.aiComposition + dec.aiArrangement + dec.aiProduction + dec.aiMixing + dec.aiMastering) / 5
-  );
 }
 
 export default function ProfilePage() {
@@ -152,8 +147,6 @@ export default function ProfilePage() {
             <div className="space-y-3">
               <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">All Declarations</p>
               {declarations.map((dec) => {
-                const ai = calculateAverageAI(dec);
-                const aiLabel = ai === 0 ? "Human" : ai <= 25 ? "AI-Assisted" : ai <= 75 ? "AI-Native" : "Full AI";
                 return (
                   <Link key={dec.id} href={`/verify/${dec.id}`}>
                     <div className="p-4 bg-black border border-[#3A3A3A] hover:border-[#F5F3F0] transition-colors duration-100 cursor-pointer">
@@ -163,31 +156,12 @@ export default function ProfilePage() {
                             {dec.title || "Untitled"}
                           </h3>
                         </div>
-                        <span className="text-[10px] tracking-[0.04em] text-[#8A8A8A] font-mono shrink-0 ml-4">
-                          {aiLabel}
+                        <span className="text-[10px] tracking-[0.04em] text-[#8A8A8A] shrink-0 ml-4">
+                          {processChip(dec)}
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2 mb-2">
-                        {[
-                          { label: "C", value: dec.aiComposition / 100 },
-                          { label: "A", value: dec.aiArrangement / 100 },
-                          { label: "P", value: dec.aiProduction / 100 },
-                          { label: "M", value: dec.aiMixing / 100 },
-                          { label: "Ms", value: dec.aiMastering / 100 },
-                        ].map(({ label, value }) => (
-                          <div key={label} className="flex-1">
-                            <div className="h-1 bg-[#141414]">
-                              <div
-                                className="h-full bg-[#F5F3F0] transition-all duration-300"
-                                style={{ width: `${value * 100}%` }}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center justify-between text-[10px] text-[#8A8A8A] font-mono">
+                      <div className="flex items-center justify-between text-[10px] text-[#5A5A5A]">
                         <span>{new Date(dec.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>

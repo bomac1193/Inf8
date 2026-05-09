@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useAccount } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { getBadges } from "@/lib/badges";
+import { summarizeProcess } from "@/lib/process";
 
 interface Declaration {
   id: string;
@@ -28,12 +29,6 @@ const CANON_LABEL: Record<string, string> = {
   promoted: "Promoted",
   canon: "Canon",
 };
-
-function calculateAverageAI(dec: Declaration) {
-  return (
-    (dec.aiComposition + dec.aiArrangement + dec.aiProduction + dec.aiMixing + dec.aiMastering) / 5 / 100
-  );
-}
 
 export default function MyDeclarations() {
   const { address, isConnected } = useAccount();
@@ -135,21 +130,21 @@ export default function MyDeclarations() {
           </div>
         ) : (
           <>
-            {/* Stats */}
+            {/* Stats — counts of where the work currently lives */}
             <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
-                <p className="text-xs text-[#8A8A8A] mb-1">Total</p>
-                <p className="text-2xl font-medium text-[#F5F3F0]">{declarations.length}</p>
+              <div className="p-4 bg-[#141414] border border-[#1F1F1F]">
+                <p className="text-[10px] tracking-[0.04em] text-[#8A8A8A] mb-1">Total</p>
+                <p className="text-2xl text-[#F5F3F0]">{declarations.length}</p>
               </div>
-              <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
-                <p className="text-xs text-[#8A8A8A] mb-1">Avg Transparency</p>
-                <p className="text-2xl font-medium text-[#F5F3F0]">
-                  {Math.round(declarations.reduce((sum, d) => sum + d.transparencyScore, 0) / declarations.length)}
+              <div className="p-4 bg-[#141414] border border-[#1F1F1F]">
+                <p className="text-[10px] tracking-[0.04em] text-[#8A8A8A] mb-1">In canon</p>
+                <p className="text-2xl text-[#F5F3F0]">
+                  {declarations.filter((d) => d.canonState === "canon").length}
                 </p>
               </div>
-              <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
-                <p className="text-xs text-[#8A8A8A] mb-1">Minted</p>
-                <p className="text-2xl font-medium text-[#F5F3F0]">
+              <div className="p-4 bg-[#141414] border border-[#1F1F1F]">
+                <p className="text-[10px] tracking-[0.04em] text-[#8A8A8A] mb-1">Minted</p>
+                <p className="text-2xl text-[#F5F3F0]">
                   {declarations.filter(d => d.tokenId).length}
                 </p>
               </div>
@@ -158,7 +153,6 @@ export default function MyDeclarations() {
             {/* Declarations List */}
             <div className="space-y-4">
               {declarations.map((dec) => {
-                const avgAI = calculateAverageAI(dec);
                 const badges = getBadges(dec.badge);
                 const canDelete = !dec.artistWallet && !dec.tokenId;
                 return (
@@ -210,46 +204,17 @@ export default function MyDeclarations() {
                             </div>
                             <p className="text-sm text-[#8A8A8A]">{dec.artistName}</p>
                           </div>
-                          <div className="text-right">
-                            <p className="text-sm text-[#8A8A8A]">Score</p>
-                            <p className="text-lg font-medium text-[#F5F3F0]">
-                              {dec.transparencyScore}
-                            </p>
-                          </div>
                         </div>
 
-                        {/* AI Contribution Bars */}
-                        <div className="grid grid-cols-5 gap-4 mb-4">
-                          {[
-                            { label: "Comp", value: dec.aiComposition / 100 },
-                            { label: "Arr", value: dec.aiArrangement / 100 },
-                            { label: "Prod", value: dec.aiProduction / 100 },
-                            { label: "Mix", value: dec.aiMixing / 100 },
-                            { label: "Master", value: dec.aiMastering / 100 },
-                          ].map(({ label, value }) => (
-                            <div key={label} className="text-center">
-                              <div className="h-1 bg-[#2A2A2A] mb-2">
-                                <div
-                                  className="h-full bg-[#8A8A8A] transition-all duration-300"
-                                  style={{ width: `${value * 100}%` }}
-                                />
-                              </div>
-                              <p className="text-xs text-[#8A8A8A]">{label}</p>
-                              <p className="text-xs text-[#F5F3F0]">
-                                {Math.round(value * 100)}%
-                              </p>
-                            </div>
-                          ))}
-                        </div>
+                        {/* Process — single sentence, no bars */}
+                        <p className="text-sm text-[#F5F3F0] leading-snug mb-4">
+                          {summarizeProcess(dec)}
+                        </p>
 
-                        {/* Footer */}
-                        <div className="flex items-center justify-between pt-4 border-t border-[#2A2A2A]">
-                          <p className="text-xs text-[#8A8A8A]">
-                            Avg AI: {Math.round(avgAI * 100)}%
-                          </p>
-                          <p className="text-xs text-[#8A8A8A]">
+                        <div className="flex items-center justify-between pt-3 border-t border-[#1F1F1F]">
+                          <span className="text-[10px] tracking-[0.04em] text-[#5A5A5A]">
                             {new Date(dec.createdAt).toLocaleDateString()}
-                          </p>
+                          </span>
                         </div>
                       </div>
                     </Link>
