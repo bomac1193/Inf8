@@ -1,18 +1,7 @@
 import type { Metadata } from "next";
-import { Fraunces } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
-
-// Fraunces is a free Canela-alike. Variable font, high contrast, used
-// the same way Boveda uses it. Exposes a CSS variable consumed by
-// --font-heading in globals.css.
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-fraunces",
-  display: "swap",
-});
 
 export const metadata: Metadata = {
   title: "Nsibidi",
@@ -27,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={fraunces.variable}>
+    <html lang="en">
       <body className="antialiased min-h-screen">
         <Providers>
           <Header />

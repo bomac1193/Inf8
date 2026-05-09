@@ -1,44 +1,19 @@
 @import "tailwindcss";
 
 /*
- * Nsibidi Design System  Chrysalis aesthetic, dark mode only.
- *
- * Typography:
- *   - Headings: Fraunces (Google Fonts, free, loaded via next/font in
- *     layout.tsx). Same Canela-alike approach Boveda uses.
- *   - Body: Söhne Test (Klim trial files, fsType=0 so they render).
- *     Falls back to system sans.
+ * Nsibidi typography. Same Canela + Söhne wiring Bourse and Boveda use.
+ * Plain @font-face — no next/font, no @theme tricks.
  */
+@font-face { font-family: 'Canela'; src: url('/fonts/canela/Canela-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Canela'; src: url('/fonts/canela/Canela-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Canela'; src: url('/fonts/canela/Canela-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Canela'; src: url('/fonts/canela/Canela-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
 
-/* Söhne (Test) — these files have fsType=0 so the browser embeds them. */
-@font-face {
-  font-family: "Söhne";
-  src: url("/fonts/sohne/Sohne-Light.otf") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Söhne";
-  src: url("/fonts/sohne/Sohne-Book.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Söhne";
-  src: url("/fonts/sohne/Sohne-Medium.otf") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Söhne";
-  src: url("/fonts/sohne/Sohne-Semibold.otf") format("opentype");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
+@font-face { font-family: 'Sohne'; src: url('/fonts/sohne/Sohne-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Sohne'; src: url('/fonts/sohne/Sohne-Book.otf') format('opentype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Sohne'; src: url('/fonts/sohne/Sohne-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Sohne'; src: url('/fonts/sohne/Sohne-Semibold.otf') format('opentype'); font-weight: 600; font-display: swap; }
+@font-face { font-family: 'Sohne Mono'; src: url('/fonts/sohne/SohneMono-Book.otf') format('opentype'); font-weight: 400; font-display: swap; }
 
 /* ---------- design tokens ---------- */
 :root {
@@ -90,10 +65,9 @@
   --color-pending: var(--color-pending);
   --color-error: var(--color-error);
 
-  /* Fraunces for heads (next/font), Söhne for body. */
-  --font-sans: 'Söhne', system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
-  --font-mono: 'Söhne Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --font-heading: var(--font-fraunces), "Iowan Old Style", "Hoefler Text", Georgia, serif;
+  --font-sans: 'Sohne', system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-mono: 'Sohne Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-heading: 'Canela', 'Times New Roman', Georgia, serif;
 
   /* Border radius - all 0 for sharp corners */
   --radius-none: 0px;
