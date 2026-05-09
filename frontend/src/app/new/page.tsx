@@ -71,14 +71,14 @@ const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
     methodology: "Track generated entirely through Swanblade against a curated LoRA trained on the artist's reference corpus. Prompt + LoRA strength tuned per take.",
   },
   {
-    name: "mmuo voice only",
-    description: "Vocal performance through mmuo on a trained Bo Ubani LoRA",
-    aiModels: "mmuo gpt-sovits, Bo Ubani LoRA",
+    name: "Mmuo voice only",
+    description: "Vocal performance through Mmuo on a trained Bo Ubani LoRA",
+    aiModels: "Mmuo gpt-sovits, Bo Ubani LoRA",
     daws: "N/A",
     plugins: "N/A",
     hardware: "N/A",
     aiContribution: { composition: 1.0, arrangement: 1.0, production: 1.0, mixing: 1.0, mastering: 1.0 },
-    methodology: "Vocal track synthesized through mmuo against the trained voice LoRA. Reference clips drive timbre and inflection.",
+    methodology: "Vocal track synthesized through Mmuo against the trained voice LoRA. Reference clips drive timbre and inflection.",
   },
   {
     name: "Swanblade + DAW hybrid",
@@ -93,12 +93,12 @@ const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
     name: "Sankoré-finished",
     description: "Render through proprietary stack, finished in Sankoré",
-    aiModels: "Swanblade v1, mmuo, Bo Ubani LoRA",
+    aiModels: "Swanblade v1, Mmuo, Bo Ubani LoRA",
     daws: "Sankoré timeline",
     plugins: "Resonaet master, Alabo finishing presets",
     hardware: "N/A",
     aiContribution: { composition: 0.7, arrangement: 0.6, production: 0.5, mixing: 0.3, mastering: 0.2 },
-    methodology: "Proprietary cross-modal render: Swanblade for music bed, mmuo for vocal, Ikenga-curated visual stack, Sankoré for timeline finishing and Resonaet mastering. Every step writes a Nsibidi declaration.",
+    methodology: "Proprietary cross-modal render: Swanblade for music bed, Mmuo for vocal, Ikenga-curated visual stack, Sankoré for timeline finishing and Resonaet mastering. Every step writes a Nsibidi declaration.",
   },
   {
     name: "Traditional (no AI)",
@@ -842,7 +842,7 @@ function NewDeclarationForm() {
                   value={aiModels}
                   onChange={(e) => setAiModels(e.target.value)}
                   className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
-                  placeholder="Swanblade v1, mmuo gpt-sovits, Bo Ubani LoRA, none..."
+                  placeholder="Swanblade v1, Mmuo gpt-sovits, Bo Ubani LoRA, none..."
                 />
               </div>
             </div>
@@ -930,7 +930,7 @@ function NewDeclarationForm() {
                 onChange={(e) => setMethodology(e.target.value)}
                 rows={3}
                 className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none text-sm"
-                placeholder="e.g., Started with Swanblade against my custom LoRA, exported stems and rebuilt in Ableton, added live vocals via mmuo, finished in Sankoré with the alien_haunt preset..."
+                placeholder="e.g., Started with Swanblade against my custom LoRA, exported stems and rebuilt in Ableton, added live vocals via Mmuo, finished in Sankoré with the alien_haunt preset..."
               />
             </div>
 

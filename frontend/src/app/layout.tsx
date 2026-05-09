@@ -4,10 +4,10 @@ import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
 
 export const metadata: Metadata = {
-  title: "Nsibidi | Cross-media provenance protocol",
+  title: "Nsibidi",
   description:
-    "Cross-media provenance + lineage protocol for the Alabo ecosystem. Every artifact made across Ikenga, Swanblade, Sankoré, mmuo, Boveda gets one machine-readable Nsibidi declaration. Walk back from a final video to the LoRA, the audio, the canon photos.",
-  keywords: ["nsibidi", "provenance", "lineage", "alabo", "ikenga", "swanblade", "sankore", "mmuo", "boveda", "ai-native", "cross-media", "protocol"],
+    "Cross-media provenance protocol. Every artifact gets one machine-readable declaration. Walk back from a final video to the LoRA, the audio, the canon photos, the training corpus.",
+  keywords: ["nsibidi", "provenance", "lineage", "ai-native", "cross-media", "protocol"],
 };
 
 export default function RootLayout({
