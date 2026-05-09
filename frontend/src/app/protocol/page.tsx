@@ -7,7 +7,7 @@ export default function Protocol() {
     <div className="min-h-screen bg-[#0A0A0A]">
       <article className="max-w-[800px] mx-auto px-6 md:px-16 py-24">
         <header className="mb-20">
-          <p className="text-[10px] uppercase tracking-[0.3em] text-[#5A5A5A] mb-6">
+          <p className="text-[10px] tracking-[0.04em] text-[#5A5A5A] mb-6">
             Nsibidi
           </p>
           <h1 className="font-display text-[48px] md:text-[64px] font-light text-[#F5F3F0] tracking-tight leading-tight mb-6">
@@ -91,7 +91,7 @@ export default function Protocol() {
         <footer className="pt-12 border-t border-[#1A1A1A]">
           <Link
             href="/"
-            className="text-xs uppercase tracking-[0.25em] text-[#5A5A5A] hover:text-[#8A8A8A] transition-colors"
+            className="text-xs tracking-[0.04em] text-[#5A5A5A] hover:text-[#8A8A8A] transition-colors"
           >
             Back
           </Link>
@@ -105,7 +105,7 @@ export default function Protocol() {
 function Field({ label, body }: { label: string; body: string }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-2 md:gap-8">
-      <dt className="text-[11px] uppercase tracking-[0.25em] text-[#5A5A5A] pt-1">
+      <dt className="text-[11px] tracking-[0.04em] text-[#5A5A5A] pt-1">
         {label}
       </dt>
       <dd className="text-[#F5F3F0] leading-relaxed">{body}</dd>

@@ -12,7 +12,7 @@ export function Header() {
             <span className="font-display text-2xl font-light text-[#F5F3F0] tracking-tight">
               Nsibidi
             </span>
-            <span className="hidden sm:block text-[10px] text-[#8A8A8A] uppercase tracking-[0.25em]">
+            <span className="hidden sm:block text-[11px] text-[#8A8A8A] tracking-[0.04em]">
               Provenance
             </span>
           </Link>
@@ -72,9 +72,9 @@ export function Header() {
                       {chain.unsupported ? (
                         <button
                           onClick={openChainModal}
-                          className="px-3 py-1.5 text-xs uppercase tracking-widest border border-[#8B4049] text-[#8B4049] hover:bg-[#8B4049] hover:text-[#F5F3F0] transition-colors duration-100"
+                          className="px-3 py-1.5 text-xs tracking-[0.04em] border border-[#8B4049] text-[#8B4049] hover:bg-[#8B4049] hover:text-[#F5F3F0] transition-colors duration-100"
                         >
-                          Wrong Network
+                          Wrong network
                         </button>
                       ) : (
                         <button
@@ -101,7 +101,7 @@ export function Header() {
                   ) : (
                     <button
                       onClick={openConnectModal}
-                      className="px-3 py-1.5 text-xs uppercase tracking-widest text-[#8A8A8A] border border-[#2A2A2A] hover:border-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
+                      className="px-3 py-1.5 text-xs tracking-[0.04em] text-[#8A8A8A] border border-[#2A2A2A] hover:border-[#8A8A8A] hover:text-[#F5F3F0] transition-colors duration-100"
                     >
                       Connect
                     </button>

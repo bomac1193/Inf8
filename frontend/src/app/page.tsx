@@ -13,12 +13,12 @@ export default function Home() {
           </h1>
 
           <p className="font-display text-xl md:text-2xl text-[#F5F3F0] font-light leading-snug mb-16">
-            The graph behind every artifact.
+            A record of relationships and origin.
           </p>
 
           <Link
             href="/new"
-            className="inline-block px-8 py-3 border border-[#F5F3F0] text-[#F5F3F0] text-sm uppercase tracking-[0.3em] hover:bg-[#F5F3F0] hover:text-[#0A0A0A] transition-colors duration-150"
+            className="inline-block px-8 py-3 border border-[#F5F3F0] text-[#F5F3F0] text-sm tracking-[0.04em] hover:bg-[#F5F3F0] hover:text-[#0A0A0A] transition-colors duration-150"
           >
             Begin
           </Link>
@@ -27,7 +27,7 @@ export default function Home() {
 
       {/* Quiet footer band. No noise. */}
       <footer className="px-6 py-8 border-t border-[#1A1A1A]">
-        <div className="max-w-[1200px] mx-auto flex items-center justify-between text-[10px] uppercase tracking-[0.25em] text-[#5A5A5A]">
+        <div className="max-w-[1200px] mx-auto flex items-center justify-between text-[11px] tracking-[0.04em] text-[#5A5A5A]">
           <span>Cross-media provenance</span>
           <Link href="/protocol" className="hover:text-[#8A8A8A] transition-colors">
             Protocol
