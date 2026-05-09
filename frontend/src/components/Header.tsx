@@ -8,12 +8,9 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A] border-b border-[#2A2A2A]">
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center">
             <span className="font-display text-2xl font-light text-[#F5F3F0] tracking-tight">
               Nsibidi
-            </span>
-            <span className="hidden sm:block text-[11px] text-[#8A8A8A] tracking-[0.04em]">
-              Provenance
             </span>
           </Link>
 
