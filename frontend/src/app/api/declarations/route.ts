@@ -11,6 +11,10 @@ export async function GET(request: NextRequest) {
     const minScore = searchParams.get("minScore");
     const artist = searchParams.get("artist");
     const artistName = searchParams.get("artistName");
+    // canonState filter. Public default = canon|promoted only.
+    // Pass ?canonState=all (only meaningful when artist param is also set)
+    // to include sandbox in a personal feed.
+    const canonStateParam = searchParams.get("canonState");
     const limit = parseInt(searchParams.get("limit") || "50");
     const offset = parseInt(searchParams.get("offset") || "0");
 
@@ -31,6 +35,19 @@ export async function GET(request: NextRequest) {
 
     if (artistName) {
       where.artistName = { contains: artistName };
+    }
+
+    // Canon-state gating. "all" only honored when scoped by artist (the
+    // wallet is asking for its own full feed). Otherwise default to the
+    // public canon|promoted slice.
+    if (canonStateParam === "all" && artist) {
+      // no canonState filter
+    } else if (canonStateParam === "sandbox" && artist) {
+      where.canonState = "sandbox";
+    } else if (canonStateParam === "canon") {
+      where.canonState = "canon";
+    } else {
+      where.canonState = { in: ["promoted", "canon"] };
     }
 
     const [declarations, total] = await Promise.all([

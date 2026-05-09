@@ -10,6 +10,7 @@ import { O8_CONTRACTS } from "@/lib/wagmi";
 import { getBadges } from "@/lib/badges";
 import { DeclarationBadge } from "@/components/DeclarationBadge";
 import { LineageTimeline } from "@/components/LineageTimeline";
+import { CanonStrip } from "@/components/CanonStrip";
 
 interface Declaration {
   id: string;
@@ -38,6 +39,7 @@ interface Declaration {
   derivativeRights: boolean;
   remixRights: boolean;
   contributorSplits: unknown;
+  canonState?: string;
   createdAt: string;
   childDeclarations?: {
     id: string;
@@ -52,6 +54,32 @@ function calculateAverageAI(dec: Declaration) {
   return (
     (dec.aiComposition + dec.aiArrangement + dec.aiProduction + dec.aiMixing + dec.aiMastering) / 5
   );
+}
+
+// Reduce the 5 AI-stage scores to a single human-readable sentence.
+// Threshold: >= 50% AI on a stage = "AI", otherwise "by hand".
+function summarizeProcess(dec: Declaration) {
+  const stages: Array<{ name: string; v: number }> = [
+    { name: "Composition",  v: dec.aiComposition },
+    { name: "Arrangement",  v: dec.aiArrangement },
+    { name: "Production",   v: dec.aiProduction },
+    { name: "Mixing",       v: dec.aiMixing },
+    { name: "Mastering",    v: dec.aiMastering },
+  ];
+  const byHand = stages.filter((s) => s.v < 50).map((s) => s.name);
+  const aiAssisted = stages.filter((s) => s.v >= 50).map((s) => s.name);
+
+  if (aiAssisted.length === 0) return "Hand-made across the full process.";
+  if (byHand.length === 0)     return "AI-native across the full process.";
+
+  const join = (xs: string[]) =>
+    xs.length === 1
+      ? xs[0]
+      : xs.length === 2
+      ? `${xs[0]} and ${xs[1]}`
+      : `${xs.slice(0, -1).join(", ")}, and ${xs[xs.length - 1]}`;
+
+  return `${join(byHand)} by hand. AI-assisted ${join(aiAssisted).toLowerCase()}.`;
 }
 
 export default function VerifyPage({
@@ -278,6 +306,8 @@ export default function VerifyPage({
           </div>
         </div>
 
+        <CanonStrip declaration={declaration} address={address} onChange={setDeclaration} />
+
         {/* Mint on ISSUANCE */}
         {declaration.ipfsCID && (
           <div className="p-3 bg-black border border-[#F5F3F0] mb-4">
@@ -335,28 +365,15 @@ export default function VerifyPage({
           </div>
         )}
 
-        {/* Production intelligence  typographic table, no gauges */}
+        {/* Process — single-line claim derived from the AI stage values.
+            Methodology, when present, carries the actual prose. */}
         <div className="p-5 bg-[#141414] border border-[#1F1F1F] mb-4">
-          <p className="text-[11px] tracking-[0.04em] text-[#8A8A8A] mb-4">
-            Production intelligence
+          <p className="text-[11px] tracking-[0.04em] text-[#8A8A8A] mb-3">
+            Process
           </p>
-          <dl className="font-mono text-[12px] space-y-1.5">
-            {[
-              { label: "composition", value: declaration.aiComposition },
-              { label: "arrangement", value: declaration.aiArrangement },
-              { label: "production",  value: declaration.aiProduction },
-              { label: "mixing",      value: declaration.aiMixing },
-              { label: "mastering",   value: declaration.aiMastering },
-            ].map(({ label, value }) => (
-              <div key={label} className="flex items-baseline justify-between border-b border-[#161616] pb-1.5 last:border-b-0">
-                <dt className="text-[#8A8A8A]">{label}</dt>
-                <dd className="text-[#F5F3F0] tabular-nums">
-                  {(value / 100).toFixed(2)}
-                  <span className="text-[#5A5A5A] ml-1.5 text-[10px]">ai</span>
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <p className="text-[#F5F3F0] leading-snug text-base">
+            {summarizeProcess(declaration)}
+          </p>
 
           {declaration.methodology && (
             <div className="mt-5 pt-4 border-t border-[#1F1F1F]">

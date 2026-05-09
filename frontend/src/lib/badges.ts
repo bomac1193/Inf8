@@ -1,5 +1,5 @@
-// Nsibidi Process-Based Badge System
-// All badges are equal facets, not a ranking
+// Nsibidi badge system. Bone-on-graphite for everything; one warm
+// accent (Lineage complete) reserved as the apex signal.
 
 export interface Badge {
   key: string;
@@ -17,26 +17,26 @@ export const BADGE_DEFINITIONS: Record<string, Badge> = {
   },
   DEEP_STACK: {
     key: "DEEP_STACK",
-    label: "Deep Stack",
-    color: "#B8A586",
-    textColor: "#0A0A0A",
+    label: "Stack disclosed",
+    color: "#1A1A1A",
+    textColor: "#F5F3F0",
   },
   PROCESS_DOC: {
     key: "PROCESS_DOC",
-    label: "Process Doc",
-    color: "#7B8FA1",
+    label: "Method recorded",
+    color: "#1A1A1A",
     textColor: "#F5F3F0",
   },
   MULTIPLAYER: {
     key: "MULTIPLAYER",
-    label: "Multiplayer",
-    color: "#A085C2",
+    label: "Co-authored",
+    color: "#1A1A1A",
     textColor: "#F5F3F0",
   },
   FULL_LINEAGE: {
     key: "FULL_LINEAGE",
-    label: "Full Lineage",
-    color: "#85A88F",
+    label: "Lineage complete",
+    color: "#B8A586",
     textColor: "#0A0A0A",
   },
 };
@@ -98,9 +98,9 @@ export function computeBadges(declaration: {
 // Gallery filter types based on new badge system
 export const GALLERY_FILTERS = [
   { key: "all", label: "All" },
-  { key: "DEEP_STACK", label: "Deep Stack" },
-  { key: "MULTIPLAYER", label: "Multiplayer" },
-  { key: "FULL_LINEAGE", label: "Full Lineage" },
+  { key: "DEEP_STACK", label: "Stack disclosed" },
+  { key: "MULTIPLAYER", label: "Co-authored" },
+  { key: "FULL_LINEAGE", label: "Lineage complete" },
 ] as const;
 
 export type GalleryFilterKey = (typeof GALLERY_FILTERS)[number]["key"];

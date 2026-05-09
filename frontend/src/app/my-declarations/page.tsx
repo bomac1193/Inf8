@@ -19,8 +19,15 @@ interface Declaration {
   aiMastering: number;
   transparencyScore: number;
   badge: string | null;
+  canonState?: string;
   createdAt: string;
 }
+
+const CANON_LABEL: Record<string, string> = {
+  sandbox: "Sandbox",
+  promoted: "Promoted",
+  canon: "Canon",
+};
 
 function calculateAverageAI(dec: Declaration) {
   return (
@@ -40,7 +47,12 @@ export default function MyDeclarations() {
     async function fetchMyDeclarations() {
       setLoading(true);
       try {
-        const params = new URLSearchParams({ artist: address! });
+        // canonState=all returns sandbox + promoted + canon for the
+        // wallet — this page is the personal full-body view.
+        const params = new URLSearchParams({
+          artist: address!,
+          canonState: "all",
+        });
         const res = await fetch(`/api/declarations?${params.toString()}`);
         if (res.ok) {
           const data = await res.json();
@@ -172,6 +184,27 @@ export default function MyDeclarations() {
                               {dec.tokenId && (
                                 <span className="px-2 py-0.5 text-xs tracking-[0.04em] bg-[#5A5A5A] text-[#F5F3F0]">
                                   MINTED
+                                </span>
+                              )}
+                              {dec.canonState && (
+                                <span
+                                  className="px-2 py-0.5 text-[10px] tracking-[0.04em] border"
+                                  style={{
+                                    borderColor:
+                                      dec.canonState === "canon"
+                                        ? "#B8A586"
+                                        : dec.canonState === "promoted"
+                                        ? "#F5F3F0"
+                                        : "#3A3A3A",
+                                    color:
+                                      dec.canonState === "canon"
+                                        ? "#B8A586"
+                                        : dec.canonState === "promoted"
+                                        ? "#F5F3F0"
+                                        : "#8A8A8A",
+                                  }}
+                                >
+                                  {CANON_LABEL[dec.canonState] ?? dec.canonState}
                                 </span>
                               )}
                             </div>

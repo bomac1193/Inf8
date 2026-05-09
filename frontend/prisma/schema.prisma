@@ -71,6 +71,11 @@ model Declaration {
   // Badge earned
   badge             String?  // "HUMAN_CRAFTED", "AI_DISCLOSED", "SOVEREIGN", etc.
 
+  // Curation state. Public surfaces (gallery, home) show only "promoted" /
+  // "canon"; "/my-declarations" shows all states for the connected wallet.
+  // The owner walks state forward via the promote action on /verify/[id].
+  canonState        String   @default("sandbox") // "sandbox" | "promoted" | "canon"
+
   // Timestamps
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -82,6 +87,7 @@ model Declaration {
   @@index([tokenId])
   @@index([transparencyScore])
   @@index([badge])
+  @@index([canonState])
 }
 
 // LicenseRequest: Track licensing requests (SOVN enforcement)

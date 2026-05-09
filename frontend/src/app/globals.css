@@ -9,6 +9,12 @@
 @font-face { font-family: 'Canela'; src: url('/fonts/canela/Canela-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
 @font-face { font-family: 'Canela'; src: url('/fonts/canela/Canela-Bold.otf') format('opentype'); font-weight: 700; font-display: swap; }
 
+/* CanelaDeck — display cut, designed for 25pt+. Used only on the hero
+   wordmark via the .font-display-deck utility below. */
+@font-face { font-family: 'Canela Deck'; src: url('/fonts/canela/CanelaDeck-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
+@font-face { font-family: 'Canela Deck'; src: url('/fonts/canela/CanelaDeck-Regular.otf') format('opentype'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Canela Deck'; src: url('/fonts/canela/CanelaDeck-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
+
 @font-face { font-family: 'Sohne'; src: url('/fonts/sohne/Sohne-Light.otf') format('opentype'); font-weight: 300; font-display: swap; }
 @font-face { font-family: 'Sohne'; src: url('/fonts/sohne/Sohne-Book.otf') format('opentype'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Sohne'; src: url('/fonts/sohne/Sohne-Medium.otf') format('opentype'); font-weight: 500; font-display: swap; }
@@ -103,6 +109,14 @@
     font-family: var(--font-heading);
     font-weight: 400;
     letter-spacing: -0.01em;
+  }
+
+  /* Hero / display-size wordmarks use Canela Deck, the cut designed
+     for 25pt+. Reads stronger at 88-128px than Canela Text. */
+  .font-display-deck {
+    font-family: 'Canela Deck', 'Canela', 'Times New Roman', Georgia, serif;
+    font-weight: 300;
+    letter-spacing: -0.02em;
   }
 
   ::selection {
