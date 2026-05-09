@@ -4,40 +4,13 @@
  * Nsibidi Design System  Chrysalis aesthetic, dark mode only.
  *
  * Typography:
- *   - Headings: Canela (paid, Commercial Type). Drop .woff2 files at
- *     /public/fonts/canela/. Falls back to a Garamond stack until present.
- *   - Body: Söhne (paid, Klim). Drop .woff2 files at /public/fonts/sohne/.
- *     Falls back to a system sans stack until present.
+ *   - Headings: Fraunces (Google Fonts, free, loaded via next/font in
+ *     layout.tsx). Same Canela-alike approach Boveda uses.
+ *   - Body: Söhne Test (Klim trial files, fsType=0 so they render).
+ *     Falls back to system sans.
  */
 
-/* ---------- @font-face for Canela + Söhne (paid, locally hosted) ---------- */
-/* Files copied from /home/sphinxy/chrysalis/public/fonts/. */
-
-/* Canela Deck is the display cut, designed for 25pt+ headers. We use
-   it for the wordmark and section headings. Canela Text would be the
-   body cut if we ever needed it. */
-@font-face {
-  font-family: "Canela";
-  src: url("/fonts/canela/CanelaDeck-Light.otf") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Canela";
-  src: url("/fonts/canela/CanelaDeck-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Canela";
-  src: url("/fonts/canela/CanelaDeck-Medium.otf") format("opentype");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* Söhne (Test) — these files have fsType=0 so the browser embeds them. */
 @font-face {
   font-family: "Söhne";
   src: url("/fonts/sohne/Sohne-Light.otf") format("opentype");
@@ -117,11 +90,10 @@
   --color-pending: var(--color-pending);
   --color-error: var(--color-error);
 
-  /* Typography  Canela for headings, Söhne for body. Fallback chains
-     keep the page legible until the .woff2 files are dropped in. */
+  /* Fraunces for heads (next/font), Söhne for body. */
   --font-sans: 'Söhne', system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
   --font-mono: 'Söhne Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --font-heading: 'Canela', var(--font-cormorant), "Garamond Premier Pro", "EB Garamond", "Iowan Old Style", "Hoefler Text", Georgia, serif;
+  --font-heading: var(--font-fraunces), "Iowan Old Style", "Hoefler Text", Georgia, serif;
 
   /* Border radius - all 0 for sharp corners */
   --radius-none: 0px;
