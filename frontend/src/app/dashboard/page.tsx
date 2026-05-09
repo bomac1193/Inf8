@@ -103,7 +103,7 @@ export default function Dashboard() {
         {/* Stats Grid — wallet panel shown only when connected */}
         {isConnected && (
           <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+            <div className="p-6 bg-[#141414] border border-[#2A2A2A]">
               <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">
                 O8 Token Balance
               </p>
@@ -115,7 +115,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+            <div className="p-6 bg-[#141414] border border-[#2A2A2A]">
               <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">
                 Total Rewards Earned
               </p>
@@ -127,7 +127,7 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+            <div className="p-6 bg-[#141414] border border-[#2A2A2A]">
               <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">
                 On-Chain Declarations
               </p>
@@ -142,7 +142,7 @@ export default function Dashboard() {
         )}
 
         {!isConnected && (
-          <div className="mb-12 p-6 bg-[#0E0E0E] border border-[#2A2A2A] flex items-center justify-between">
+          <div className="mb-12 p-6 bg-[#141414] border border-[#2A2A2A] flex items-center justify-between">
             <div>
               <p className="text-sm text-[#F5F3F0] mb-1">Want to see token balance and on-chain data?</p>
               <p className="text-xs text-[#8A8A8A]">Connect a wallet to unlock rewards panel.</p>
@@ -175,11 +175,11 @@ export default function Dashboard() {
           </div>
 
           {loading ? (
-            <div className="text-center py-16 bg-[#0E0E0E] border border-[#2A2A2A]">
+            <div className="text-center py-16 bg-[#141414] border border-[#2A2A2A]">
               <p className="text-[#8A8A8A]">Loading declarations...</p>
             </div>
           ) : declarations.length === 0 ? (
-            <div className="text-center py-16 bg-[#0E0E0E] border border-[#2A2A2A]">
+            <div className="text-center py-16 bg-[#141414] border border-[#2A2A2A]">
               <p className="text-[#8A8A8A] mb-6">
                 No declarations yet.
               </p>
@@ -197,7 +197,7 @@ export default function Dashboard() {
                 const badges = getBadges(dec.badge);
                 return (
                   <Link key={dec.id} href={`/verify/${dec.id}`}>
-                    <div className="group p-6 bg-[#0E0E0E] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 cursor-pointer">
+                    <div className="group p-6 bg-[#141414] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 cursor-pointer">
                       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2 flex-wrap">

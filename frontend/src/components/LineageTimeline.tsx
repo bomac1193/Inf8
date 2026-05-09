@@ -127,7 +127,7 @@ export function LineageTimeline({ currentDeclarationId, currentDeclaration }: Li
 
   if (loading) {
     return (
-      <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+      <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
         <p className="text-xs text-[#8A8A8A]">Loading lineage...</p>
       </div>
     );
@@ -135,7 +135,7 @@ export function LineageTimeline({ currentDeclarationId, currentDeclaration }: Li
 
   if (fullTimeline.length === 1) {
     return (
-      <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+      <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
         <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">
           Creative Lineage
         </p>
@@ -147,7 +147,7 @@ export function LineageTimeline({ currentDeclarationId, currentDeclaration }: Li
   }
 
   return (
-    <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+    <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
       <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">
         Creative Evolution Timeline
       </p>

@@ -132,12 +132,12 @@ export default function Gallery() {
             placeholder="Search by title or artist..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="flex-1 px-4 py-3 bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
+            className="flex-1 px-4 py-3 bg-[#141414] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
           />
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as SortOption)}
-            className="px-3 py-2 text-xs bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] focus:border-[#8A8A8A] outline-none cursor-pointer"
+            className="px-3 py-2 text-xs bg-[#141414] border border-[#2A2A2A] text-[#F5F3F0] focus:border-[#8A8A8A] outline-none cursor-pointer"
           >
             <option value="date-desc">Latest First</option>
             <option value="date-asc">Oldest First</option>
@@ -212,7 +212,7 @@ export default function Gallery() {
                           { label: "Ms", value: dec.aiMastering / 100, title: "Mastering" },
                         ].map(({ label, value, title }) => (
                           <div key={label} className="flex-1" title={`${title}: ${Math.round(value * 100)}%`}>
-                            <div className="h-1 bg-[#0E0E0E]">
+                            <div className="h-1 bg-[#141414]">
                               <div
                                 className="h-full bg-[#F5F3F0] transition-all duration-300"
                                 style={{ width: `${value * 100}%` }}

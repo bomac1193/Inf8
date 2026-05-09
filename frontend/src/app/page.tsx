@@ -26,7 +26,7 @@ export default function Home() {
       </section>
 
       {/* Quiet footer band. No noise. */}
-      <footer className="px-6 py-8 border-t border-[#1A1A1A]">
+      <footer className="px-6 py-8 border-t border-[#1F1F1F]">
         <div className="max-w-[1200px] mx-auto flex items-center justify-between text-[11px] tracking-[0.04em] text-[#5A5A5A]">
           <span>Cross-media provenance</span>
           <Link href="/protocol" className="hover:text-[#8A8A8A] transition-colors">

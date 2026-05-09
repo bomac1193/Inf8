@@ -11,25 +11,25 @@
  */
 
 /* ---------- @font-face for Canela + Söhne (paid, locally hosted) ---------- */
-/* Drop these .woff2 files in: frontend/public/fonts/canela/ and /sohne/ */
+/* Files copied from /home/sphinxy/chrysalis/public/fonts/. */
 
 @font-face {
   font-family: "Canela";
-  src: url("/fonts/canela/Canela-Light.woff2") format("woff2");
+  src: url("/fonts/canela/Canela-Light.otf") format("opentype");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Canela";
-  src: url("/fonts/canela/Canela-Regular.woff2") format("woff2");
+  src: url("/fonts/canela/Canela-Light.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Canela";
-  src: url("/fonts/canela/Canela-Medium.woff2") format("woff2");
+  src: url("/fonts/canela/Canela-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -37,22 +37,29 @@
 
 @font-face {
   font-family: "Söhne";
-  src: url("/fonts/sohne/Sohne-Buch.woff2") format("woff2");
+  src: url("/fonts/sohne/Sohne-Light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Söhne";
+  src: url("/fonts/sohne/Sohne-Book.otf") format("opentype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Söhne";
-  src: url("/fonts/sohne/Sohne-Kraftig.woff2") format("woff2");
+  src: url("/fonts/sohne/Sohne-Medium.otf") format("opentype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "Söhne Mono";
-  src: url("/fonts/sohne/SohneMono-Buch.woff2") format("woff2");
-  font-weight: 400;
+  font-family: "Söhne";
+  src: url("/fonts/sohne/Sohne-Semibold.otf") format("opentype");
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
@@ -111,7 +118,7 @@
      keep the page legible until the .woff2 files are dropped in. */
   --font-sans: 'Söhne', system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
   --font-mono: 'Söhne Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --font-display: 'Canela', "Garamond Premier Pro", "EB Garamond", "Iowan Old Style", "Hoefler Text", Georgia, serif;
+  --font-display: 'Canela', var(--font-cormorant), "Garamond Premier Pro", "EB Garamond", "Iowan Old Style", "Hoefler Text", Georgia, serif;
 
   /* Border radius - all 0 for sharp corners */
   --radius-none: 0px;

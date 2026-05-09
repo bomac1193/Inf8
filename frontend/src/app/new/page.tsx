@@ -386,7 +386,7 @@ function NewDeclarationForm() {
     return (
       <div className="min-h-screen bg-[#0A0A0A] py-16 px-6 md:px-16">
         <div className="max-w-[640px] mx-auto">
-          <div className="text-center py-16 bg-[#0E0E0E] border border-[#4A7C59]">
+          <div className="text-center py-16 bg-[#141414] border border-[#4A7C59]">
             <p className="text-xs tracking-[0.04em] text-[#4A7C59] mb-4">
               Declaration Saved
             </p>
@@ -427,7 +427,7 @@ function NewDeclarationForm() {
         </div>
 
         {/* Mode Toggle */}
-        <div className="flex items-center gap-3 mb-8 p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+        <div className="flex items-center gap-3 mb-8 p-4 bg-[#141414] border border-[#2A2A2A]">
           <button
             type="button"
             onClick={() => setIsQuickMode(true)}
@@ -460,7 +460,7 @@ function NewDeclarationForm() {
           {isQuickMode && (
             <>
               {/* Quick Identity */}
-              <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
                 <div className="space-y-4">
                   <div>
                     <label className="block text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">
@@ -491,7 +491,7 @@ function NewDeclarationForm() {
               </section>
 
               {/* Quick AI Slider - Single overall percentage */}
-              <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
                 <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">
                   How much AI was involved?
                 </p>
@@ -537,7 +537,7 @@ function NewDeclarationForm() {
               </section>
 
               {/* Quick Methodology */}
-              <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
                 <label className="block text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">
                   How was it made? (optional)
                 </label>
@@ -551,7 +551,7 @@ function NewDeclarationForm() {
               </section>
 
               {/* Quick Audio Upload */}
-              <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
                 <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">
                   Audio file (optional)
                 </p>
@@ -629,7 +629,7 @@ function NewDeclarationForm() {
                 }}
                 className={`p-6 border-2 text-left transition-all duration-100 ${
                   workflowType === "original"
-                    ? "border-[#F5F3F0] bg-[#0E0E0E]"
+                    ? "border-[#F5F3F0] bg-[#141414]"
                     : "border-[#2A2A2A] bg-[#0D0D0D] hover:border-[#3A3A3A]"
                 }`}
               >
@@ -649,7 +649,7 @@ function NewDeclarationForm() {
                 }}
                 className={`p-6 border-2 text-left transition-all duration-100 ${
                   workflowType === "version"
-                    ? "border-[#F5F3F0] bg-[#0E0E0E]"
+                    ? "border-[#F5F3F0] bg-[#141414]"
                     : "border-[#2A2A2A] bg-[#0D0D0D] hover:border-[#3A3A3A]"
                 }`}
               >
@@ -674,7 +674,7 @@ function NewDeclarationForm() {
                 }}
                 className={`p-6 border-2 text-left transition-all duration-100 ${
                   workflowType === "derivative"
-                    ? "border-[#F5F3F0] bg-[#0E0E0E]"
+                    ? "border-[#F5F3F0] bg-[#141414]"
                     : "border-[#2A2A2A] bg-[#0D0D0D] hover:border-[#3A3A3A]"
                 }`}
               >
@@ -693,7 +693,7 @@ function NewDeclarationForm() {
 
             {/* Show relationship selector for derivative */}
             {workflowType === "derivative" && parentDeclarationId && (
-              <div className="mt-4 p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <div className="mt-4 p-4 bg-[#141414] border border-[#2A2A2A]">
                 <p className="text-xs text-[#8A8A8A] mb-3">Select relationship type:</p>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                   {["remix", "cover", "sample", "interpolation"].map((type) => (
@@ -742,7 +742,7 @@ function NewDeclarationForm() {
           />
 
           {/* Workflow Templates */}
-          <section className="p-4 bg-[#0E0E0E] border border-[#8A8A8A]">
+          <section className="p-4 bg-[#141414] border border-[#8A8A8A]">
             <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-3">
               Quick Start Templates
             </p>
@@ -770,7 +770,7 @@ function NewDeclarationForm() {
           </section>
 
           {/* Identity Section */}
-          <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+          <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
             <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-6">
               Identity
             </p>
@@ -804,7 +804,7 @@ function NewDeclarationForm() {
           </section>
 
           {/* Creative Stack Section */}
-          <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+          <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
             <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-6">
               Creative Stack
             </p>
@@ -849,7 +849,7 @@ function NewDeclarationForm() {
           </section>
 
           {/* Production Intelligence Section */}
-          <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+          <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
             <div className="flex items-center justify-between mb-4">
               <p className="text-xs tracking-[0.04em] text-[#8A8A8A]">
                 AI Contribution
@@ -943,7 +943,7 @@ function NewDeclarationForm() {
                 <select
                   value={promptVisibility}
                   onChange={(e) => setPromptVisibility(e.target.value as "public" | "private" | "paywalled")}
-                  className="px-2 py-1 text-xs bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] outline-none"
+                  className="px-2 py-1 text-xs bg-[#141414] border border-[#2A2A2A] text-[#F5F3F0] outline-none"
                 >
                   <option value="private">Private (Keep hidden)</option>
                   <option value="public">Public (Full transparency)</option>
@@ -954,7 +954,7 @@ function NewDeclarationForm() {
                 value={aiPrompt}
                 onChange={(e) => setAiPrompt(e.target.value)}
                 rows={2}
-                className="w-full px-4 py-2.5 bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none text-sm"
+                className="w-full px-4 py-2.5 bg-[#141414] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none text-sm"
                 placeholder={promptVisibility === "private"
                   ? "Your exact AI prompt (will not be shown publicly)"
                   : "Your exact AI prompt (will be visible to all)"}
@@ -968,7 +968,7 @@ function NewDeclarationForm() {
           </section>
 
           {/* Collaborators Section */}
-          <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+          <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
             <div className="flex items-center justify-between mb-6">
               <p className="text-xs tracking-[0.04em] text-[#8A8A8A]">
                 Collaborators
@@ -995,13 +995,13 @@ function NewDeclarationForm() {
                         type="text"
                         value={collab.name}
                         onChange={(e) => updateCollaborator(i, "name", e.target.value)}
-                        className="flex-1 px-3 py-2 bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] text-sm outline-none"
+                        className="flex-1 px-3 py-2 bg-[#141414] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] text-sm outline-none"
                         placeholder="Name"
                       />
                       <select
                         value={collab.role}
                         onChange={(e) => updateCollaborator(i, "role", e.target.value)}
-                        className="px-3 py-2 bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] text-sm outline-none"
+                        className="px-3 py-2 bg-[#141414] border border-[#2A2A2A] text-[#F5F3F0] text-sm outline-none"
                       >
                         {COLLABORATOR_ROLES.map((role) => (
                           <option key={role} value={role}>{role}</option>
@@ -1013,7 +1013,7 @@ function NewDeclarationForm() {
                         type="text"
                         value={collab.wallet}
                         onChange={(e) => updateCollaborator(i, "wallet", e.target.value)}
-                        className="flex-1 px-3 py-2 bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] text-sm font-mono outline-none"
+                        className="flex-1 px-3 py-2 bg-[#141414] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] text-sm font-mono outline-none"
                         placeholder="Wallet (optional)"
                       />
                       <input
@@ -1022,7 +1022,7 @@ function NewDeclarationForm() {
                         max="100"
                         value={collab.split}
                         onChange={(e) => updateCollaborator(i, "split", Number(e.target.value))}
-                        className="w-20 px-3 py-2 bg-[#0E0E0E] border border-[#2A2A2A] text-[#F5F3F0] text-sm font-mono outline-none text-right"
+                        className="w-20 px-3 py-2 bg-[#141414] border border-[#2A2A2A] text-[#F5F3F0] text-sm font-mono outline-none text-right"
                       />
                       <span className="self-center text-sm text-[#8A8A8A]">%</span>
                       <button
@@ -1045,7 +1045,7 @@ function NewDeclarationForm() {
           </section>
 
           {/* Lineage Section */}
-          <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+          <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
             <div className="flex items-start justify-between mb-6">
               <div>
                 <p className="text-xs tracking-[0.04em] text-[#8A8A8A]">
@@ -1090,7 +1090,7 @@ function NewDeclarationForm() {
           </section>
 
           {/* Provenance Section with Drag & Drop */}
-          <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+          <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
             <div className="flex items-start justify-between mb-6">
               <div>
                 <p className="text-xs tracking-[0.04em] text-[#8A8A8A]">
@@ -1179,7 +1179,7 @@ function NewDeclarationForm() {
           </section>
 
           {/* Usage Rights Section */}
-          <section className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+          <section className="p-6 bg-[#141414] border border-[#2A2A2A]">
             <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-6">
               Usage Rights
             </p>

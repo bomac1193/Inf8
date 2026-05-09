@@ -125,17 +125,17 @@ export default function MyDeclarations() {
           <>
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
                 <p className="text-xs text-[#8A8A8A] mb-1">Total</p>
                 <p className="text-2xl font-medium text-[#F5F3F0]">{declarations.length}</p>
               </div>
-              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
                 <p className="text-xs text-[#8A8A8A] mb-1">Avg Transparency</p>
                 <p className="text-2xl font-medium text-[#F5F3F0]">
                   {Math.round(declarations.reduce((sum, d) => sum + d.transparencyScore, 0) / declarations.length)}
                 </p>
               </div>
-              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
                 <p className="text-xs text-[#8A8A8A] mb-1">Minted</p>
                 <p className="text-2xl font-medium text-[#F5F3F0]">
                   {declarations.filter(d => d.tokenId).length}
@@ -152,7 +152,7 @@ export default function MyDeclarations() {
                 return (
                   <div key={dec.id} className="relative">
                     <Link href={`/verify/${dec.id}`}>
-                      <div className="group p-6 bg-[#0E0E0E] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 cursor-pointer">
+                      <div className="group p-6 bg-[#141414] border border-[#2A2A2A] hover:border-[#8A8A8A] transition-colors duration-100 cursor-pointer">
                         {/* Header Row */}
                         <div className="flex items-start justify-between mb-4">
                           <div>

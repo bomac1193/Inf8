@@ -88,7 +88,7 @@ export default function Protocol() {
           </div>
         </section>
 
-        <footer className="pt-12 border-t border-[#1A1A1A]">
+        <footer className="pt-12 border-t border-[#1F1F1F]">
           <Link
             href="/"
             className="text-xs tracking-[0.04em] text-[#5A5A5A] hover:text-[#8A8A8A] transition-colors"

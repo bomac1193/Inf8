@@ -336,7 +336,7 @@ export default function VerifyPage({
         )}
 
         {/* Production intelligence  typographic table, no gauges */}
-        <div className="p-5 bg-[#0E0E0E] border border-[#1A1A1A] mb-4">
+        <div className="p-5 bg-[#141414] border border-[#1F1F1F] mb-4">
           <p className="text-[11px] tracking-[0.04em] text-[#8A8A8A] mb-4">
             Production intelligence
           </p>
@@ -359,7 +359,7 @@ export default function VerifyPage({
           </dl>
 
           {declaration.methodology && (
-            <div className="mt-5 pt-4 border-t border-[#1A1A1A]">
+            <div className="mt-5 pt-4 border-t border-[#1F1F1F]">
               <p className="text-[11px] tracking-[0.04em] text-[#8A8A8A] mb-2">
                 Methodology
               </p>

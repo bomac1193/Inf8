@@ -104,15 +104,15 @@ export default function ProfilePage() {
           <>
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 mb-12">
-              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
                 <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">Declarations</p>
                 <p className="text-2xl font-mono text-[#F5F3F0]">{totalDeclarations}</p>
               </div>
-              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
                 <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">With Audio</p>
                 <p className="text-2xl font-mono text-[#F5F3F0]">{withAudioCount}</p>
               </div>
-              <div className="p-4 bg-[#0E0E0E] border border-[#2A2A2A]">
+              <div className="p-4 bg-[#141414] border border-[#2A2A2A]">
                 <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-2">On-Chain</p>
                 <p className="text-2xl font-mono text-[#F5F3F0]">{onChainCount}</p>
               </div>
@@ -122,7 +122,7 @@ export default function ProfilePage() {
             {(allTools.size > 0 || allBadges.size > 0) && (
               <div className="grid md:grid-cols-2 gap-6 mb-12">
                 {allTools.size > 0 && (
-                  <div className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+                  <div className="p-6 bg-[#141414] border border-[#2A2A2A]">
                     <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">Creative Stack</p>
                     <div className="flex flex-wrap gap-2">
                       {Array.from(allTools).map(tool => (
@@ -134,7 +134,7 @@ export default function ProfilePage() {
                   </div>
                 )}
                 {allBadges.size > 0 && (
-                  <div className="p-6 bg-[#0E0E0E] border border-[#2A2A2A]">
+                  <div className="p-6 bg-[#141414] border border-[#2A2A2A]">
                     <p className="text-xs tracking-[0.04em] text-[#8A8A8A] mb-4">Badges Earned</p>
                     <div className="flex flex-wrap gap-2">
                       {Array.from(allBadges).map(badge => (
@@ -177,7 +177,7 @@ export default function ProfilePage() {
                           { label: "Ms", value: dec.aiMastering / 100 },
                         ].map(({ label, value }) => (
                           <div key={label} className="flex-1">
-                            <div className="h-1 bg-[#0E0E0E]">
+                            <div className="h-1 bg-[#141414]">
                               <div
                                 className="h-full bg-[#F5F3F0] transition-all duration-300"
                                 style={{ width: `${value * 100}%` }}
