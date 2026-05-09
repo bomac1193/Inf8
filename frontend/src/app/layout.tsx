@@ -1,35 +1,13 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/Providers";
 import { Header } from "@/components/Header";
 
-const plexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-plex-sans",
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400"],
-  variable: "--font-plex-mono",
-  display: "swap",
-});
-
-const spaceGrotesk = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  title: "∞8 ARCH | Declarations",
+  title: "Nsibidi | Cross-media provenance protocol",
   description:
-    "Prove your process. Immortalize your chain. Creative provenance protocol for AI-native music. Machine-readable declarations. Verifiable lineage.",
-  keywords: ["music", "provenance", "AI", "declaration", "IPFS", "protocol", "arch", "declarations"],
+    "Cross-media provenance + lineage protocol for the Alabo ecosystem. Every artifact made across Ikenga, Swanblade, Sankoré, mmuo, Boveda gets one machine-readable Nsibidi declaration. Walk back from a final video to the LoRA, the audio, the canon photos.",
+  keywords: ["nsibidi", "provenance", "lineage", "alabo", "ikenga", "swanblade", "sankore", "mmuo", "boveda", "ai-native", "cross-media", "protocol"],
 };
 
 export default function RootLayout({
@@ -38,10 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${plexSans.variable} ${plexMono.variable} ${spaceGrotesk.variable}`}
-    >
+    <html lang="en">
       <body className="antialiased min-h-screen">
         <Providers>
           <Header />

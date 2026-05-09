@@ -88,7 +88,7 @@ export default function ProfilePage() {
             {artistSlug}
           </h1>
           <p className="text-[#8A8A8A]">
-            {totalDeclarations} declaration{totalDeclarations !== 1 ? "s" : ""} on ∞8 ARCH
+            {totalDeclarations} declaration{totalDeclarations !== 1 ? "s" : ""} on Nsibidi
           </p>
         </div>
 

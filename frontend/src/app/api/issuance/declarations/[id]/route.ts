@@ -85,7 +85,7 @@ export async function GET(
       // Metadata
       declaration_id: declaration.id,
       version: "2.0",
-      platform: "∞8 ARCH",
+      platform: "Nsibidi",
 
       // Core Identity
       identity: {

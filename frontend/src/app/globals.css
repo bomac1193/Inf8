@@ -1,6 +1,63 @@
 @import "tailwindcss";
 
-/* ∞8 ARCH Design System - Dark mode only */
+/*
+ * Nsibidi Design System  Chrysalis aesthetic, dark mode only.
+ *
+ * Typography:
+ *   - Headings: Canela (paid, Commercial Type). Drop .woff2 files at
+ *     /public/fonts/canela/. Falls back to a Garamond stack until present.
+ *   - Body: Söhne (paid, Klim). Drop .woff2 files at /public/fonts/sohne/.
+ *     Falls back to a system sans stack until present.
+ */
+
+/* ---------- @font-face for Canela + Söhne (paid, locally hosted) ---------- */
+/* Drop these .woff2 files in: frontend/public/fonts/canela/ and /sohne/ */
+
+@font-face {
+  font-family: "Canela";
+  src: url("/fonts/canela/Canela-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Canela";
+  src: url("/fonts/canela/Canela-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Canela";
+  src: url("/fonts/canela/Canela-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Söhne";
+  src: url("/fonts/sohne/Sohne-Buch.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Söhne";
+  src: url("/fonts/sohne/Sohne-Kraftig.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Söhne Mono";
+  src: url("/fonts/sohne/SohneMono-Buch.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---------- design tokens ---------- */
 :root {
   /* Primary palette */
   --color-void: #0A0A0A;
@@ -50,10 +107,11 @@
   --color-pending: var(--color-pending);
   --color-error: var(--color-error);
 
-  /* Typography — next/font injects via CSS variables, Söhne first if self-hosted */
-  --font-sans: 'Söhne', var(--font-plex-sans), system-ui, sans-serif;
-  --font-mono: 'Söhne Mono', var(--font-plex-mono), monospace;
-  --font-display: 'Söhne', var(--font-space-grotesk), sans-serif;
+  /* Typography  Canela for headings, Söhne for body. Fallback chains
+     keep the page legible until the .woff2 files are dropped in. */
+  --font-sans: 'Söhne', system-ui, -apple-system, "Segoe UI", "Helvetica Neue", sans-serif;
+  --font-mono: 'Söhne Mono', ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-display: 'Canela', "Garamond Premier Pro", "EB Garamond", "Iowan Old Style", "Hoefler Text", Georgia, serif;
 
   /* Border radius - all 0 for sharp corners */
   --radius-none: 0px;
@@ -78,9 +136,17 @@
   body {
     background-color: var(--color-void);
     color: var(--color-bone);
-    font-family: 'Söhne', var(--font-plex-sans), system-ui, sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Headings: Canela. Sentence case enforced by content, not CSS. */
+  h1, h2, h3, h4, h5, h6,
+  .font-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.01em;
   }
 
   ::selection {
@@ -152,18 +218,18 @@
   code,
   pre,
   .font-mono {
-    font-family: 'Söhne Mono', var(--font-plex-mono), monospace;
+    font-family: var(--font-mono);
   }
 }
 
-/* RainbowKit modal overrides — match ∞8 ARCH aesthetic
+/* RainbowKit modal overrides  match Nsibidi aesthetic
    These stay outside @layer so they beat RainbowKit's inline styles */
 [data-rk],
 [data-rk] *,
 [data-rk] *::before,
 [data-rk] *::after {
   border-radius: 0px !important;
-  font-family: 'Söhne', var(--font-plex-sans), system-ui, sans-serif !important;
+  font-family: var(--font-sans) !important;
   font-weight: 400 !important; /* Remove all bold fonts, match site aesthetic */
 }
 
@@ -186,7 +252,7 @@
   color: #0A0A0A !important;
 }
 
-/* ∞8 ARCH sliders — compact, black thumb */
+/* Nsibidi sliders — compact, black thumb */
 .o8-slider {
   -webkit-appearance: none;
   appearance: none;

@@ -195,8 +195,8 @@ export default function VerifyPage({
   const embedUrl = `${baseUrl}/api/declarations/${declaration.id}/embed`;
 
   const embedSnippets = {
-    markdown: `[![∞8 Declared](${badgeUrl})](${verifyUrl})`,
-    htmlImg: `<a href="${verifyUrl}" target="_blank" rel="noopener noreferrer"><img src="${badgeUrl}" alt="∞8 Declared: ${(declaration.title || "Untitled").replace(/"/g, "&quot;")}" width="340" height="120" /></a>`,
+    markdown: `[![Nsibidi Declared](${badgeUrl})](${verifyUrl})`,
+    htmlImg: `<a href="${verifyUrl}" target="_blank" rel="noopener noreferrer"><img src="${badgeUrl}" alt="Nsibidi Declared: ${(declaration.title || "Untitled").replace(/"/g, "&quot;")}" width="340" height="120" /></a>`,
     htmlIframe: `<iframe src="${embedUrl}" width="420" height="260" frameborder="0" style="border:none;max-width:100%;"></iframe>`,
   };
 
@@ -588,7 +588,7 @@ export default function VerifyPage({
                   <p className="text-[9px] uppercase tracking-widest text-[#8A8A8A] mb-2">Preview</p>
                   <a href={verifyUrl} target="_blank" rel="noopener noreferrer">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={badgeUrl} alt={`∞8 Declared: ${declaration.title}`} width={340} height={120} />
+                    <img src={badgeUrl} alt={`Nsibidi Declared: ${declaration.title}`} width={340} height={120} />
                   </a>
                 </div>
               )}
@@ -622,7 +622,7 @@ export default function VerifyPage({
                   <p className="text-[9px] uppercase tracking-widest text-[#8A8A8A] mb-2">Preview</p>
                   <a href={verifyUrl} target="_blank" rel="noopener noreferrer">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={badgeUrl} alt={`∞8 Declared: ${declaration.title}`} width={340} height={120} />
+                    <img src={badgeUrl} alt={`Nsibidi Declared: ${declaration.title}`} width={340} height={120} />
                   </a>
                 </div>
               )}
@@ -659,7 +659,7 @@ export default function VerifyPage({
                     width={420}
                     height={260}
                     style={{ border: "none", maxWidth: "100%" }}
-                    title={`∞8 Declaration embed: ${declaration.title}`}
+                    title={`Nsibidi Declaration embed: ${declaration.title}`}
                   />
                 </div>
               )}

@@ -61,48 +61,48 @@ interface WorkflowTemplate {
 
 const WORKFLOW_TEMPLATES: WorkflowTemplate[] = [
   {
-    name: "Suno Only",
-    description: "Pure AI generation with Suno",
-    aiModels: "Suno v4",
+    name: "Swanblade only",
+    description: "Pure render through Swanblade with a custom-trained LoRA",
+    aiModels: "Swanblade v1, custom LoRA",
     daws: "N/A",
     plugins: "N/A",
     hardware: "N/A",
     aiContribution: { composition: 1.0, arrangement: 1.0, production: 1.0, mixing: 1.0, mastering: 1.0 },
-    methodology: "Track generated entirely with Suno AI. Prompt engineering and iteration for desired output.",
+    methodology: "Track generated entirely through Swanblade against a curated LoRA trained on the artist's reference corpus. Prompt + LoRA strength tuned per take.",
   },
   {
-    name: "Udio Only",
-    description: "Pure AI generation with Udio",
-    aiModels: "Udio v1.5",
+    name: "mmuo voice only",
+    description: "Vocal performance through mmuo on a trained Bo Ubani LoRA",
+    aiModels: "mmuo gpt-sovits, Bo Ubani LoRA",
     daws: "N/A",
     plugins: "N/A",
     hardware: "N/A",
     aiContribution: { composition: 1.0, arrangement: 1.0, production: 1.0, mixing: 1.0, mastering: 1.0 },
-    methodology: "Track generated entirely with Udio AI. Prompt engineering and iteration for desired output.",
+    methodology: "Vocal track synthesized through mmuo against the trained voice LoRA. Reference clips drive timbre and inflection.",
   },
   {
-    name: "AI + DAW Hybrid",
-    description: "AI generation with DAW production",
-    aiModels: "Suno v4",
+    name: "Swanblade + DAW hybrid",
+    description: "AI generation finished in a DAW",
+    aiModels: "Swanblade v1, custom LoRA",
     daws: "Ableton Live 12",
     plugins: "FabFilter Pro-Q 3, Valhalla VintageVerb, Serum",
     hardware: "N/A",
     aiContribution: { composition: 0.8, arrangement: 0.7, production: 0.4, mixing: 0.2, mastering: 0.1 },
-    methodology: "Initial composition and arrangement with Suno. Exported stems and processed in Ableton. Manual mixing and mastering with professional plugins.",
+    methodology: "Initial composition and arrangement through Swanblade. Stems exported and processed in Ableton. Manual mixing and mastering with professional plugins.",
   },
   {
-    name: "AI-Assisted DAW",
-    description: "Traditional DAW with AI assistance",
-    aiModels: "AIVA, Splice AI",
-    daws: "FL Studio 21",
-    plugins: "Ozone 11, Neutron 4, Kontakt 7",
-    hardware: "MIDI keyboard",
-    aiContribution: { composition: 0.3, arrangement: 0.2, production: 0.2, mixing: 0.1, mastering: 0.3 },
-    methodology: "AI-generated melodic ideas and drum patterns. Human arrangement, performance, and production. AI-assisted mastering with Ozone.",
+    name: "Sankoré-finished",
+    description: "Render through proprietary stack, finished in Sankoré",
+    aiModels: "Swanblade v1, mmuo, Bo Ubani LoRA",
+    daws: "Sankoré timeline",
+    plugins: "Resonaet master, Alabo finishing presets",
+    hardware: "N/A",
+    aiContribution: { composition: 0.7, arrangement: 0.6, production: 0.5, mixing: 0.3, mastering: 0.2 },
+    methodology: "Proprietary cross-modal render: Swanblade for music bed, mmuo for vocal, Ikenga-curated visual stack, Sankoré for timeline finishing and Resonaet mastering. Every step writes a Nsibidi declaration.",
   },
   {
-    name: "Traditional (No AI)",
-    description: "100% human production",
+    name: "Traditional (no AI)",
+    description: "Fully human production",
     aiModels: "N/A",
     daws: "Pro Tools 2024",
     plugins: "Waves Bundle, UAD, Soundtoys",
@@ -546,7 +546,7 @@ function NewDeclarationForm() {
                   onChange={(e) => setMethodology(e.target.value)}
                   rows={2}
                   className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none text-sm"
-                  placeholder="e.g., Generated with Suno v4, then mixed in Ableton..."
+                  placeholder="e.g., Rendered through Swanblade against the Bo Ubani LoRA, finished in Sankoré..."
                 />
               </section>
 
@@ -842,7 +842,7 @@ function NewDeclarationForm() {
                   value={aiModels}
                   onChange={(e) => setAiModels(e.target.value)}
                   className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none"
-                  placeholder="Suno, Udio, none..."
+                  placeholder="Swanblade v1, mmuo gpt-sovits, Bo Ubani LoRA, none..."
                 />
               </div>
             </div>
@@ -930,7 +930,7 @@ function NewDeclarationForm() {
                 onChange={(e) => setMethodology(e.target.value)}
                 rows={3}
                 className="w-full px-4 py-2.5 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none resize-none text-sm"
-                placeholder="e.g., Started with Suno generation. Exported stems and rebuilt in Ableton. Added live vocals. Mixed with analog-style processing..."
+                placeholder="e.g., Started with Swanblade against my custom LoRA, exported stems and rebuilt in Ableton, added live vocals via mmuo, finished in Sankoré with the alien_haunt preset..."
               />
             </div>
 
@@ -1066,10 +1066,10 @@ function NewDeclarationForm() {
                   value={parentDeclarationId}
                   onChange={(e) => setParentDeclarationId(e.target.value)}
                   className="w-full px-4 py-3 bg-[#0A0A0A] border border-[#2A2A2A] text-[#F5F3F0] placeholder-[#8A8A8A] focus:border-[#8A8A8A] outline-none font-mono text-sm"
-                  placeholder="∞8-cm5x8k2... (optional, for derivatives)"
+                  placeholder="Nsibidi-cm5x8k2... (optional, for derivatives)"
                 />
                 <p className="text-[10px] text-[#8A8A8A] mt-1">
-                  Declaration ID from the gallery (e.g., ∞8-cm5x8k2...) - Used for tracking creative lineage
+                  Declaration ID from the gallery (e.g., Nsibidi-cm5x8k2...) - Used for tracking creative lineage
                 </p>
               </div>
               <div>

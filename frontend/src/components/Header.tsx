@@ -9,14 +9,11 @@ export function Header() {
       <div className="max-w-5xl mx-auto px-6 md:px-16">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-3">
-            <span
-              className="text-2xl font-medium text-[#F5F3F0] tracking-tight"
-              style={{ fontFamily: "'Söhne', var(--font-space-grotesk), sans-serif" }}
-            >
-              ∞8
+            <span className="font-display text-2xl font-light text-[#F5F3F0] tracking-tight">
+              Nsibidi
             </span>
-            <span className="hidden sm:block text-xs text-[#8A8A8A] uppercase tracking-widest">
-              ARCH
+            <span className="hidden sm:block text-[10px] text-[#8A8A8A] uppercase tracking-[0.25em]">
+              Provenance
             </span>
           </Link>
 
