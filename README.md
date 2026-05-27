@@ -1,4 +1,10 @@
-# ∞8 ARCH
+# ∞8 ARCH · ARCHIVED
+
+> ⚠️ This iteration is archived. The current substrate is **Nsibidi** at `/home/sphinxy/nsibidi` (shipped v1, Python + TypeScript SDKs, content-addressed declarations, filesystem lake, cross-modal lineage). Do not extend ∞8 ARCH; use Nsibidi via its SDK instead. See `/mnt/d/Alabo/AlaboStudio/Apps/Nsibidi.md` and `/mnt/d/Alabo/AlaboStudio/AGENTS/AGENTS.md` for the canonical state.
+>
+> Lineage of the protocol: CTAD at `/home/sphinxy/ctad-protocol` (v0.1) → ∞8 ARCH (v0.2, this repo) → Nsibidi at `/home/sphinxy/nsibidi` (v1.0, current). Each iteration evolved the same fundamental idea; the current one carries the most weight because the protocol now does the work the name implies.
+
+## Original spec below
 
 **Declarations v1.0**
 
